@@ -1,7 +1,5 @@
 # WMRouter
 
-[TOC]
-
 WMRouter是一款Android路由框架，基于组件化的设计思路，有功能灵活强大、使用简单的特点。
 
 ## 功能简介
