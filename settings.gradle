@@ -1,0 +1,1 @@
+include ':interfaces', ':router', ':compiler', ':plugin', ':generated', ':demoapp', ':demolib1', ':demolib2'

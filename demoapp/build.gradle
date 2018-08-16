@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+// 设置是否使用Transform。默认Debug包使用Assets文件，Release包才会用Transform生成ServiceLoaderInit
+//ext.wm_router_transform = true
+
+apply plugin: 'WMRouter'
+
+//WMRouter {
+//    enableDebug = true // 调试开关
+//}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        applicationId "com.sankuai.waimai.router.demo"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs {
+        testKey {
+            storeFile file('keystore/TestKeyStore.jks')
+            storePassword 'testkey'
+            keyAlias 'testkey'
+            keyPassword 'testkey'
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.testKey
+        }
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.testKey
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    testCompile 'junit:junit:4.12'
+
+    compile project(path: ':demolib1')
+    annotationProcessor project(path: ':compiler')
+}

@@ -1,0 +1,52 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sankuai.waimai.router.demo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.sankuai.waimai.router.demo.app.DemoApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".app.UriProxyActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="demo_host"
+                    android:scheme="demo_scheme" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".basic.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".basic.TestBasicActivity" />
+        <activity android:name=".basic.TestUriRequestActivity" />
+        <activity android:name=".basic.ExportedActivity" />
+        <activity android:name=".basic.NotExportedActivity" />
+        <activity android:name=".advanced.AdvancedDemoActivity" />
+        <activity android:name=".advanced.account.LoginActivity" />
+        <activity android:name=".advanced.account.UserAccountActivity" />
+        <activity android:name=".advanced.location.NearbyShopActivity" />
+        <activity android:name=".advanced.webview.WebViewActivity" />
+        <activity android:name=".advanced.abtest.HomeActivityA" />
+        <activity android:name=".advanced.abtest.HomeActivityB" />
+
+    </application>
+
+</manifest>
