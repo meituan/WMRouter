@@ -8,7 +8,7 @@ WMRouter主要提供URI分发、ServiceLoader两大功能。
 
 URI分发功能可用于多工程之间的页面跳转、动态下发URI链接的跳转等场景，特点如下：
 
-1. 支持多Scheme、Host、Path
+1. 支持多scheme、host、path
 2. 支持URI正则匹配
 3. 页面配置支持Java代码动态注册，或注解配置自动注册
 4. 支持配置全局和局部拦截器，可在跳转前执行同步/异步操作，例如定位、登录等
@@ -83,7 +83,7 @@ UriRequest中包含Context、URI和Fields，其中Fields为HashMap<String, Objec
 - 404：找不到目标(Activity或UriHandler)
 - 500：发生错误
 
-总结来说，UriRequest用于实现一次Uri跳转中所有组件之间的通信功能。
+总结来说，UriRequest用于实现一次URI跳转中所有组件之间的通信功能。
 
 
 ### UriHandler
@@ -359,7 +359,7 @@ DefaultRootUriHandler在接收到UriRequest后，会依次尝试分发给PageAnn
 
 1. PageAnnotationHandler处理所有`wm_router://page/*`形式的URI跳转，根据path匹配由`RouterPage`注解配置的节点。
 
-2. UriAnnotationHandler根据URI的Scheme+Host，分发到对应的PathHandler（如果有），之后PathHandler再根据path匹配`RouterUri`注解配置的节点。
+2. UriAnnotationHandler根据URI的scheme+host，分发到对应的PathHandler（如果有），之后PathHandler再根据path匹配`RouterUri`注解配置的节点。
 
 3. RegexAnnotationHandler根据优先级和正则匹配尝试将URI分发给`RouterRegex`配置的每个节点。
 
@@ -375,7 +375,7 @@ RouterUri注解可用于Activity或UriHandler的非抽象子类。Activity也会
 参数如下：
 
 - path：跳转URI要用的path，必填。path应该以"/"开头，支持配置多个path。
-- scheme、host：跳转URI的Scheme和Host，可选。
+- scheme、host：跳转URI的scheme和host，可选。
 - exported：是否允许外部跳转，可选，默认为false。
 - interceptors：要添加的Interceptor，可选，支持配置多个。
 
@@ -780,5 +780,5 @@ Router.startUri(request);
 
 ## 注意事项
 
-`wm_router`为保留Scheme，用于实现RouterPage等的路由，自定义的URI请勿使用`wm_router://*`的形式。
+`wm_router`为保留scheme，用于实现RouterPage等的路由，自定义的URI请勿使用`wm_router://*`的形式。
 
