@@ -110,19 +110,19 @@ public class DemoUriHandler extends UriHandler {
         // 处理HTTP链接
         if ("http".equalsIgnoreCase(uri.getScheme())) {
             try {
-            	// 调用系统浏览器
+                // 调用系统浏览器
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setData(uri);
                 request.getContext().startActivity(intent);
-            	// 跳转成功
+                // 跳转成功
                 callback.onComplete(UriResult.CODE_SUCCESS);
             } catch (Exception e) {
-            	// 跳转失败
-            	callback.onComplete(UriResult.CODE_ERROR);
+                // 跳转失败
+                callback.onComplete(UriResult.CODE_ERROR);
             }
         } else {
-        	// 非HTTP链接不处理，继续分发
+            // 非HTTP链接不处理，继续分发
             callback.onNext();
         }
     }
@@ -151,10 +151,10 @@ public class LoginInterceptor implements UriInterceptor {
     public void intercept(@NonNull UriRequest request, @NonNull final UriCallback callback) {
         final FakeAccountService accountService = FakeAccountService.getInstance();
         if (accountService.isLogin()) {
-        	// 已经登录，不需处理，继续跳转流程
+            // 已经登录，不需处理，继续跳转流程
             callback.onNext();
         } else {
-        	// 没登录，提示登录并启动登录页
+            // 没登录，提示登录并启动登录页
             Toast.makeText(request.getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
             accountService.registerObserver(new FakeAccountService.Observer() {
                 @Override
@@ -209,11 +209,11 @@ WMRouter还提供了ServiceLoader模块。
 
     ```groovy
     repositories {
-        maven { url "https://dl.bintray.com/meituanwaimai-android/maven" }
+        jcenter()
     }
-	dependencies {
-    	// 在基础库中依赖router即可
-    	compile 'com.sankuai.waimai.router:router:1.0.x'
+    dependencies {
+        // 在基础库中依赖router即可
+        compile 'com.sankuai.waimai.router:router:1.0.x'
         // 使用了注解的Library都需要配置
         annotationProcessor 'com.sankuai.waimai.router:compiler:1.0.x'
     }
@@ -221,22 +221,22 @@ WMRouter还提供了ServiceLoader模块。
 
 2. 在Application工程中，配置Gradle插件。
 
-	根目录的`build.gradle`：
+    根目录的`build.gradle`：
 
     ```groovy
     buildscript {
         repositories {
-            maven { url "https://dl.bintray.com/meituanwaimai-android/maven" }
+            jcenter()
         }
-    	dependencies {
-        	classpath 'com.android.tools.build:gradle:2.3.3'
+        dependencies {
+            classpath 'com.android.tools.build:gradle:2.3.3'
             // 添加WMRouter插件
-	        classpath "com.sankuai.waimai.router:plugin:1.0.x"
+            classpath "com.sankuai.waimai.router:plugin:1.0.x"
         }
     }
     ```
 
-	Application模块中的`build.gradle`：
+    Application模块中的`build.gradle`：
 
     ```groovy
     apply plugin: 'com.android.application'
@@ -271,7 +271,7 @@ Router.init(rootHandler);
 ```xml
 <activity android:name=".UriProxyActivity" android:exported="true">
     <intent-filter>
-    	<!-- 接收所有scheme为demo的外部URI跳转，不区分host和path -->
+        <!-- 接收所有scheme为demo的外部URI跳转，不区分host和path -->
         <data android:scheme="demo"/>
     </intent-filter>
 </activity>
@@ -320,7 +320,7 @@ Router.startUri(new UriRequest(context, "/account"))
 
 ```java
 new DefaultUriRequest(context, "/account")
-		// startActivityForResult使用的RequestCode
+        // startActivityForResult使用的RequestCode
         .activityRequestCode(100)
         // 设置跳转来源，默认为内部跳转，还可以是来自WebView、来自Push通知等。
         // 目标Activity可通过UriSourceTools区分跳转来源。
@@ -491,9 +491,9 @@ public class AccountActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (PageAnnotationHandler.isPageJump(getIntent())) {
-        	// ...
+            // ...
         } else {
-        	// ...
+            // ...
         }
     }
 }
@@ -583,8 +583,8 @@ List<IService> list = Router.getAllServices(IService.class, context);
 ```java
 // 使用自定义Factory
 IFactory factory = new IFactory() {
-	public Object create(Class clazz) {
-    	return clazz.getConstructor().newInstance();
+    public Object create(Class clazz) {
+        return clazz.getConstructor().newInstance();
     }
 };
 IService service = Router.getService(IService.class, factory);
@@ -600,12 +600,12 @@ List<IService> list = Router.getAllServices(IService.class, factory);
 @RouterService(interfaces = IService.class, key = 'key', singleton = true)
 public static class ServiceImpl implements IService {
 
-	public static final ServiceImpl INSTANCE = new ServiceImpl();
+    public static final ServiceImpl INSTANCE = new ServiceImpl();
 
-	// 使用注解声明该方法是一个Provider
-	@RouterProvider
-	public static ServiceImpl provideInstance() {
-    	return INSTANCE;
+    // 使用注解声明该方法是一个Provider
+    @RouterProvider
+    public static ServiceImpl provideInstance() {
+        return INSTANCE;
     }
 }
 
@@ -668,8 +668,8 @@ WMRouter中，加载注解配置的页面、加载Service涉及到资源文件�
 
 ```java
 void initRouter(Context context) {
-	// 必选，需要在主线程执行
-	Router.init(new DefaultRootUriHandler(context));
+    // 必选，需要在主线程执行
+    Router.init(new DefaultRootUriHandler(context));
     // 其他各种配置
     // ...
     // 后台线程懒加载
@@ -746,10 +746,10 @@ WMRouter支持配置全局和局部降级策略。
 ```java
 // 自定义RootUriHandler
 public class CustomRootUriHandler extends RootUriHandler {
-	// ...
+    // ...
     public CustomRootUriHandler() {
-    	// 添加Uri注解支持
-    	addHandler(new UriAnnotationHandler());
+        // 添加Uri注解支持
+        addHandler(new UriAnnotationHandler());
         // 添加一个自定义的HttpHandler
         addHandler(new CustomHttpHandler());
     }
@@ -757,10 +757,10 @@ public class CustomRootUriHandler extends RootUriHandler {
 
 // 自定义UriRequest
 public class CustomUriRequest extends UriRequest {
-	// ...
+    // ...
     public CustomUriRequest setCustomProperties(String s) {
-    	putField("custom_properties", s);
-    	return this;
+        putField("custom_properties", s);
+        return this;
     }
 }
 
@@ -769,7 +769,7 @@ Router.init(new CustomRootUriHandler());
 
 // 启动Uri
 CustomUriRequest request = new CustomUriRequest(mContext, url)
-	.setCustomProperties("xxx");
+    .setCustomProperties("xxx");
 Router.startUri(request);
 ```
 
