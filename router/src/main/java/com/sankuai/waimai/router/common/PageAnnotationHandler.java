@@ -7,11 +7,14 @@ import com.sankuai.waimai.router.annotation.RouterPage;
 import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriRequest;
+import com.sankuai.waimai.router.core.UriResult;
 import com.sankuai.waimai.router.utils.LazyInitHelper;
 import com.sankuai.waimai.router.utils.RouterUtils;
 
 /**
- * 内部页面跳转，由注解 {@link RouterPage} 配置
+ * 内部页面跳转，由注解 {@link RouterPage} 配置。
+ * {@link PageAnnotationHandler} 处理且只处理所有格式为 wm_router://page/* 的URI，根据path匹配，
+ * 匹配不到的分发给 {@link NotFoundHandler} ，返回 {@link UriResult#CODE_NOT_FOUND}
  *
  * Created by jzj on 2018/3/23.
  */

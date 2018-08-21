@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 一次Uri跳转请求。可以包含扩展参数，例如事件监听；在 {@link UriHandler} {@link UriInterceptor} 间通信；返回值等。
+ * 一次URI跳转请求，包含了Request和Response的功能。
+ * 可以通过Fields存放任意扩展参数，例如设置监听 {@link #onComplete(OnCompleteListener)} ；
+ * 在 {@link UriHandler} 、 {@link UriInterceptor} 间通信；存放Response {@link #getResultCode()} 等。
  *
  * Created by jzj on 2017/4/11.
  */

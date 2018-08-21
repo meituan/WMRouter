@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.sankuai.waimai.router.annotation.RouterUri;
 import com.sankuai.waimai.router.components.DefaultOnCompleteListener;
 import com.sankuai.waimai.router.core.RootUriHandler;
 import com.sankuai.waimai.router.regex.RegexAnnotationHandler;
@@ -25,8 +26,12 @@ public class DefaultRootUriHandler extends RootUriHandler {
         this(context, null, null);
     }
 
+    /**
+     * @param defaultScheme {@link RouterUri} 没有指定scheme时，则使用这里设置的defaultScheme
+     * @param defaultHost   {@link RouterUri} 没有指定host时，则使用这里设置的defaultHost
+     */
     public DefaultRootUriHandler(Context context,
-            @Nullable String defaultScheme, @Nullable String defaultHost) {
+                                 @Nullable String defaultScheme, @Nullable String defaultHost) {
         super(context);
         mPageAnnotationHandler = createPageAnnotationHandler();
         mUriAnnotationHandler = createUriAnnotationHandler(defaultScheme, defaultHost);
@@ -34,11 +39,11 @@ public class DefaultRootUriHandler extends RootUriHandler {
 
         // 按优先级排序，数字越大越先执行
 
-        // 处理所有内部页面跳转，如果注解没定义，直接结束分发
+        // 处理RouterPage注解定义的内部页面跳转，如果注解没定义，直接结束分发
         addChildHandler(mPageAnnotationHandler, 300);
-        // 处理注解定义的Scheme跳转，如果注解没定义，继续分发到后面的Handler
+        // 处理RouterUri注解定义的URI跳转，如果注解没定义，继续分发到后面的Handler
         addChildHandler(mUriAnnotationHandler, 200);
-        // 处理正则匹配
+        // 处理RouterRegex注解定义的正则匹配
         addChildHandler(mRegexAnnotationHandler, 100);
         // 添加其他用户自定义Handler...
 
@@ -76,7 +81,7 @@ public class DefaultRootUriHandler extends RootUriHandler {
 
     @NonNull
     protected UriAnnotationHandler createUriAnnotationHandler(@Nullable String defaultScheme,
-            @Nullable String defaultHost) {
+                                                              @Nullable String defaultHost) {
         return new UriAnnotationHandler(defaultScheme, defaultHost);
     }
 

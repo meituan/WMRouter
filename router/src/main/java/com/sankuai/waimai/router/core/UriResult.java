@@ -14,7 +14,7 @@ public interface UriResult {
      */
     int CODE_SUCCESS = 200;
     /**
-     * 重定向到其他Uri，会再次跳转
+     * 重定向到其他URI，会再次跳转
      */
     int CODE_REDIRECT = 301;
     /**
@@ -30,7 +30,7 @@ public interface UriResult {
      */
     int CODE_NOT_FOUND = 404;
     /**
-     * 发生错误
+     * 发生其他错误
      */
     int CODE_ERROR = 500;
 }

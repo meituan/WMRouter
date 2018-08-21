@@ -36,14 +36,20 @@ public class Debugger {
     @Nullable
     private static Logger sLogger = null;
 
-    public static void setLogger(Logger logger) {
-        sLogger = logger;
-    }
-
     private static boolean sEnableDebug = false;
 
     private static boolean sEnableLog = false;
 
+    /**
+     * 设置Logger
+     */
+    public static void setLogger(Logger logger) {
+        sLogger = logger;
+    }
+
+    /**
+     * 调试模式开关。调试模式开启后，可以在发生错误时抛出异常，及时暴漏问题。建议测试环境开启，线上环境应该关闭。
+     */
     public static void setEnableDebug(boolean enableDebug) {
         sEnableDebug = enableDebug;
     }
@@ -52,6 +58,9 @@ public class Debugger {
         return sEnableDebug;
     }
 
+    /**
+     * Log开关。建议测试环境开启，线上环境应该关闭。
+     */
     public static void setEnableLog(boolean enableLog) {
         sEnableLog = enableLog;
     }

@@ -26,6 +26,7 @@ public interface StartActivityAction {
      *
      * @param intent 跳转要用的intent
      * @return 是否执行了startActivity操作
+     * @see com.sankuai.waimai.router.components.DefaultActivityLauncher
      */
     boolean startActivity(@NonNull UriRequest request, @NonNull Intent intent)
             throws ActivityNotFoundException, SecurityException;

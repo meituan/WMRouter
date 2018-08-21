@@ -6,8 +6,8 @@ import com.sankuai.waimai.router.annotation.RouterRegex;
 import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.components.UriTargetTools;
 import com.sankuai.waimai.router.core.ChainedHandler;
-import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.Debugger;
+import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriHandler;
 import com.sankuai.waimai.router.core.UriInterceptor;
 import com.sankuai.waimai.router.core.UriRequest;
@@ -17,7 +17,9 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 /**
- * 正则匹配跳转，由注解 {@link RouterRegex} 配置
+ * 正则匹配跳转，由注解 {@link RouterRegex} 配置。
+ * {@link RegexAnnotationHandler} 根据优先级从大到小，逐个匹配每个 {@link RouterRegex} 注解配置的节点，
+ * 优先级相同的节点不保证先后顺序。
  *
  * Created by jzj on 2018/3/19.
  */
@@ -52,7 +54,7 @@ public class RegexAnnotationHandler extends ChainedHandler {
      * @param interceptors 要添加的interceptor
      */
     public void register(String regex, Object target, boolean exported, int priority,
-            UriInterceptor... interceptors) {
+                         UriInterceptor... interceptors) {
         Pattern pattern = compile(regex);
         if (pattern != null) {
             UriHandler innerHandler = UriTargetTools.parse(target, exported, interceptors);

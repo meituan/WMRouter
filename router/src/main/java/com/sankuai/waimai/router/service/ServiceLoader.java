@@ -218,7 +218,7 @@ public class ServiceLoader<I> {
                 is = Router.getRootHandler().getContext().getAssets()
                         .open(Const.ASSETS_PATH + mInterfaceName);
             } catch (FileNotFoundException e) {
-                Debugger.w(e);
+                Debugger.w("assets file for interface '%s' not found", mInterfaceName);
             }
             if (is == null) {
                 return;

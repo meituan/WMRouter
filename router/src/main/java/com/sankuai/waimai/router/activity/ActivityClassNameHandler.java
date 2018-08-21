@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.sankuai.waimai.router.core.Debugger;
+import com.sankuai.waimai.router.core.UriHandler;
 import com.sankuai.waimai.router.core.UriRequest;
 
 /**
- * 通过Activity类名跳转
+ * 通过ClassName跳转Activity的 {@link UriHandler}
  *
  * Created by jzj on 2018/3/23.
  */

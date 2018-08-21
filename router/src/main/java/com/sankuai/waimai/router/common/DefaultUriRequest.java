@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * UriRequest的子类，增加了常用参数的辅助方法，方便使用
+ * UriRequest的默认封装子类，增加了常用参数的辅助方法，方便使用
  * <p>
  * Created by jzj on 2018/3/27.
  */

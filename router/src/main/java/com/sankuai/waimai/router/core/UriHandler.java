@@ -3,7 +3,8 @@ package com.sankuai.waimai.router.core;
 import android.support.annotation.NonNull;
 
 /**
- * 处理某一类或某个Uri的Handler
+ * 处理某一类或某个URI。支持添加若干个 {@link UriInterceptor} 。
+ * 子类主要覆写 {@link #shouldHandle(UriRequest)} 和 {@link #handleInternal(UriRequest, UriCallback)} 方法。
  *
  * Created by jzj on 17/2/27.
  */
@@ -34,6 +35,12 @@ public abstract class UriHandler {
         return this;
     }
 
+    /**
+     * 处理URI。通常不需要覆写本方法。
+     *
+     * @param request  URI跳转请求
+     * @param callback 处理完成后的回调
+     */
     public void handle(@NonNull final UriRequest request, @NonNull final UriCallback callback) {
         if (shouldHandle(request)) {
             Debugger.i("%s: handle request %s", this, request);
@@ -67,12 +74,12 @@ public abstract class UriHandler {
     }
 
     /**
-     * 是否要处理给定的uri。在Interceptor之前调用。
+     * 是否要处理给定的URI。在 {@link UriInterceptor} 之前调用。
      */
     protected abstract boolean shouldHandle(@NonNull UriRequest request);
 
     /**
-     * 处理uri。在Interceptor之后调用。
+     * 处理URI。在 {@link UriInterceptor} 之后调用。
      */
     protected abstract void handleInternal(@NonNull UriRequest request, @NonNull UriCallback callback);
 }

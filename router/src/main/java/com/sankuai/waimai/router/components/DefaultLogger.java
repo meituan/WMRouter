@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.sankuai.waimai.router.core.Debugger;
 
+/**
+ * 默认的Logger实现
+ */
 public class DefaultLogger implements Debugger.Logger {
 
     public static final DefaultLogger INSTANCE = new DefaultLogger();
@@ -66,6 +69,9 @@ public class DefaultLogger implements Debugger.Logger {
         handleError(t);
     }
 
+    /**
+     * 处理fatal级别的错误。默认行为是在调试环境下抛出异常，非调试环境不做处理。
+     */
     protected void handleError(Throwable t) {
         if (Debugger.isEnableDebug()) {
             if (t instanceof RuntimeException) {

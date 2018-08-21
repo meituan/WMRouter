@@ -8,7 +8,8 @@ import com.sankuai.waimai.router.core.UriHandler;
 import com.sankuai.waimai.router.core.UriRequest;
 
 /**
- * 跳转指定Activity的 {@link UriHandler}, 支持外部跳转的权限控制
+ * 通过Class跳转Activity的 {@link UriHandler}
+ *
  * Created by jzj on 2017/4/11.
  */
 public class ActivityHandler extends AbsActivityHandler {

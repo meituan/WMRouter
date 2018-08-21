@@ -9,7 +9,7 @@ import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.core.UriResult;
 
 /**
- * 不支持exported拦截并返回 {@link UriResult#CODE_FORBIDDEN}
+ * 节点的exported为false，不允许来自外部的跳转，拦截并返回 {@link UriResult#CODE_FORBIDDEN}
  *
  * Created by jzj on 2018/3/26.
  */

@@ -17,6 +17,8 @@ import com.sankuai.waimai.router.core.UriResult;
 import java.util.List;
 
 /**
+ * 启动Activity的默认实现
+ *
  * Created by jzj on 2018/4/28.
  */
 public class DefaultActivityLauncher implements ActivityLauncher {
@@ -56,9 +58,10 @@ public class DefaultActivityLauncher implements ActivityLauncher {
         // request code
         Integer requestCode = request.getField(Integer.class, FIELD_REQUEST_CODE);
 
+        // 是否限制Intent的packageName，限制后只会启动当前App内的页面，不启动其他App的页面，bool型
         boolean limitPackage = request.getBooleanField(FIELD_LIMIT_PACKAGE, false);
 
-        // 设置package，先尝试启动APP内的页面
+        // 设置package，先尝试启动App内的页面
         intent.setPackage(context.getPackageName());
 
         int r = startIntent(request, intent, context, requestCode, true);
@@ -67,7 +70,7 @@ public class DefaultActivityLauncher implements ActivityLauncher {
             return r;
         }
 
-        // APP内启动失败，再尝试启动APP外页面
+        // App内启动失败，再尝试启动App外页面
         intent.setPackage(null);
 
         return startIntent(request, intent, context, requestCode, false);
@@ -75,9 +78,11 @@ public class DefaultActivityLauncher implements ActivityLauncher {
 
     /**
      * 启动Intent
+     *
+     * @param internal 是否启动App内页面
      */
     protected int startIntent(@NonNull UriRequest request, @NonNull Intent intent,
-            Context context, Integer requestCode, boolean internal) {
+                              Context context, Integer requestCode, boolean internal) {
         if (!checkIntent(context, intent)) {
             return UriResult.CODE_NOT_FOUND;
         }
@@ -110,9 +115,11 @@ public class DefaultActivityLauncher implements ActivityLauncher {
 
     /**
      * 使用指定的 {@link StartActivityAction} 启动Intent
+     *
+     * @param internal 是否启动App内页面
      */
     protected int startActivityByAction(@NonNull UriRequest request,
-            @NonNull Intent intent, boolean internal) {
+                                        @NonNull Intent intent, boolean internal) {
         try {
             final StartActivityAction action = request.getField(
                     StartActivityAction.class, FIELD_START_ACTIVITY_ACTION);
@@ -122,13 +129,11 @@ public class DefaultActivityLauncher implements ActivityLauncher {
                 doAnimation(request);
 
                 if (internal) {
-                    request.putField(
-                            FIELD_STARTED_ACTIVITY, INTERNAL_ACTIVITY);
+                    request.putField(FIELD_STARTED_ACTIVITY, INTERNAL_ACTIVITY);
                     Debugger.i("    internal activity started"
                             + " by StartActivityAction, request = %s", request);
                 } else {
-                    request.putField(
-                            FIELD_STARTED_ACTIVITY, EXTERNAL_ACTIVITY);
+                    request.putField(FIELD_STARTED_ACTIVITY, EXTERNAL_ACTIVITY);
                     Debugger.i("    external activity started"
                             + " by StartActivityAction, request = %s", request);
                 }
@@ -148,9 +153,11 @@ public class DefaultActivityLauncher implements ActivityLauncher {
 
     /**
      * 使用默认方式启动Intent
+     *
+     * @param internal 是否启动App内页面
      */
     protected int startActivityByDefault(UriRequest request, @NonNull Context context,
-            @NonNull Intent intent, Integer requestCode, boolean internal) {
+                                         @NonNull Intent intent, Integer requestCode, boolean internal) {
         try {
             Bundle options = request.getField(Bundle.class, FIELD_START_ACTIVITY_OPTIONS);
 
@@ -163,13 +170,11 @@ public class DefaultActivityLauncher implements ActivityLauncher {
             doAnimation(request);
 
             if (internal) {
-                request.putField(
-                        FIELD_STARTED_ACTIVITY, INTERNAL_ACTIVITY);
+                request.putField(FIELD_STARTED_ACTIVITY, INTERNAL_ACTIVITY);
                 Debugger.i("    internal activity started"
                         + ", request = %s", request);
             } else {
-                request.putField(
-                        FIELD_STARTED_ACTIVITY, EXTERNAL_ACTIVITY);
+                request.putField(FIELD_STARTED_ACTIVITY, EXTERNAL_ACTIVITY);
                 Debugger.i("    external activity started"
                         + ", request = %s", request);
             }

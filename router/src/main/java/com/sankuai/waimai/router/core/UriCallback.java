@@ -14,7 +14,7 @@ public interface UriCallback extends UriResult {
     /**
      * 处理完成，终止分发流程。
      *
-     * @param resultCode 结果
+     * @param resultCode 结果，可参考 {@link UriResult}
      */
     void onComplete(int resultCode);
 }

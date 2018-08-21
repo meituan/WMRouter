@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.sankuai.waimai.router.utils.PriorityList;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,7 +14,6 @@ import java.util.List;
 public class ChainedHandler extends UriHandler {
 
     private final PriorityList<UriHandler> mHandlers = new PriorityList<>();
-    private final ChainedHandlerRunner mRunner = new ChainedHandlerRunner();
 
     /**
      * 添加一个Handler
@@ -43,17 +43,27 @@ public class ChainedHandler extends UriHandler {
     }
 
     @Override
-    protected void handleInternal(@NonNull final UriRequest request,
-                                  @NonNull final UriCallback callback) {
-        mRunner.run(mHandlers.iterator(), request, callback);
+    protected void handleInternal(@NonNull final UriRequest request, @NonNull final UriCallback callback) {
+        next(mHandlers.iterator(), request, callback);
     }
 
-    public static class ChainedHandlerRunner extends ChainedAsyncHelper<UriHandler> {
+    private void next(@NonNull final Iterator<UriHandler> iterator, @NonNull final UriRequest request,
+                      @NonNull final UriCallback callback) {
+        if (iterator.hasNext()) {
+            UriHandler t = iterator.next();
+            t.handle(request, new UriCallback() {
+                @Override
+                public void onNext() {
+                    next(iterator, request, callback);
+                }
 
-        @Override
-        protected void runAsync(@NonNull UriHandler handler, @NonNull UriRequest request,
-                                @NonNull UriCallback callback) {
-            handler.handle(request, callback);
+                @Override
+                public void onComplete(int resultCode) {
+                    callback.onComplete(resultCode);
+                }
+            });
+        } else {
+            callback.onNext();
         }
     }
 }

@@ -6,7 +6,7 @@ import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.utils.RouterUtils;
 
 /**
- * 处理一个固定的Scheme+Host，并通过Path分发
+ * 处理一个固定的scheme+host，并通过path分发
  *
  * Created by jzj on 17/2/27.
  */
