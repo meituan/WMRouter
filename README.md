@@ -783,3 +783,8 @@ Router.startUri(request);
 
 `wm_router`为保留scheme，用于实现RouterPage等的路由，自定义的URI请勿使用`wm_router://*`的形式。
 
+
+## 其他
+
+关于WMRouter的发展背景和过程，可参考美团技术博客 [WMRouter：美团外卖Android开源路由框架](https://tech.meituan.com/meituan_waimai_android_open_source_routing_framework.html)。
+
