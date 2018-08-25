@@ -368,7 +368,7 @@ DefaultRootUriHandler在接收到UriRequest后，会依次尝试分发给PageAnn
 
 1. PageAnnotationHandler处理所有`wm_router://page/*`形式的URI跳转，根据path匹配由`RouterPage`注解配置的节点。
 
-2. UriAnnotationHandler根据URI的scheme+host，分发到对应的PathHandler（如果有），之后PathHandler再根据path匹配`RouterUri`注解配置的节点。
+2. UriAnnotationHandler根据URI的scheme+host，寻找并分发给对应的PathHandler，之后PathHandler再根据path匹配`RouterUri`注解配置的节点。
 
 3. RegexAnnotationHandler根据优先级和正则匹配尝试将URI分发给`RouterRegex`配置的每个节点。
 
