@@ -210,21 +210,29 @@ WMRouter还提供了ServiceLoader模块。
 
 ### Gradle配置
 
-1. 在所有Android工程中（包括Application和Library工程）配置如下（1.0.x为版本号）。
+1. 在基础库中增加依赖（1.0.x为版本号）。
 
     ```groovy
     repositories {
         jcenter()
     }
     dependencies {
-        // 在基础库中依赖router即可
         compile 'com.sankuai.waimai.router:router:1.0.x'
-        // 使用了注解的Library都需要配置
+    }
+    ```
+
+2. 在使用了注解的每个模块中配置注解生成器，包括Application和Library工程。
+
+    ```groovy
+    repositories {
+        jcenter()
+    }
+    dependencies {
         annotationProcessor 'com.sankuai.waimai.router:compiler:1.0.x'
     }
     ```
 
-2. 在Application工程中，配置Gradle插件。
+3. 在Application工程中，配置Gradle插件。
 
     根目录的`build.gradle`：
 
@@ -380,10 +388,16 @@ RouterUri注解可用于Activity或UriHandler的非抽象子类。Activity也会
 - exported：是否允许外部跳转，可选，默认为false。
 - interceptors：要添加的Interceptor，可选，支持配置多个。
 
+说明：
+
+1. WMRouter支持多scheme+host+path的跳转，也支持只有path的跳转。如果RouterUri中配置了scheme、host、path，则跳转时应使用scheme+host+path的完整路径；如果RouterUri中只配置了path，则跳转应直接使用path。
+
+2. 由于多数场景下往往只需要一个固定的scheme+host，不想在每个RouterUri注解上都写一遍scheme、host，这种场景可以在初始化时用`new DefaultRootUriHandler("scheme", "host")`指定默认的scheme、host，RouterUri没有配置的字段会使用这个默认值。
+
 
 #### 举例
 
-1、用户账户页面跳转前要先登录，添加了一个LoginInterceptor。
+1、用户账户页面只配置path；跳转前要先登录，因此添加了一个LoginInterceptor。
 
 ```java
 @RouterUri(path = "/account", interceptors = LoginInterceptor.class)
@@ -392,19 +406,28 @@ public class UserAccountActivity extends Activity {
 }
 ```
 
+```java
+Router.startUri(context, "/account");
+```
+
 2、一个页面配置多个path。
 
 ```java
-@RouterUri(path = {"/path1"， "/path2"})
+@RouterUri(scheme = "demo_scheme", host = "demo_host", path = {"/path1"， "/path2"})
 public class TestActivity extends Activity {
 
 }
 ```
 
+```java
+Router.startUri(context, "demo_scheme://demo_host/path1");
+Router.startUri(context, "demo_scheme://demo_host/path2");
+```
+
 3、根据后台下发的ABTest策略，同一个链接跳转不同的Activity。其中AbsActivityHandler是WMRouter提供的用于跳转Activity的UriHandler通用基类。
 
 ```java
-@RouterUri(path = DemoConstant.HOME_AB_TEST)
+@RouterUri(path = "/home")
 public class HomeABTestHandler extends AbsActivityHandler {
 
     @NonNull
@@ -417,6 +440,10 @@ public class HomeABTestHandler extends AbsActivityHandler {
         }
     }
 }
+```
+
+```java
+Router.startUri(context, "/home");
 ```
 
 
@@ -505,7 +532,15 @@ public class AccountActivity {
 ```
 
 ```java
+// 对应RouterUri的配置
+Router.startUri(context, "demo://demo/account");
+```
+
+```java
+// 对应RouterPage的配置
 Router.startUri(context, PageAnnotationHandler.SCHEME_HOST + "/account");
+// 或直接用常量的值
+Router.startUri(context, "wm_router://page/account");
 ```
 
 
