@@ -823,6 +823,33 @@ Router.startUri(request);
 `wm_router`为保留scheme，用于实现RouterPage等的路由，自定义的URI请勿使用`wm_router://*`的形式。
 
 
+## 跳转失败的问题排查
+
+由于配置不正确、编译环境等原因，有时WMRouter会出现无法跳转页面的问题。这里给出常见排查思路：
+
+1. 检查注解生成器（annotationProcessor）是否配置。每个使用了注解的模块都需要配置注解生成器，包括Application和Library工程。
+
+2. 检查主工程Gradle插件是否配置。
+
+3. 尝试clean之后重新编译。
+
+4. 检查注解生成器是否工作。在本地编译后，各个使用了注解且配置了注解生成器的模块，都会生成Java初始化类到`build/generated/source/apt`目录，并生成Java资源文件到`build/intermediates/classes`目录，资源文件中的内容指向Java初始化类。如果依赖的是已经发布的AAR，则可以在Android Studio的External Libraries中查看AAR里是否包含这些文件。
+
+   ![](docs/images/debug-1.png)
+
+   ![](docs/images/debug-2.png)
+
+5. 检查Gradle插件是否正常工作，assets是否正确生成。Gradle插件会将注解生成器生成的资源文件合并到`build/intermediates/assets/{buildVariant}/wm-router/services`目录，其内容指向所有初始化类。
+
+   ![](docs/images/debug-3.png)
+
+6. 如果还没有解决问题，可能是工程中的配置或用法不正确。通过`Debugger.setLogger(logger)`配置好Logger，在LogCat中过滤`WMRouter`标签，可以查看WMRouter在跳转过程中经过的UriHandler和UriInterceptor，如图。
+
+   ![](docs/images/debug-4.png)
+
+7. 还可以打断点调试分析具体原因，例如最常用的注解RouterUri配置的节点，应该由`UriAnnotationHandler`根据scheme+host分发给 `PathHandler`，再由`PathHandler`根据path分发处理，断点可以打在`shouldHandle`、`handleInternal`等方法中。
+
+
 ## 其他
 
 关于WMRouter的发展背景和过程，可参考美团技术博客 [WMRouter：美团外卖Android开源路由框架](https://tech.meituan.com/meituan_waimai_android_open_source_routing_framework.html)。
