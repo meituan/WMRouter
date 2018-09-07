@@ -262,8 +262,7 @@ public class WMRouterServiceProcessor {
             if (hasServiceEntry(zipFile)) {
                 WMRouterLogger.debug(SERVICE_META + "    found service entry, modify jar file");
                 File tempFile = new File(jarFile.getPath() + ".tmp");
-                try (ZipInputStream is = new ZipInputStream(new FileInputStream(jarFile));
-                     ZipOutputStream os = new ZipOutputStream(new FileOutputStream(tempFile))) {
+                try (ZipInputStream is = new ZipInputStream(new FileInputStream(jarFile))) {
                     ZipEntry entry;
                     while ((entry = is.getNextEntry()) != null) {
                         if (isServiceEntry(entry)) {
@@ -276,8 +275,10 @@ public class WMRouterServiceProcessor {
                                 e.printStackTrace();
                             }
                         } else {
+                            ZipOutputStream os = new ZipOutputStream(new FileOutputStream(tempFile));
                             os.putNextEntry(new ZipEntry(entry));
                             IOUtils.copy(is, os);
+                            os.close();
                         }
                     }
                     jarFile.delete();
