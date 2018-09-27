@@ -44,7 +44,7 @@ public abstract class UriHandler {
     public void handle(@NonNull final UriRequest request, @NonNull final UriCallback callback) {
         if (shouldHandle(request)) {
             Debugger.i("%s: handle request %s", this, request);
-            if (mInterceptor != null) {
+            if (mInterceptor != null && !request.isSkipInterceptors()) {
                 mInterceptor.intercept(request, new UriCallback() {
                     @Override
                     public void onNext() {

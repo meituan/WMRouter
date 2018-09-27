@@ -42,6 +42,11 @@ public class UriRequest {
     @NonNull
     private final HashMap<String, Object> mFields;
 
+    /**
+     * 是否跳过拦截器
+     */
+    private boolean isSkipInterceptors = false;
+
     private String mSchemeHost = null;
 
     public UriRequest(@NonNull Context context, String uri) {
@@ -138,6 +143,18 @@ public class UriRequest {
         } else {
             Debugger.fatal("UriRequest.setUri不应该传入空值");
         }
+    }
+
+    /**
+     * 设置跳过拦截器
+     */
+    public UriRequest skipInterceptors() {
+        isSkipInterceptors = true;
+        return this;
+    }
+
+    public boolean isSkipInterceptors() {
+        return isSkipInterceptors;
     }
 
     /**
