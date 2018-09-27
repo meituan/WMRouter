@@ -66,7 +66,7 @@ public class UriAnnotationProcessor extends BaseProcessor {
                         interceptors);
             }
         }
-        writeHandlerInitClass(builder.build(), hash, Const.SCHEME_CLASS,
+        buildHandlerInitClass(builder.build(), "UriAnnotationInit" + Const.SPLITTER + hash,
                 Const.URI_ANNOTATION_HANDLER_CLASS, Const.URI_ANNOTATION_INIT_CLASS);
         return true;
     }

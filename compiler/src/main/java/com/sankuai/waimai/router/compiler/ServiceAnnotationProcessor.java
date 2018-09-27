@@ -2,6 +2,7 @@ package com.sankuai.waimai.router.compiler;
 
 import com.google.auto.service.AutoService;
 import com.sankuai.waimai.router.annotation.RouterService;
+import com.sankuai.waimai.router.interfaces.Const;
 import com.sankuai.waimai.router.service.ServiceImpl;
 import com.sun.tools.javac.code.Symbol;
 
@@ -29,12 +30,13 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
     /**
      * interfaceClass --> Entity
      */
-    private HashMap<String, Entity> mEntityMap = new HashMap<>();
+    private final HashMap<String, Entity> mEntityMap = new HashMap<>();
+    private String mHash = null;
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment env) {
         if (env.processingOver()) {
-            generateConfigFiles();
+            generateInitClass();
         } else {
             processAnnotations(env);
         }
@@ -48,6 +50,10 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
             }
 
             Symbol.ClassSymbol cls = (Symbol.ClassSymbol) element;
+            if (mHash == null) {
+                mHash = hash(cls.className());
+            }
+
             RouterService service = cls.getAnnotation(RouterService.class);
             if (service == null) {
                 continue;
@@ -56,7 +62,7 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
             List<? extends TypeMirror> typeMirrors = getInterface(service);
             String[] keys = service.key();
 
-            String implementationName = getBinaryName(cls);
+            String implementationName = cls.className();
             boolean singleton = service.singleton();
 
             if (typeMirrors != null && !typeMirrors.isEmpty()) {
@@ -93,11 +99,17 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
         }
     }
 
-    private void generateConfigFiles() {
-        for (Map.Entry<String, Entity> entry : mEntityMap.entrySet()) {
-            String interfaceName = entry.getKey();
-            writeInterfaceServiceFile(interfaceName, entry.getValue().getContents());
+    private void generateInitClass() {
+        if (mEntityMap.isEmpty() || mHash == null) {
+            return;
         }
+        ServiceInitClassBuilder generator = new ServiceInitClassBuilder("ServiceInit" + Const.SPLITTER + mHash);
+        for (Map.Entry<String, Entity> entry : mEntityMap.entrySet()) {
+            for (ServiceImpl service : entry.getValue().getMap().values()) {
+                generator.put(entry.getKey(), service.getKey(), service.getImplementation(), service.isSingleton());
+            }
+        }
+        generator.build();
     }
 
     private static List<? extends TypeMirror> getInterface(RouterService service) {
@@ -118,10 +130,14 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
 
         private final String mInterfaceName;
 
-        private Map<String, ServiceImpl> mMap = new HashMap<>();
+        private final Map<String, ServiceImpl> mMap = new HashMap<>();
 
         public Entity(String interfaceName) {
             mInterfaceName = interfaceName;
+        }
+
+        public Map<String, ServiceImpl> getMap() {
+            return mMap;
         }
 
         public void put(String key, String implementationName, boolean singleton) {

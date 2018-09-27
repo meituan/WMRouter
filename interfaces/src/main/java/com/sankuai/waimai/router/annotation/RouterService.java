@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * Created by jzj on 2018/3/29.
  */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface RouterService {
 
     /**

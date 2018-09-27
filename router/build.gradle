@@ -27,8 +27,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.5.1"
     compile project(':interfaces')
-//    provided project(':generated')
-    provided files('generated/router-generated.jar')
 }
 
 apply from: '../gradle_mvn_push.gradle'

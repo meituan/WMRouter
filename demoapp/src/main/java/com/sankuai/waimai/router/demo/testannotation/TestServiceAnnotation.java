@@ -8,7 +8,7 @@ import com.sankuai.waimai.router.annotation.RouterService;
 
 public class TestServiceAnnotation {
 
-    interface IService {
+    public interface IService {
 
     }
 

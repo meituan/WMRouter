@@ -8,12 +8,9 @@ public class Const {
 
     // 生成的代码
     public static final String GEN_PKG = PKG + "generated";
+    public static final String GEN_PKG_SERVICE = GEN_PKG + ".service";
 
     public static final String SPLITTER = "_";
-
-    public static final String PAGE_CLASS = "UriRouter" + SPLITTER + "RouterPage";
-    public static final String SCHEME_CLASS = "UriRouter" + SPLITTER + "RouterUri";
-    public static final String REGEX_CLASS = "UriRouter" + SPLITTER + "RouterRegex";
 
     /**
      * ServiceLoader初始化
@@ -23,12 +20,6 @@ public class Const {
     public static final char DOT = '.';
 
     public static final String INIT_METHOD = "init";
-
-    /**
-     * 通过interface ClassName加载的Service，按接口名放在不同文件中
-     */
-    public static final String SERVICE_PATH = "META-INF/services/wm-router/";
-    public static final String ASSETS_PATH = "wm-router/services/";
 
     // Library中的类名
     public static final String PAGE_ANNOTATION_HANDLER_CLASS =

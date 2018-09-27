@@ -3,6 +3,17 @@
 ## [Unreleased]
 
 
+## 1.1.0
+
+- Gradle插件方案升级，降低插件复杂度，提高兼容和可靠性，解决高版本Android Gradle Plugin的兼容问题。
+    > 备注：原先的方案是annotationProcessor生成Java代码+Java资源文件，Gradle插件在Debug模式下合并资源文件到Assets，Release模式使用Transform生成初始化类。
+    > 新方案为注解直接生成Java初始化代码，Gradle插件使用Transform合并初始化代码。
+- Windows平台编译兼容问题解决。
+- ServiceLoader的字符串引用接口和实现类，改为直接引用class，支持Proguard优化，运行时不需要反射class；为避免main dex capacity exceeded问题，ServiceLoaderInit初始化类改为反射调用。
+- 去掉原先的自动配置Proguard功能，用户可根据需要自行配置，进一步提升Proguard优化空间。
+- 插件的代码细节优化完善，增加若干注释。
+
+
 ## 1.0.42
 
 - 在UriRequest中加入对是否跳过拦截器的控制

@@ -10,52 +10,6 @@ public class ServiceImpl {
     public static final String SPLITTER = ":";
     public static final String SINGLETON = "singleton";
 
-    public static ServiceImpl fromConfig(String ln) {
-        if (isEmpty(ln)) {
-            return null;
-        }
-
-        // 格式 [ content ] # comment
-
-        // 去掉注释
-        int ci = ln.indexOf('#');
-        if (ci >= 0) {
-            ln = ln.substring(0, ci);
-        }
-
-        // 去掉空格
-        ln = ln.trim();
-
-        if (ln.length() == 0) {
-            return null;
-        }
-
-        // 格式
-        // key : implementation : singleton
-        // 或
-        // implementation
-
-        String[] split = ln.split(SPLITTER);
-        if (split.length == 0) {
-            return null;
-        }
-
-        String key, implementation;
-        boolean singleton;
-        if (split.length == 1) {
-            key = implementation = trim(split[0]);
-            singleton = false;
-        } else {
-            key = trim(split[0]);
-            implementation = trim(split[1]);
-            singleton = split.length >= 3 && SINGLETON.equalsIgnoreCase(trim(split[2]));
-        }
-        if (isEmpty(key) || !isClassName(implementation)) {
-            return null;
-        }
-        return new ServiceImpl(key, implementation, singleton);
-    }
-
     public static String checkConflict(String interfaceName, ServiceImpl impl,
             ServiceImpl previous) {
         if (impl != null && previous != null && !stringEquals(previous.implementation,
@@ -73,17 +27,6 @@ public class ServiceImpl {
 
     private static boolean isEmpty(String key) {
         return key == null || key.length() == 0;
-    }
-
-    private static String trim(String s) {
-        return s == null ? null : s.trim();
-    }
-
-    /**
-     * 是否为合法的className。考虑到配置文件一般都是注解生成器输出，这里只做简单判断。
-     */
-    private static boolean isClassName(String s) {
-        return !isEmpty(s);
     }
 
     private final String key;
@@ -126,16 +69,10 @@ public class ServiceImpl {
         return key;
     }
 
-    /**
-     * nullable
-     */
     public String getImplementation() {
         return implementation;
     }
 
-    /**
-     * nullable
-     */
     public Class getImplementationClazz() {
         return implementationClazz;
     }

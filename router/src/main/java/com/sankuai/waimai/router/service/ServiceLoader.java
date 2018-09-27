@@ -4,21 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.sankuai.waimai.router.Router;
 import com.sankuai.waimai.router.annotation.RouterProvider;
 import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.core.Debugger;
-import com.sankuai.waimai.router.generated.ServiceLoaderInit;
 import com.sankuai.waimai.router.interfaces.Const;
-import com.sankuai.waimai.router.utils.ClassPool;
 import com.sankuai.waimai.router.utils.LazyInitHelper;
 import com.sankuai.waimai.router.utils.SingletonPool;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,26 +20,24 @@ import java.util.Map;
 
 /**
  * 通过接口Class获取实现类
- *
+ * <p>
  * Created by jzj on 2018/3/29.
  *
  * @param <I> 接口类型
  */
 public class ServiceLoader<I> {
 
-    private static final Map<String, ServiceLoader> SERVICES = new HashMap<>();
+    private static final Map<Class, ServiceLoader> SERVICES = new HashMap<>();
 
     private static final LazyInitHelper sInitHelper = new LazyInitHelper("ServiceLoader") {
         @Override
         protected void doInit() {
             try {
-                ServiceLoaderInit.init();
-//                Class.forName(Const.SERVICE_LOADER_INIT)
-//                        .getMethod(Const.INIT_METHOD)
-//                        .invoke(null);
+                // 反射调用Init类，避免引用的类过多，导致main dex capacity exceeded问题
+                Class.forName(Const.SERVICE_LOADER_INIT)
+                        .getMethod(Const.INIT_METHOD)
+                        .invoke(null);
                 Debugger.i("[ServiceLoader] init class invoked");
-            } catch (NoClassDefFoundError e) {
-                Debugger.w("[ServiceLoader] init class not found");
             } catch (Exception e) {
                 Debugger.fatal(e);
             }
@@ -61,13 +51,19 @@ public class ServiceLoader<I> {
         sInitHelper.lazyInit();
     }
 
-    public static void put(String interfaceName, String key, String implementName, boolean singleton) {
-        ServiceLoader loader = SERVICES.get(interfaceName);
+    /**
+     * 提供给InitClass使用的初始化接口
+     *
+     * @param interfaceClass 接口类
+     * @param implementClass 实现类
+     */
+    public static void put(Class interfaceClass, String key, Class implementClass, boolean singleton) {
+        ServiceLoader loader = SERVICES.get(interfaceClass);
         if (loader == null) {
-            loader = new ServiceLoader(interfaceName);
-            SERVICES.put(interfaceName, loader);
+            loader = new ServiceLoader(interfaceClass);
+            SERVICES.put(interfaceClass, loader);
         }
-        loader.putImpl(key, implementName, singleton);
+        loader.putImpl(key, implementClass, singleton);
     }
 
     /**
@@ -80,15 +76,13 @@ public class ServiceLoader<I> {
             Debugger.fatal(new NullPointerException("ServiceLoader.load的class参数不应为空"));
             return EmptyServiceLoader.INSTANCE;
         }
-        String interfaceName = interfaceClass.getName();
-        ServiceLoader service = SERVICES.get(interfaceName);
+        ServiceLoader service = SERVICES.get(interfaceClass);
         if (service == null) {
             synchronized (SERVICES) {
-                service = SERVICES.get(interfaceName);
+                service = SERVICES.get(interfaceClass);
                 if (service == null) {
-                    service = new ServiceLoader(interfaceName);
-                    service.loadData();
-                    SERVICES.put(interfaceName, service);
+                    service = new ServiceLoader(interfaceClass);
+                    SERVICES.put(interfaceClass, service);
                 }
             }
         }
@@ -102,17 +96,17 @@ public class ServiceLoader<I> {
 
     private final String mInterfaceName;
 
-    private ServiceLoader(String interfaceName) {
-        if (interfaceName == null) {
+    private ServiceLoader(Class interfaceClass) {
+        if (interfaceClass == null) {
             mInterfaceName = "";
         } else {
-            mInterfaceName = interfaceName;
+            mInterfaceName = interfaceClass.getName();
         }
     }
 
-    private void putImpl(String key, String implementName, boolean singleton) {
-        if (key != null && implementName != null) {
-            mMap.put(key, new ServiceImpl(key, implementName, singleton));
+    private void putImpl(String key, Class implementClass, boolean singleton) {
+        if (key != null && implementClass != null) {
+            mMap.put(key, new ServiceImpl(key, implementClass, singleton));
         }
     }
 
@@ -189,8 +183,9 @@ public class ServiceLoader<I> {
      *
      * @return 可能返回null
      */
+    @SuppressWarnings("unchecked")
     public <T extends I> Class<T> getClass(String key) {
-        return ClassPool.get(mMap.get(key));
+        return (Class<T>) mMap.get(key).getImplementationClazz();
     }
 
     /**
@@ -198,11 +193,12 @@ public class ServiceLoader<I> {
      *
      * @return 可能返回EmptyList，List中的元素不为空
      */
+    @SuppressWarnings("unchecked")
     @NonNull
     public <T extends I> List<Class<T>> getAllClasses() {
         List<Class<T>> list = new ArrayList<>(mMap.size());
         for (ServiceImpl impl : mMap.values()) {
-            Class<T> clazz = ClassPool.get(impl);
+            Class<T> clazz = (Class<T>) impl.getImplementationClazz();
             if (clazz != null) {
                 list.add(clazz);
             }
@@ -210,50 +206,13 @@ public class ServiceLoader<I> {
         return list;
     }
 
-    private void loadData() {
-        InputStream is = null;
-        BufferedReader reader = null;
-        try {
-            try {
-                is = Router.getRootHandler().getContext().getAssets()
-                        .open(Const.ASSETS_PATH + mInterfaceName);
-            } catch (FileNotFoundException e) {
-                Debugger.w("assets file for interface '%s' not found", mInterfaceName);
-            }
-            if (is == null) {
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(is));
-            String ln;
-            while ((ln = reader.readLine()) != null) {
-                ServiceImpl impl = ServiceImpl.fromConfig(ln);
-                if (impl != null) {
-                    ServiceImpl prev = mMap.put(impl.getKey(), impl);
-                    String errorMsg = ServiceImpl.checkConflict(mInterfaceName, prev, impl);
-                    if (errorMsg != null) {
-                        Debugger.fatal(errorMsg);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            Debugger.fatal(e);
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                Debugger.w(e);
-            }
-        }
-    }
-
+    @SuppressWarnings("unchecked")
     @Nullable
     private <T extends I> T createInstance(@Nullable ServiceImpl impl, @Nullable IFactory factory) {
         if (impl == null) {
             return null;
         }
-        Class<T> clazz = ClassPool.get(impl);
+        Class<T> clazz = (Class<T>) impl.getImplementationClazz();
         if (impl.isSingleton()) {
             try {
                 return SingletonPool.get(clazz, factory);
@@ -273,6 +232,11 @@ public class ServiceLoader<I> {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceLoader (" + mInterfaceName + ")";
     }
 
     public static class EmptyServiceLoader extends ServiceLoader {
@@ -299,6 +263,11 @@ public class ServiceLoader<I> {
         @Override
         public List getAll(IFactory factory) {
             return Collections.emptyList();
+        }
+
+        @Override
+        public String toString() {
+            return "EmptyServiceLoader";
         }
     }
 }

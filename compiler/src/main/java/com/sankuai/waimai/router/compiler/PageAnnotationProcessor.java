@@ -20,7 +20,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypesException;
 import javax.lang.model.type.TypeMirror;
 
-
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class PageAnnotationProcessor extends BaseProcessor {
@@ -64,7 +63,7 @@ public class PageAnnotationProcessor extends BaseProcessor {
                         interceptors);
             }
         }
-        writeHandlerInitClass(builder.build(), hash, Const.PAGE_CLASS,
+        buildHandlerInitClass(builder.build(), "PageAnnotationInit" + Const.SPLITTER + hash,
                 Const.PAGE_ANNOTATION_HANDLER_CLASS, Const.PAGE_ANNOTATION_INIT_CLASS);
         return true;
     }

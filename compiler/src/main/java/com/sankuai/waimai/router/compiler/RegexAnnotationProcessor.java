@@ -63,7 +63,7 @@ public class RegexAnnotationProcessor extends BaseProcessor {
                     interceptors
             );
         }
-        writeHandlerInitClass(builder.build(), hash, Const.REGEX_CLASS,
+        buildHandlerInitClass(builder.build(), "RegexAnnotationInit" + Const.SPLITTER + hash,
                 Const.REGEX_ANNOTATION_HANDLER_CLASS, Const.REGEX_ANNOTATION_INIT_CLASS);
         return true;
     }

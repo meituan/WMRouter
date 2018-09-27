@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
 
-// 设置是否使用Transform。默认Debug包使用Assets文件，Release包才会用Transform生成ServiceLoaderInit
-//ext.wm_router_transform = true
-
 apply plugin: 'WMRouter'
 
 //WMRouter {

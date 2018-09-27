@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# 用于调试注解生成器、Gradle插件的辅助脚本
+# 用法：在Android Studio中新建Remote类型Run Configuration，打断点，执行此脚本，点击Debug按钮启动Debugger即可
+
+export GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
+./gradlew clean :demoapp:assembleDebug -Dorg.gradle.daemon=false
+unset GRADLE_OPTS
