@@ -5,11 +5,11 @@
 
 <!-- TOC -->
 
-- [URI跳转核心设计思路与接口](#URI跳转核心设计思路与接口)
+- [URI跳转核心设计思路与接口](#uri跳转核心设计思路与接口)
 - [接入](#接入)
-- [发起URI跳转](#发起URI跳转)
-- [URI分发流程与配置](#URI分发流程与配置)
-- [ServiceLoader模块的使用](#ServiceLoader模块的使用)
+- [发起URI跳转](#发起uri跳转)
+- [URI分发流程与配置](#uri分发流程与配置)
+- [ServiceLoader模块的使用](#serviceloader模块的使用)
 - [高级配置](#高级配置)
 - [注意事项](#注意事项)
 - [跳转失败的问题排查](#跳转失败的问题排查)
@@ -170,14 +170,14 @@ WMRouter还提供了ServiceLoader模块。
 
 ### Gradle配置
 
-1. 在基础库中增加依赖（1.0.x为版本号）。
+1. 在基础库中增加依赖（1.x为版本号）。
 
     ```groovy
     repositories {
         jcenter()
     }
     dependencies {
-        compile 'com.sankuai.waimai.router:router:1.0.x'
+        compile 'com.sankuai.waimai.router:router:1.x'
     }
     ```
 
@@ -188,7 +188,7 @@ WMRouter还提供了ServiceLoader模块。
         jcenter()
     }
     dependencies {
-        annotationProcessor 'com.sankuai.waimai.router:compiler:1.0.x'
+        annotationProcessor 'com.sankuai.waimai.router:compiler:1.x'
     }
     ```
 
@@ -204,7 +204,7 @@ WMRouter还提供了ServiceLoader模块。
         dependencies {
             classpath 'com.android.tools.build:gradle:2.3.3'
             // 添加WMRouter插件
-            classpath "com.sankuai.waimai.router:plugin:1.0.x"
+            classpath "com.sankuai.waimai.router:plugin:1.x"
         }
     }
     ```
