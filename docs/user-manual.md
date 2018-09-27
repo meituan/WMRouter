@@ -12,7 +12,7 @@
 - [ServiceLoader模块的使用](#serviceloader模块的使用)
 - [高级配置](#高级配置)
 - [注意事项](#注意事项)
-- [跳转失败的问题排查](#跳转失败的问题排查)
+- [常见问题排查](#常见问题排查)
 
 <!-- /TOC -->
 
@@ -215,6 +215,25 @@ WMRouter还提供了ServiceLoader模块。
     apply plugin: 'com.android.application'
     // 应用WMRouter插件
     apply plugin: 'WMRouter'
+    ```
+
+4. Proguard配置。
+
+    WMRouter已经内置的Proguard配置如下（详见源码`router/proguard-rules.pro`），使用AAR依赖时一般不需要重复配置。
+
+    ```bash
+    # 保留ServiceLoaderInit类，需要反射调用
+    -keep class com.sankuai.waimai.router.generated.ServiceLoaderInit { *; }
+
+    # 避免注解在shrink阶段就被移除，导致obfuscate阶段注解失效、实现类仍然被混淆
+    -keep @interface com.sankuai.waimai.router.annotation.RouterService
+    ```
+
+    如果使用了`@RouterService`注解和ServiceLoader加载实例的功能，会反射调用构造方法，应根据实际情况配置Proguard，避免实现类中的构造方法被移除，示例如下。
+
+    ```bash
+    # 使用了RouterService注解的实现类，需要避免Proguard把构造方法、方法等成员移除(shrink)或混淆(obfuscate)，导致无法反射调用。实现类的类名可以混淆。
+    -keepclassmembers @com.sankuai.waimai.router.annotation.RouterService class * { *; }
     ```
 
 
@@ -779,28 +798,73 @@ Router.startUri(request);
 `wm_router`为保留scheme，用于实现RouterPage等的路由，自定义的URI请勿使用`wm_router://*`的形式。
 
 
-## 跳转失败的问题排查
+## 常见问题排查
 
-由于配置不正确、编译环境等原因，有时WMRouter会出现无法跳转页面的问题。这里给出常见排查思路：
+由于配置不正确、编译环境、兼容性等原因，有时WMRouter会出现无法跳转页面、ServiceLoader加载出错等问题，这里给出常见排查思路。
 
-1. 检查注解生成器（annotationProcessor）是否配置。每个使用了注解的模块都需要配置注解生成器，包括Application和Library工程。
 
-2. 检查主工程Gradle插件是否配置。
+### 1、检查注解生成器是否配置
 
-3. 尝试clean之后重新编译。
+每个使用了注解的模块都需要配置注解生成器（annotationProcessor），包括Application和Library工程。
 
-4. 检查注解生成器是否工作。在本地编译后，各个使用了注解且配置了注解生成器的模块，都会生成Java初始化类到`build/generated/source/apt`目录，并生成Java资源文件到`build/intermediates/classes`目录，资源文件中的内容指向Java初始化类。如果依赖的是已经发布的AAR，则可以在Android Studio的External Libraries中查看AAR里是否包含这些文件。
 
-   ![](images/debug-1.png)
+### 2、检查主工程Gradle插件是否配置
 
-   ![](images/debug-2.png)
 
-5. 检查Gradle插件是否正常工作，assets是否正确生成。Gradle插件会将注解生成器生成的资源文件合并到`build/intermediates/assets/{buildVariant}/wm-router/services`目录，其内容指向所有初始化类。
+### 3、检查版本号
 
-   ![](images/debug-3.png)
+检查各个工程的annotationProcessor、Gradle插件、依赖的router模块版本是否一致。由于插件方案变动，各个模块版本应保持一致，配置了注解生成器的AAR建议重新打包，避免兼容问题。
 
-6. 如果还没有解决问题，可能是工程中的配置或用法不正确。通过`Debugger.setLogger(logger)`配置好Logger，在LogCat中过滤`WMRouter`标签，可以查看WMRouter在跳转过程中经过的UriHandler和UriInterceptor，如图。
 
-   ![](images/debug-4.png)
+### 4、尝试clean之后重新编译
 
-7. 还可以打断点调试分析具体原因，例如最常用的注解RouterUri配置的节点，应该由`UriAnnotationHandler`根据scheme+host分发给 `PathHandler`，再由`PathHandler`根据path分发处理，断点可以打在`shouldHandle`、`handleInternal`等方法中。
+
+### 5、检查注解生成器是否正常工作
+
+#### 1.0.x版本
+
+- 对于源码依赖的Library模块，检查`build/generated/source/apt`目录是否生成了Java初始化类，`build/intermediates/classes`目录是否生成Java资源文件，且内容指向Java初始化类，如图所示。
+- 对于依赖的AAR模块，可以在Android Studio的External Libraries中查看AAR里是否包含这些文件。
+
+![](images/debug-1.png)
+
+![](images/debug-2.png)
+
+#### 1.1.x及以上版本
+
+- 对于源码依赖的Library模块，检查`build/generated/source/apt`目录中是否生成了Java初始化类，如图所示。
+- 对于依赖的AAR模块，可以在Android Studio的External Libraries中查看AAR里是否包含Java初始化类。
+
+![](images/debug-check-init-class.png)
+
+
+### 6、检查Gradle插件是否正常工作
+
+#### 1.0.x版本
+
+assets是否正确生成。Gradle插件会将注解生成器生成的资源文件合并到`build/intermediates/assets/{buildVariant}/wm-router/services`目录，其内容指向所有初始化类。
+
+![](images/debug-3.png)
+
+#### 1.1.x及以上版本
+
+查看Gradle编译输出的Log，是否正确找到了注解生成器生成的初始化类；反编译APK查看`com.sankuai.waimai.router.generated.ServiceLoaderInit`类中的内容是否正常。
+
+![](images/debug-check-plugin-find-service.png)
+
+
+### 7、查看运行时Log
+
+如果还没有解决问题，可能是工程中的配置或用法不正确。通过`Debugger.setLogger(logger)`配置好Logger，在LogCat中过滤`WMRouter`标签查看Log。例如WMRouter在跳转过程中经过的UriHandler和UriInterceptor，如图。
+
+![](images/debug-4.png)
+
+
+### 8、断点调试
+
+还可以打断点调试分析具体原因，例如最常用的注解RouterUri配置的节点，应该由`UriAnnotationHandler`根据scheme+host分发给 `PathHandler`，再由`PathHandler`根据path分发处理，断点可以打在`shouldHandle`、`handleInternal`等方法中。
+
+
+### 9、提交Issue
+
+如果还是没能解决问题，需要帮助或发现BUG，请在Github[提交Issue](https://github.com/meituan/WMRouter/issues)。
