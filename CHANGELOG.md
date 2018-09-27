@@ -5,6 +5,8 @@
 
 ## 1.1.0
 
+### 改动
+
 - Gradle插件方案升级，降低插件复杂度，提高兼容和可靠性，解决高版本Android Gradle Plugin的兼容问题。
     > 备注：原先的方案是annotationProcessor生成Java代码+Java资源文件，Gradle插件在Debug模式下合并资源文件到Assets，Release模式使用Transform生成初始化类。
     > 新方案为注解直接生成Java初始化代码，Gradle插件使用Transform合并初始化代码。
@@ -13,6 +15,10 @@
 - 去掉原先的自动配置Proguard功能，用户可根据需要自行配置，进一步提升Proguard优化空间。
 - 插件的代码细节优化完善，增加若干注释。
 
+### 升级需知
+
+- 由于实现方案变动，从低版本升级到1.1.0版本，需要同步升级router模块依赖、注解生成器、Gradle插件，且所有配置了注解生成器的模块要重新发布AAR，否则会出现问题。
+- 需要配置Proguard，详见最新使用文档。
 
 ## 1.0.42
 
