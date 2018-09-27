@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.sankuai.waimai.router.annotation.RouterProvider;
+import com.sankuai.waimai.router.common.PageAnnotationHandler;
 import com.sankuai.waimai.router.core.RootUriHandler;
 import com.sankuai.waimai.router.core.Debugger;
 import com.sankuai.waimai.router.core.UriRequest;
@@ -84,6 +85,15 @@ public class Router {
 
     public static void startUri(Context context, String uri) {
         getRootHandler().startUri(new UriRequest(context, uri));
+    }
+
+    /**
+     * 启动@RouterPage注解的Activity，自动拼装PageAnnotationHandler.SCHEME_HOST和path
+     * @param context
+     * @param path
+     */
+    public static void startPageUri(Context context, String path) {
+        startUri(context, PageAnnotationHandler.SCHEME_HOST + path);
     }
 
     /**
