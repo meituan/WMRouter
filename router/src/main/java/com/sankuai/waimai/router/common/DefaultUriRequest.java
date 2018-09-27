@@ -58,6 +58,11 @@ public class DefaultUriRequest extends UriRequest {
         return (DefaultUriRequest) super.setResultCode(resultCode);
     }
 
+    @Override
+    public DefaultUriRequest skipInterceptors() {
+        return (DefaultUriRequest) super.skipInterceptors();
+    }
+
     /**
      * 往URI中添加共通参数。注意只对配置了 {@link UriParamInterceptor} 的 {@link UriHandler} 有效。
      *
