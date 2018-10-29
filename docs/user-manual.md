@@ -183,6 +183,8 @@ WMRouter还提供了ServiceLoader模块。
 
 2. 在使用了注解的每个模块中配置注解生成器，包括Application和Library工程。
 
+    > 备注：对于Kotlin模块，应该把annotationProcessor改为kapt。
+
     ```groovy
     repositories {
         jcenter()
