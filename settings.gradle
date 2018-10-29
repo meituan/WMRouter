@@ -1,1 +1,1 @@
-include ':interfaces', ':router', ':compiler', ':plugin', ':demoapp', ':demolib1', ':demolib2'
+include ':interfaces', ':router', ':compiler', ':plugin', ':demoapp', ':demolib1', ':demolib2', ':demokotlin'

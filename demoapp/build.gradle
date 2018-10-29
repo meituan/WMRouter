@@ -44,5 +44,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(path: ':demolib1')
+    compile project(path: ':demokotlin')
     annotationProcessor project(path: ':compiler')
 }

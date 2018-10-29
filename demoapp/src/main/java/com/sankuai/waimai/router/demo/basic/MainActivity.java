@@ -30,6 +30,9 @@ public class MainActivity extends BaseActivity {
             DemoConstant.JUMP_ACTIVITY_1,
             DemoConstant.JUMP_ACTIVITY_2,
 
+            // Kotlin
+            DemoConstant.KOTLIN,
+
             // request跳转测试
             DemoConstant.JUMP_WITH_REQUEST,
 

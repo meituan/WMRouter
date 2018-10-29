@@ -183,7 +183,7 @@ WMRouter还提供了ServiceLoader模块。
 
 2. 在使用了注解的每个模块中配置注解生成器，包括Application和Library工程。
 
-    > 备注：对于Kotlin模块，应该把annotationProcessor改为kapt。
+    Java模块的配置：
 
     ```groovy
     repositories {
@@ -191,6 +191,23 @@ WMRouter还提供了ServiceLoader模块。
     }
     dependencies {
         annotationProcessor 'com.sankuai.waimai.router:compiler:1.x'
+    }
+    ```
+
+    Kotlin模块的配置：
+
+    ```groovy
+    apply plugin: 'com.android.library'
+    apply plugin: 'kotlin-android'
+    apply plugin: 'kotlin-android-extensions'
+    // 添加kapt插件
+    apply plugin: 'kotlin-kapt'
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        kapt 'com.sankuai.waimai.router:compiler:1.x'
     }
     ```
 
@@ -709,7 +726,7 @@ void initRouter(Context context) {
 
 使用注解进行配置，注解往往分散在一个工程的不同代码文件甚至不同的工程中。如果没有很好的文档或代码约束，很容易出现多个页面配置了相同的URI或Service导致冲突的问题。
 
-因此WMRouter在注解生成阶段、APK打包阶段，使用AnnotationProcessor和Gradle插件进行检查，检查到配置冲突或错误会抛异常，中断编译。
+因此WMRouter在注解生成阶段、APK打包阶段，使用注解生成器和Gradle插件进行检查，检查到配置冲突或错误会抛异常，中断编译。
 
 WMRouter中的Debugger用于调试和Log输出，运行时也会对一些配置进行检查，如果出现配置用法错误或其他严重问题会调用`Debugger.fatal()`抛出。
 
@@ -807,7 +824,7 @@ Router.startUri(request);
 
 ### 1、检查注解生成器是否配置
 
-每个使用了注解的模块都需要配置注解生成器（annotationProcessor），包括Application和Library工程。
+每个使用了注解的模块都需要配置注解生成器（annotationProcessor或kapt），包括Application和Library工程。
 
 
 ### 2、检查主工程Gradle插件是否配置
@@ -815,7 +832,7 @@ Router.startUri(request);
 
 ### 3、检查版本号
 
-检查各个工程的annotationProcessor、Gradle插件、依赖的router模块版本是否一致。由于插件方案变动，各个模块版本应保持一致，配置了注解生成器的AAR建议重新打包，避免兼容问题。
+检查各个工程的注解生成器、Gradle插件、依赖的router模块版本是否一致。由于插件方案变动，各个模块版本应保持一致，配置了注解生成器的AAR建议重新打包，避免兼容问题。
 
 
 ### 4、尝试clean之后重新编译
