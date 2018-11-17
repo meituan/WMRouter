@@ -53,7 +53,10 @@ public class MainActivity extends BaseActivity {
             DemoConstant.TEST_NOT_FOUND,
 
             // 高级Demo页面
-            DemoConstant.ADVANCED_DEMO
+            DemoConstant.ADVANCED_DEMO,
+
+            // Fragment test
+            DemoConstant.JUMP_FRAGMENT_ACTIVITY
     };
 
     @Override

@@ -9,6 +9,7 @@ public class DemoConstant {
     // 页面
     public static final String JUMP_ACTIVITY_1 = "/jump_activity_1";
     public static final String JUMP_ACTIVITY_2 = "/jump_activity_2";
+    public static final String JUMP_FRAGMENT_ACTIVITY = "/jump_fragment_activity";
     public static final String KOTLIN = "/kotlin";
     public static final String JUMP_WITH_REQUEST = "/jump_with_request";
 

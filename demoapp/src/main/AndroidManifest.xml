@@ -46,6 +46,7 @@
         <activity android:name=".advanced.webview.WebViewActivity" />
         <activity android:name=".advanced.abtest.HomeActivityA" />
         <activity android:name=".advanced.abtest.HomeActivityB" />
+        <activity android:name=".fragment.FragmentDemoActivity" />
 
     </application>
 
