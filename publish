@@ -13,4 +13,4 @@
 # 5. 验证新版本，把build.gradle改回来
 # 6. git打tag，更新文档(README、CHANGELOG)，github编辑Release信息
 
-./gradlew :interfaces:assemble :router:assemble :compiler:assemble :plugin:assemble :interfaces:bintrayUpload :router:bintrayUpload :compiler:bintrayUpload :plugin:bintrayUpload
+./gradlew clean :interfaces:assemble :router:assemble :compiler:assemble :plugin:assemble :interfaces:bintrayUpload :router:bintrayUpload :compiler:bintrayUpload :plugin:bintrayUpload --stacktrace
