@@ -3,6 +3,12 @@
 ## [Unreleased]
 
 
+## 1.1.2
+
+- 升级Android Gradle Plugin版本为3.2.1
+- 添加FragmentUriRequest，用于从fragment跳转的场景
+
+
 ## 1.1.0
 
 ### 改动
