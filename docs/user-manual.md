@@ -221,12 +221,20 @@ WMRouter还提供了ServiceLoader模块。
             jcenter()
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:2.3.3'
+            // Android Gradle插件
+            classpath 'com.android.tools.build:gradle:3.2.1'
             // 添加WMRouter插件
             classpath "com.sankuai.waimai.router:plugin:1.x"
         }
     }
     ```
+
+    > 注意：如果项目配置的Android Gradle插件版本比WMRouter依赖的版本低，默认会覆盖为高版本（可通过`./gradlew buildEnvironment`命令查看classpath的依赖关系）。如果不希望被覆盖，可以尝试把配置改成：
+    > ```groovy
+    > classpath("com.sankuai.waimai.router:plugin:1.x") {
+    >     exclude group: 'com.android.tools.build'
+    > }
+    > ```
 
     Application模块中的`build.gradle`：
 
