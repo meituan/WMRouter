@@ -94,6 +94,7 @@ public class PathHandler extends UriHandler {
         if (TextUtils.isEmpty(path)) {
             return null;
         }
+        path = RouterUtils.appendSlash(path);
         if (TextUtils.isEmpty(mPathPrefix)) {
             return mMap.get(path);
         }
