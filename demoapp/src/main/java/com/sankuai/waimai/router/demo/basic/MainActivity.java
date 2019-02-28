@@ -52,11 +52,11 @@ public class MainActivity extends BaseActivity {
             // 降级策略
             DemoConstant.TEST_NOT_FOUND,
 
+            // Fragment test
+            DemoConstant.JUMP_FRAGMENT_ACTIVITY,
+
             // 高级Demo页面
             DemoConstant.ADVANCED_DEMO,
-
-            // Fragment test
-            DemoConstant.JUMP_FRAGMENT_ACTIVITY
     };
 
     @Override

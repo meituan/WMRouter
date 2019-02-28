@@ -44,6 +44,7 @@ public class DemoConstant {
     // Service
     public static final String TEST_FRAGMENT = "/fragment/test";
     public static final String SINGLETON = "/singleton";
+    public static final String KOTLIN_SERVICE = "/kotlin/service";
 
     // method
     public static final String ADD_METHOD = "/method/add";

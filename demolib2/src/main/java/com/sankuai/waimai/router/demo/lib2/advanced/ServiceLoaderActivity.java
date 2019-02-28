@@ -92,11 +92,17 @@ public class ServiceLoaderActivity extends BaseActivity {
         s.append('\n');
 
         // 方法调用
+        s.append("MethodCall:\n");
         Integer result = Router.callMethod(DemoConstant.ADD_METHOD, 1, 2);
         s.append("1 + 2 = ").append(result).append('\n');
         Integer versionCode = Router.callMethod(DemoConstant.GET_VERSION_CODE);
         s.append("version = ").append(versionCode).append('\n');
         s.append('\n');
+
+        // Kotlin
+        Object service = Router.getService(Object.class, DemoConstant.KOTLIN_SERVICE);
+        s.append("GetKotlinService:\n");
+        s.append(service.toString()).append('\n').append('\n');
 
         mTextView.setText(s.toString());
     }
