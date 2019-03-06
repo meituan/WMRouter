@@ -49,4 +49,8 @@ public class DemoConstant {
     // method
     public static final String ADD_METHOD = "/method/add";
     public static final String GET_VERSION_CODE = "/method/get_version_code";
+
+    public static final String TEST_DEMO_FRAGMENT = "/fragment/demo_fragment";
+    public static final String TEST_DEMO_FRAGMENT_2 = "/fragment/demo_fragment2";
+
 }

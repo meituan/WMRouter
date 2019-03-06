@@ -2,6 +2,7 @@ package com.sankuai.waimai.router.demo.fragment;
 
 import android.os.Bundle;
 
+import com.sankuai.waimai.router.fragment.v4.FragmentUriTransactionRequest;
 import com.sankuai.waimai.router.demo.R;
 import com.sankuai.waimai.router.demo.lib2.BaseActivity;
 import com.sankuai.waimai.router.demo.lib2.DemoConstant;
@@ -21,7 +22,13 @@ public class FragmentDemoActivity extends BaseActivity {
     }
 
     private void launchFragment() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
-                DemoFragment.newInstance()).commit();
+//        Fragment fragment = DemoFragment.newInstance();
+//
+//        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
+//                fragment).commit();
+
+        new FragmentUriTransactionRequest(this,DemoConstant.TEST_DEMO_FRAGMENT)
+                .add(R.id.fragment_container)
+                .start();
     }
 }
