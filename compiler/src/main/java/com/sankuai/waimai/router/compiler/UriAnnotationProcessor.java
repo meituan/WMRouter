@@ -37,9 +37,8 @@ public class UriAnnotationProcessor extends BaseProcessor {
             }
             boolean isActivity = isActivity(element);
             boolean isHandler = isHandler(element);
-            boolean isFragment = isFragment(element);
-            boolean isFragmentV4 = isFragmentV4(element);
-            if (!isActivity && !isHandler && !isFragment && !isFragmentV4) {
+
+            if (!isActivity && !isHandler) {
                 continue;
             }
 
@@ -52,12 +51,7 @@ public class UriAnnotationProcessor extends BaseProcessor {
             if (hash == null) {
                 hash = hash(cls.className());
             }
-            CodeBlock handler;
-            if (isFragment || isFragmentV4) {
-                handler = buildFragmentHandler(cls);
-            } else {
-                handler = buildHandler(isActivity, cls);
-            }
+            CodeBlock handler = buildHandler(isActivity, cls);
             CodeBlock interceptors = buildInterceptors(getInterceptors(uri));
 
             // scheme, host, path, handler, exported, interceptors
@@ -77,14 +71,6 @@ public class UriAnnotationProcessor extends BaseProcessor {
         return true;
     }
 
-    /**
-     * 创建Handler。格式：<code>"com.demo.TestActivity"</code> 或 <code>new TestHandler()</code>
-     */
-    public CodeBlock buildFragmentHandler( Symbol.ClassSymbol cls) {
-        CodeBlock.Builder b = CodeBlock.builder();
-        b.add("new $T($S)", className(Const.FRAGMENT_HANDLER_CLASS), cls.className());
-        return b.build();
-    }
 
     private static List<? extends TypeMirror> getInterceptors(RouterUri scheme) {
         try {

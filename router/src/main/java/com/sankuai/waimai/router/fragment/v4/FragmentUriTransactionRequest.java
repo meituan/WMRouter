@@ -10,6 +10,7 @@ package com.sankuai.waimai.router.fragment.v4;
  */
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -34,7 +35,7 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
 
     /**
      * @param activity 父activity
-     * @param uri 地址
+     * @param uri      地址
      */
     public FragmentUriTransactionRequest(@NonNull FragmentActivity activity, String uri) {
         super(activity, uri);
@@ -43,16 +44,26 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
 
     /**
      * @param fragment 父fragment
-     * @param uri 地址
+     * @param uri      地址
      */
     public FragmentUriTransactionRequest(@NonNull Fragment fragment, String uri) {
         super(fragment.getContext(), uri);
         mFragmentManager = fragment.getChildFragmentManager();
     }
 
+    /**
+     * @param context context
+     * @param fragmentManager fragmentManager
+     * @param uri uri
+     */
+    public FragmentUriTransactionRequest(@NonNull Context context, FragmentManager fragmentManager, String uri) {
+        super(context, uri);
+        mFragmentManager = fragmentManager;
+    }
+
     @Override
-    protected StartFragmentAction getStartFragmentAction(int containerViewId, int type, boolean allowingStateLoss) {
-        return new BuildStartFragmentAction(mFragmentManager,containerViewId, type, allowingStateLoss);
+    protected StartFragmentAction getStartFragmentAction() {
+        return new BuildStartFragmentAction(mFragmentManager, mContainerViewId, mType, mAllowingStateLoss, mTag);
     }
 
     static class BuildStartFragmentAction implements StartFragmentAction {
@@ -61,44 +72,56 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
         private final int mContainerViewId;
         private final int mStartType;
         private final boolean mAllowingStateLoss;
+        private final String mTag;
 
         BuildStartFragmentAction(@NonNull FragmentManager fragmentManager,
-                                 @IdRes int containerViewId, int startType, boolean allowingStateLoss) {
+                                 @IdRes int containerViewId, int startType, boolean allowingStateLoss, String tag) {
             mFragmentManager = fragmentManager;
             mContainerViewId = containerViewId;
             mStartType = startType;
             mAllowingStateLoss = allowingStateLoss;
+            mTag = tag;
         }
 
         @Override
         public boolean startFragment(@NonNull UriRequest request, @NonNull Bundle bundle) throws ActivityNotFoundException, SecurityException {
-            if(mContainerViewId == 0) {
-                Debugger.fatal("FragmentTransactionHandler.handleInternal()应返回的带有ClassName");
-                return false;
-            }
             String fragmentClassName = request.getStringField(FragmentTransactionHandler.FRAGMENT_CLASS_NAME);
-            if(TextUtils.isEmpty(fragmentClassName)) {
+            if (TextUtils.isEmpty(fragmentClassName)) {
                 Debugger.fatal("FragmentTransactionHandler.handleInternal()应返回的带有ClassName");
                 return false;
             }
             try {
-                Fragment fragment = Fragment.instantiate(request.getContext(),fragmentClassName, bundle);
-                FragmentTransaction transaction = mFragmentManager.beginTransaction();
-                switch (mStartType) {
-                    case TYPE_ADD:
-                        transaction.add(mContainerViewId, fragment);
-                        break;
-                    case TYPE_REPLACE:
-                        transaction.replace(mContainerViewId, fragment);
-                        break;
+                Fragment fragment = Fragment.instantiate(request.getContext(), fragmentClassName, bundle);
+                if(fragment == null){
+                    return false;
                 }
-                if(mAllowingStateLoss){
-                    transaction.commitAllowingStateLoss();
+                if(mStartType == TYPE_CUSTOM){
+                    //自定义处理不做transaction，直接放在request里面回调
+                    request.putField(CUSTOM_FRAGMENT_NAME,fragment);
+                    return true;
                 }else {
-                    transaction.commit();
+                    if (mContainerViewId == 0) {
+                        Debugger.fatal("FragmentTransactionHandler.handleInternal()mContainerViewId");
+                        return false;
+                    }
+
+                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                    switch (mStartType) {
+                        case TYPE_ADD:
+                            transaction.add(mContainerViewId, fragment, mTag);
+                            break;
+                        case TYPE_REPLACE:
+                            transaction.replace(mContainerViewId, fragment, mTag);
+                            break;
+                    }
+                    if (mAllowingStateLoss) {
+                        transaction.commitAllowingStateLoss();
+                    } else {
+                        transaction.commit();
+                    }
                 }
                 return true;
-            }catch (Exception e){
+            } catch (Exception e) {
                 Debugger.e(e);
                 return false;
             }

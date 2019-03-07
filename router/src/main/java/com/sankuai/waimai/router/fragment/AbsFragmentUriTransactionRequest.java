@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 
+import com.sankuai.waimai.router.common.PageAnnotationHandler;
 import com.sankuai.waimai.router.components.ActivityLauncher;
 import com.sankuai.waimai.router.core.UriRequest;
 
@@ -25,16 +26,19 @@ import java.io.Serializable;
  * Fragment路由基类 支持了extra参数
  */
 public abstract class AbsFragmentUriTransactionRequest extends UriRequest {
+    public final static String CUSTOM_FRAGMENT_NAME = "CUSTOM_FRAGMENT_NAME";
 
-    protected final static int TYPE_ADD = 0;
-    protected final static int TYPE_REPLACE = 1;
+    protected final static int TYPE_ADD = 1;
+    protected final static int TYPE_REPLACE = 2;
+    protected final static int TYPE_CUSTOM = 3;
 
-    private int mType = TYPE_ADD;
-    private int mContainerViewId;
-    private boolean mAllowingStateLoss;
+    protected int mType = TYPE_ADD;
+    protected int mContainerViewId;
+    protected boolean mAllowingStateLoss;
+    protected String mTag;
 
     public AbsFragmentUriTransactionRequest(@NonNull Context context, String uri) {
-        super(context, uri);
+        super(context, PageAnnotationHandler.SCHEME_HOST + uri);
     }
 
     /**
@@ -62,23 +66,43 @@ public abstract class AbsFragmentUriTransactionRequest extends UriRequest {
     }
 
     /**
+     * 自定义处理fragment 通过CUSTOM_FRAGMENT_NAME 在完成的时候自行获取处理Fragment
+     * @return this
+     */
+    public AbsFragmentUriTransactionRequest custom() {
+        mContainerViewId = 0;
+        mType = TYPE_CUSTOM;
+        return this;
+    }
+
+    /**
+     * 指定tag
+     *
+     * @param tag 指定tag
+     * @return this
+     */
+    public AbsFragmentUriTransactionRequest tag(String tag) {
+        mTag = tag;
+        return this;
+    }
+
+    /**
      * 允许状态丢失的提交
      *
      * @return this
      */
     public AbsFragmentUriTransactionRequest allowingStateLoss() {
         mAllowingStateLoss = true;
-        putField(StartFragmentAction.START_FRAGMENT_ACTION, getStartFragmentAction(mContainerViewId, mType, mAllowingStateLoss));
         return this;
     }
 
     @Override
     public void start() {
-        putField(StartFragmentAction.START_FRAGMENT_ACTION, getStartFragmentAction(mContainerViewId, mType, mAllowingStateLoss));
+        putField(StartFragmentAction.START_FRAGMENT_ACTION, getStartFragmentAction());
         super.start();
     }
 
-    protected abstract StartFragmentAction getStartFragmentAction(int containerViewId, int type, boolean allowingStateLoss);
+    protected abstract StartFragmentAction getStartFragmentAction();
 
     /**
      * 附加到Intent的Extra

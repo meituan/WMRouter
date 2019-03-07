@@ -18,12 +18,12 @@ import com.sankuai.waimai.router.core.UriRequest;
 public interface StartFragmentAction {
     String START_FRAGMENT_ACTION = "StartFragmentAction";
 
-
     /**
-     *  <p>启动Fragment操作。</p>
-     * @param intent 跳转要用的intent
+     * <p>启动Fragment操作。</p>
+     *
+     * @param bundle 跳转要用的bundle
      * @return 是否执行了startFragment操作
      */
-    boolean startFragment(@NonNull UriRequest request, @NonNull Bundle intent)
+    boolean startFragment(@NonNull UriRequest request, @NonNull Bundle bundle)
             throws ActivityNotFoundException, SecurityException;
 }

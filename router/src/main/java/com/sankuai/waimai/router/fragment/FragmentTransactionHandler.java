@@ -9,7 +9,7 @@ package com.sankuai.waimai.router.fragment;
  * @date 2019/3/5
  */
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -31,7 +31,7 @@ public final class FragmentTransactionHandler extends UriHandler {
     @NonNull
     private final String mClassName;
 
-    public FragmentTransactionHandler(@NonNull String className){
+    public FragmentTransactionHandler(@NonNull String className) {
         mClassName = className;
     }
 
@@ -42,7 +42,7 @@ public final class FragmentTransactionHandler extends UriHandler {
 
     @Override
     protected void handleInternal(@NonNull UriRequest request, @NonNull UriCallback callback) {
-        if(TextUtils.isEmpty(mClassName)){
+        if (TextUtils.isEmpty(mClassName)) {
             Debugger.fatal("FragmentTransactionHandler.handleInternal()应返回的带有ClassName");
             callback.onComplete(UriResult.CODE_BAD_REQUEST);
             return;
@@ -55,7 +55,7 @@ public final class FragmentTransactionHandler extends UriHandler {
             return;
         }
 
-        if(!request.hasField(FRAGMENT_CLASS_NAME)) {
+        if (!request.hasField(FRAGMENT_CLASS_NAME)) {
             //判断一下，便于被替换
             request.putField(FRAGMENT_CLASS_NAME, mClassName);
         }

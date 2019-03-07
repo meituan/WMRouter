@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sankuai.waimai.router.annotation.RouterUri;
+import com.sankuai.waimai.router.annotation.RouterPage;
 import com.sankuai.waimai.router.common.FragmentUriRequest;
 import com.sankuai.waimai.router.core.OnCompleteListener;
 import com.sankuai.waimai.router.core.UriRequest;
@@ -22,7 +22,7 @@ import com.sankuai.waimai.router.demo.lib2.ToastUtils;
 /**
  * Created by hailiangliao on 2017/12/25.
  */
-@RouterUri(path = DemoConstant.TEST_DEMO_FRAGMENT_2, interceptors = DemoFragmentInterceptor.class)
+@RouterPage(path = DemoConstant.TEST_DEMO_FRAGMENT_2, interceptors = DemoFragmentInterceptor.class)
 public class Demo2Fragment extends Fragment {
 
     public static Demo2Fragment newInstance() {
@@ -67,6 +67,9 @@ public class Demo2Fragment extends Fragment {
                         .start();
             }
         });
+
+
+
         return v;
     }
 }

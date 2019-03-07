@@ -22,7 +22,7 @@ public class FragmentToFragmentDemoActivity extends BaseActivity {
     }
 
     private void launchFragment() {
-        new FragmentUriTransactionRequest(this,DemoConstant.TEST_DEMO_FRAGMENT_1)
+        new FragmentUriTransactionRequest(this, DemoConstant.TEST_DEMO_FRAGMENT_1)
                 .add(R.id.fragment_container)
                 .allowingStateLoss()
                 .start();
