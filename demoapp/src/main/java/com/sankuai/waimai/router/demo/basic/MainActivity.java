@@ -55,6 +55,9 @@ public class MainActivity extends BaseActivity {
             // Fragment test
             DemoConstant.JUMP_FRAGMENT_ACTIVITY,
 
+            // Fragment to Fragment test
+            DemoConstant.TEST_FRAGMENT_TO_FRAGMENT_ACTIVITY,
+
             // 高级Demo页面
             DemoConstant.ADVANCED_DEMO,
     };

@@ -47,7 +47,7 @@
         <activity android:name=".advanced.abtest.HomeActivityA" />
         <activity android:name=".advanced.abtest.HomeActivityB" />
         <activity android:name=".fragment.FragmentDemoActivity" />
-
+        <activity android:name=".fragment2fragment.FragmentToFragmentDemoActivity"/>
     </application>
 
 </manifest>

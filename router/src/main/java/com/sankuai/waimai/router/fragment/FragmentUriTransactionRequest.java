@@ -46,8 +46,8 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
     }
 
     @Override
-    protected StartFragmentAction getStartFragmentAction(int containerViewId, int type) {
-        return new BuildStartFragmentAction(mFragmentManager, containerViewId, type);
+    protected StartFragmentAction getStartFragmentAction(int containerViewId, int type, boolean allowingStateLoss) {
+        return new BuildStartFragmentAction(mFragmentManager, containerViewId, type, allowingStateLoss);
     }
 
     static class BuildStartFragmentAction implements StartFragmentAction {
@@ -55,11 +55,15 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
         private final FragmentManager mFragmentManager;
         private final int mContainerViewId;
         private final int mStartType;
+        private final boolean mAllowingStateLoss;
 
-        BuildStartFragmentAction(@NonNull FragmentManager fragmentManager, @IdRes int containerViewId, int startType) {
+        BuildStartFragmentAction(@NonNull FragmentManager fragmentManager,
+                                 @IdRes int containerViewId, int startType,
+                                 boolean allowingStateLoss) {
             mFragmentManager = fragmentManager;
             mContainerViewId = containerViewId;
             mStartType = startType;
+            mAllowingStateLoss = allowingStateLoss;
         }
 
         @Override

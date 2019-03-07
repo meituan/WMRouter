@@ -1,4 +1,4 @@
-package com.sankuai.waimai.router.demo.fragment;
+package com.sankuai.waimai.router.demo.fragment2fragment;
 
 
 import android.os.Bundle;
@@ -9,25 +9,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.sankuai.waimai.router.common.FragmentUriRequest;
+import com.sankuai.waimai.router.annotation.RouterUri;
 import com.sankuai.waimai.router.core.OnCompleteListener;
 import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.demo.R;
-import com.sankuai.waimai.router.demo.basic.TestUriRequestActivity;
 import com.sankuai.waimai.router.demo.lib2.DemoConstant;
 import com.sankuai.waimai.router.demo.lib2.ToastUtils;
+import com.sankuai.waimai.router.fragment.v4.FragmentUriTransactionRequest;
 
 /**
  * Created by hailiangliao on 2017/12/25.
+ * Update by chenmeng06 on 2019/3/6
  */
-public class DemoFragment extends Fragment {
+@RouterUri(path = DemoConstant.TEST_DEMO_FRAGMENT_1, interceptors = DemoFragmentInterceptor.class)
+public class Demo1Fragment extends Fragment {
 
-    public static DemoFragment newInstance() {
-        return new DemoFragment();
+    public static Demo1Fragment newInstance() {
+        return new Demo1Fragment();
     }
 
-    public DemoFragment() {
+    public Demo1Fragment() {
     }
 
     @Override
@@ -38,17 +39,14 @@ public class DemoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_demo_2, container, false);
-
-
+        View v = inflater.inflate(R.layout.fragment_demo_1, container, false);
+        //测试Fragment
         v.findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FragmentUriRequest(DemoFragment.this, DemoConstant.JUMP_ACTIVITY_1)
-                        .activityRequestCode(100)
-                        .putExtra(TestUriRequestActivity.INTENT_TEST_INT, 1)
-                        .putExtra(TestUriRequestActivity.INTENT_TEST_STR, "str")
-                        .overridePendingTransition(R.anim.enter_activity, R.anim.exit_activity)
+                new FragmentUriTransactionRequest(Demo1Fragment.this.getActivity(), DemoConstant.TEST_DEMO_FRAGMENT_2)
+                        .add(R.id.fragment_container)
+                        .putExtra("message","HelloWorld") //测试参数
                         .onComplete(new OnCompleteListener() {
                             @Override
                             public void onSuccess(@NonNull UriRequest request) {
@@ -66,4 +64,3 @@ public class DemoFragment extends Fragment {
         return v;
     }
 }
-

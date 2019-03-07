@@ -30,8 +30,8 @@ public abstract class AbsFragmentUriTransactionRequest extends UriRequest {
     protected final static int TYPE_REPLACE = 1;
 
     private int mType = TYPE_ADD;
-    private @IdRes
-    int mContainerViewId;
+    private int mContainerViewId;
+    private boolean mAllowingStateLoss;
 
     public AbsFragmentUriTransactionRequest(@NonNull Context context, String uri) {
         super(context, uri);
@@ -39,6 +39,7 @@ public abstract class AbsFragmentUriTransactionRequest extends UriRequest {
 
     /**
      * 在containerViewId上添加指定的Fragment
+     *
      * @param containerViewId 容器ID
      * @return this
      */
@@ -50,6 +51,7 @@ public abstract class AbsFragmentUriTransactionRequest extends UriRequest {
 
     /**
      * 在containerViewId上替换指定的Fragment
+     *
      * @param containerViewId 容器ID
      * @return this
      */
@@ -59,13 +61,24 @@ public abstract class AbsFragmentUriTransactionRequest extends UriRequest {
         return this;
     }
 
+    /**
+     * 允许状态丢失的提交
+     *
+     * @return this
+     */
+    public AbsFragmentUriTransactionRequest allowingStateLoss() {
+        mAllowingStateLoss = true;
+        putField(StartFragmentAction.START_FRAGMENT_ACTION, getStartFragmentAction(mContainerViewId, mType, mAllowingStateLoss));
+        return this;
+    }
+
     @Override
     public void start() {
-        putField(StartFragmentAction.START_FRAGMENT_ACTION,getStartFragmentAction(mContainerViewId, mType));
+        putField(StartFragmentAction.START_FRAGMENT_ACTION, getStartFragmentAction(mContainerViewId, mType, mAllowingStateLoss));
         super.start();
     }
 
-    protected abstract StartFragmentAction getStartFragmentAction(int containerViewId, int type);
+    protected abstract StartFragmentAction getStartFragmentAction(int containerViewId, int type, boolean allowingStateLoss);
 
     /**
      * 附加到Intent的Extra

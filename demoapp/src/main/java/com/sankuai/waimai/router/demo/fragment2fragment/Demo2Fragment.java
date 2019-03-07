@@ -1,4 +1,4 @@
-package com.sankuai.waimai.router.demo.fragment;
+package com.sankuai.waimai.router.demo.fragment2fragment;
 
 
 import android.os.Bundle;

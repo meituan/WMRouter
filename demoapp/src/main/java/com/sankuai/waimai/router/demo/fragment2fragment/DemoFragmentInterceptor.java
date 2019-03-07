@@ -1,4 +1,4 @@
-package com.sankuai.waimai.router.demo.fragment;
+package com.sankuai.waimai.router.demo.fragment2fragment;
 /*
  * Copyright (C) 2005-2018 Meituan Inc.All Rights Reserved.
  * Description：
