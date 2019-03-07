@@ -82,11 +82,16 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 switch (mStartType) {
                     case TYPE_ADD:
-                        transaction.add(mContainerViewId, fragment).commit();
+                        transaction.add(mContainerViewId, fragment);
                         break;
                     case TYPE_REPLACE:
-                        transaction.replace(mContainerViewId, fragment).commit();
+                        transaction.replace(mContainerViewId, fragment);
                         break;
+                }
+                if(mAllowingStateLoss){
+                    transaction.commitAllowingStateLoss();
+                }else {
+                    transaction.commit();
                 }
                 return true;
             }catch (Exception e){
