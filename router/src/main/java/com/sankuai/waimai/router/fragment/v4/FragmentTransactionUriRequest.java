@@ -22,14 +22,14 @@ import android.text.TextUtils;
 
 import com.sankuai.waimai.router.core.Debugger;
 import com.sankuai.waimai.router.core.UriRequest;
-import com.sankuai.waimai.router.fragment.AbsFragmentUriTransactionRequest;
+import com.sankuai.waimai.router.fragment.AbsFragmentTransactionUriRequest;
 import com.sankuai.waimai.router.fragment.FragmentTransactionHandler;
 import com.sankuai.waimai.router.fragment.StartFragmentAction;
 
 /**
  * v4 Fragment跳转的Handler
  */
-public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequest {
+public class FragmentTransactionUriRequest extends AbsFragmentTransactionUriRequest {
 
     private final FragmentManager mFragmentManager;
 
@@ -37,7 +37,7 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
      * @param activity 父activity
      * @param uri      地址
      */
-    public FragmentUriTransactionRequest(@NonNull FragmentActivity activity, String uri) {
+    public FragmentTransactionUriRequest(@NonNull FragmentActivity activity, String uri) {
         super(activity, uri);
         mFragmentManager = activity.getSupportFragmentManager();
     }
@@ -46,17 +46,17 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
      * @param fragment 父fragment
      * @param uri      地址
      */
-    public FragmentUriTransactionRequest(@NonNull Fragment fragment, String uri) {
+    public FragmentTransactionUriRequest(@NonNull Fragment fragment, String uri) {
         super(fragment.getContext(), uri);
         mFragmentManager = fragment.getChildFragmentManager();
     }
 
     /**
-     * @param context context
+     * @param context         context
      * @param fragmentManager fragmentManager
-     * @param uri uri
+     * @param uri             uri
      */
-    public FragmentUriTransactionRequest(@NonNull Context context, FragmentManager fragmentManager, String uri) {
+    public FragmentTransactionUriRequest(@NonNull Context context, FragmentManager fragmentManager, String uri) {
         super(context, uri);
         mFragmentManager = fragmentManager;
     }
@@ -90,39 +90,35 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
                 Debugger.fatal("FragmentTransactionHandler.handleInternal()应返回的带有ClassName");
                 return false;
             }
+            if (mContainerViewId == 0) {
+                Debugger.fatal("FragmentTransactionHandler.handleInternal()mContainerViewId");
+                return false;
+            }
+
             try {
                 Fragment fragment = Fragment.instantiate(request.getContext(), fragmentClassName, bundle);
-                if(fragment == null){
+                if (fragment == null) {
                     return false;
                 }
-                if(mStartType == TYPE_CUSTOM){
-                    //自定义处理不做transaction，直接放在request里面回调
-                    request.putField(CUSTOM_FRAGMENT_NAME,fragment);
-                    return true;
-                }else {
-                    if (mContainerViewId == 0) {
-                        Debugger.fatal("FragmentTransactionHandler.handleInternal()mContainerViewId");
-                        return false;
-                    }
 
-                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
-                    switch (mStartType) {
-                        case TYPE_ADD:
-                            transaction.add(mContainerViewId, fragment, mTag);
-                            break;
-                        case TYPE_REPLACE:
-                            transaction.replace(mContainerViewId, fragment, mTag);
-                            break;
-                    }
-                    if (mAllowingStateLoss) {
-                        transaction.commitAllowingStateLoss();
-                    } else {
-                        transaction.commit();
-                    }
+
+                FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                switch (mStartType) {
+                    case TYPE_ADD:
+                        transaction.add(mContainerViewId, fragment, mTag);
+                        break;
+                    case TYPE_REPLACE:
+                        transaction.replace(mContainerViewId, fragment, mTag);
+                        break;
+                }
+                if (mAllowingStateLoss) {
+                    transaction.commitAllowingStateLoss();
+                } else {
+                    transaction.commit();
                 }
                 return true;
             } catch (Exception e) {
-                Debugger.e(e);
+                Debugger.e("FragmentTransactionUriRequest",e);
                 return false;
             }
         }

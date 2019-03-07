@@ -24,14 +24,17 @@ import android.text.TextUtils;
 import com.sankuai.waimai.router.core.Debugger;
 import com.sankuai.waimai.router.core.UriRequest;
 
-public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequest {
+/**
+ * Fragment 调整
+ */
+public class FragmentTransactionUriRequest extends AbsFragmentTransactionUriRequest {
     private final FragmentManager mFragmentManager;
 
     /**
      * @param activity 父activity
      * @param uri      地址
      */
-    public FragmentUriTransactionRequest(@NonNull Activity activity, String uri) {
+    public FragmentTransactionUriRequest(@NonNull Activity activity, String uri) {
         super(activity, uri);
         mFragmentManager = activity.getFragmentManager();
     }
@@ -41,7 +44,7 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
      * @param uri      地址
      */
     @RequiresApi(17)
-    public FragmentUriTransactionRequest(@NonNull Fragment fragment, String uri) {
+    public FragmentTransactionUriRequest(@NonNull Fragment fragment, String uri) {
         super(fragment.getActivity(), uri);
         mFragmentManager = fragment.getChildFragmentManager();
     }
@@ -51,7 +54,7 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
      * @param fragmentManager fragmentManager
      * @param uri uri
      */
-    public FragmentUriTransactionRequest(@NonNull Context context,@NonNull FragmentManager fragmentManager, String uri) {
+    public FragmentTransactionUriRequest(@NonNull Context context, @NonNull FragmentManager fragmentManager, String uri) {
         super(context, uri);
         mFragmentManager = fragmentManager;
     }
@@ -87,18 +90,13 @@ public class FragmentUriTransactionRequest extends AbsFragmentUriTransactionRequ
                 Debugger.fatal("FragmentTransactionHandler.handleInternal()应返回的带有ClassName");
                 return false;
             }
+            if (mContainerViewId == 0) {
+                Debugger.fatal("FragmentTransactionHandler.handleInternal()mContainerViewId");
+                return false;
+            }
             try {
                 Fragment fragment = Fragment.instantiate(request.getContext(), fragmentClassName, bundle);
                 if (fragment == null) {
-                    return false;
-                }
-                if (mStartType == TYPE_CUSTOM) {
-                    //自定义处理不做transaction，直接放在request里面回调
-                    request.putField(CUSTOM_FRAGMENT_NAME, fragment);
-                    return true;
-                }
-                if (mContainerViewId == 0) {
-                    Debugger.fatal("FragmentTransactionHandler.handleInternal()mContainerViewId");
                     return false;
                 }
 

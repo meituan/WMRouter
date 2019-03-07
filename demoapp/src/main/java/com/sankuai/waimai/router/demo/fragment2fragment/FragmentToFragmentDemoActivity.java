@@ -6,7 +6,7 @@ import com.sankuai.waimai.router.annotation.RouterUri;
 import com.sankuai.waimai.router.demo.R;
 import com.sankuai.waimai.router.demo.lib2.BaseActivity;
 import com.sankuai.waimai.router.demo.lib2.DemoConstant;
-import com.sankuai.waimai.router.fragment.v4.FragmentUriTransactionRequest;
+import com.sankuai.waimai.router.fragment.v4.FragmentTransactionUriRequest;
 
 /**
  * Created by hailiangliao on 2017/12/13.
@@ -22,7 +22,7 @@ public class FragmentToFragmentDemoActivity extends BaseActivity {
     }
 
     private void launchFragment() {
-        new FragmentUriTransactionRequest(this, DemoConstant.TEST_DEMO_FRAGMENT_1)
+        new FragmentTransactionUriRequest(this, DemoConstant.TEST_DEMO_FRAGMENT_1)
                 .add(R.id.fragment_container)
                 .allowingStateLoss()
                 .start();

@@ -23,7 +23,7 @@ import com.sankuai.waimai.router.core.UriResult;
 import static com.sankuai.waimai.router.components.ActivityLauncher.FIELD_INTENT_EXTRA;
 
 /**
- * Fragment跳转的Handler
+ * Fragment处理的的Handler
  */
 public final class FragmentTransactionHandler extends UriHandler {
     public final static String FRAGMENT_CLASS_NAME = "FRAGMENT_CLASS_NAME";

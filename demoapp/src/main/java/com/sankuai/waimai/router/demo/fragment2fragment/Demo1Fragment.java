@@ -5,21 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sankuai.waimai.router.annotation.RouterPage;
-import com.sankuai.waimai.router.common.FragmentUriRequest;
 import com.sankuai.waimai.router.core.OnCompleteListener;
 import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.demo.R;
-import com.sankuai.waimai.router.demo.basic.TestUriRequestActivity;
-import com.sankuai.waimai.router.demo.fragment.DemoFragment;
 import com.sankuai.waimai.router.demo.lib2.DemoConstant;
 import com.sankuai.waimai.router.demo.lib2.ToastUtils;
-import com.sankuai.waimai.router.fragment.v4.FragmentUriTransactionRequest;
+import com.sankuai.waimai.router.fragment.v4.FragmentBuildUriRequest;
+import com.sankuai.waimai.router.fragment.v4.FragmentTransactionUriRequest;
 
 /**
  * Created by hailiangliao on 2017/12/25.
@@ -48,7 +45,7 @@ public class Demo1Fragment extends Fragment {
         v.findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FragmentUriTransactionRequest(Demo1Fragment.this.getActivity(), DemoConstant.TEST_DEMO_FRAGMENT_2)
+                new FragmentTransactionUriRequest(Demo1Fragment.this.getActivity(), DemoConstant.TEST_DEMO_FRAGMENT_2)
                         .replace(R.id.fragment_container)
                         .putExtra("message","HelloWorld") //测试参数
                         .onComplete(new OnCompleteListener() {
@@ -73,16 +70,15 @@ public class Demo1Fragment extends Fragment {
         v.findViewById(R.id.btn_cus_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FragmentUriTransactionRequest(Demo1Fragment.this.getActivity(), DemoConstant.TEST_DEMO_FRAGMENT_2)
+                new FragmentBuildUriRequest(Demo1Fragment.this.getContext(), DemoConstant.TEST_DEMO_FRAGMENT_2)
                         .putExtra("message","HelloWorld") //测试参数
-                        .custom()
                         .onComplete(new OnCompleteListener() {
                             @Override
                             public void onSuccess(@NonNull UriRequest request) {
-                                Fragment fragment = request.getField(Fragment.class,FragmentUriTransactionRequest.CUSTOM_FRAGMENT_NAME);
+                                Fragment fragment = request.getField(Fragment.class, FragmentBuildUriRequest.FRAGMENT);
                                 Demo1Fragment.this.getActivity().getSupportFragmentManager()
                                         .beginTransaction()
-                                        .replace(R.id.fragment_container,fragment)
+                                        .replace(R.id.fragment_container, fragment)
                                         .commitAllowingStateLoss();
                             }
 
