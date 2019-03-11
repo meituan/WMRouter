@@ -53,7 +53,7 @@ public class WMRouterTransform extends Transform {
 
     @Override
     public Set<QualifiedContent.ContentType> getInputTypes() {
-        return TransformManager.CONTENT_JARS;
+        return TransformManager.CONTENT_CLASS;
     }
 
     @Override
