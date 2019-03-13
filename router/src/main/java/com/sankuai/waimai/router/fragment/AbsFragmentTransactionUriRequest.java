@@ -31,7 +31,7 @@ public abstract class AbsFragmentTransactionUriRequest extends AbsFragmentUriReq
     protected String mTag;
 
     public AbsFragmentTransactionUriRequest(@NonNull Context context, String uri) {
-        super(context, PageAnnotationHandler.SCHEME_HOST + uri);
+        super(context, uri);
     }
 
     /**

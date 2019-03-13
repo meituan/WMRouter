@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sankuai.waimai.router.annotation.RouterPage;
+import com.sankuai.waimai.router.common.PageAnnotationHandler;
 import com.sankuai.waimai.router.core.OnCompleteListener;
 import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.demo.R;
@@ -45,7 +46,7 @@ public class Demo1Fragment extends Fragment {
         v.findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FragmentTransactionUriRequest(Demo1Fragment.this.getActivity(), DemoConstant.TEST_DEMO_FRAGMENT_2)
+                new FragmentTransactionUriRequest(Demo1Fragment.this.getActivity(), PageAnnotationHandler.SCHEME_HOST + DemoConstant.TEST_DEMO_FRAGMENT_2)
                         .replace(R.id.fragment_container)
                         .putExtra("message","HelloWorld") //测试参数
                         .onComplete(new OnCompleteListener() {
@@ -70,7 +71,7 @@ public class Demo1Fragment extends Fragment {
         v.findViewById(R.id.btn_cus_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FragmentBuildUriRequest(Demo1Fragment.this.getContext(), DemoConstant.TEST_DEMO_FRAGMENT_2)
+                new FragmentBuildUriRequest(Demo1Fragment.this.getContext(), PageAnnotationHandler.SCHEME_HOST + DemoConstant.TEST_DEMO_FRAGMENT_2)
                         .putExtra("message","HelloWorld") //测试参数
                         .onComplete(new OnCompleteListener() {
                             @Override
