@@ -91,7 +91,7 @@ public class PageAnnotationProcessor extends BaseProcessor {
 
 
     /**
-     * 创建Handler。格式：<code>"com.demo.TestActivity"</code> 或 <code>new TestHandler()</code>
+     * 创建Handler。格式： <code>new FragmentTransactionHandler("FragmentName")</code>
      */
     public CodeBlock buildFragmentHandler( Symbol.ClassSymbol cls) {
         CodeBlock.Builder b = CodeBlock.builder();
