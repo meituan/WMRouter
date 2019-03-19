@@ -63,6 +63,9 @@ public class PageAnnotationProcessor extends BaseProcessor {
                         interceptors);
             }
         }
+        if (hash == null) {
+            hash = randomHash();
+        }
         buildHandlerInitClass(builder.build(), "PageAnnotationInit" + Const.SPLITTER + hash,
                 Const.PAGE_ANNOTATION_HANDLER_CLASS, Const.PAGE_ANNOTATION_INIT_CLASS);
         return true;

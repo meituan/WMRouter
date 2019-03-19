@@ -66,6 +66,9 @@ public class UriAnnotationProcessor extends BaseProcessor {
                         interceptors);
             }
         }
+        if (hash == null) {
+            hash = randomHash();
+        }
         buildHandlerInitClass(builder.build(), "UriAnnotationInit" + Const.SPLITTER + hash,
                 Const.URI_ANNOTATION_HANDLER_CLASS, Const.URI_ANNOTATION_INIT_CLASS);
         return true;
