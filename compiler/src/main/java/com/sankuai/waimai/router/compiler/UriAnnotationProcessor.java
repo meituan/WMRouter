@@ -37,6 +37,7 @@ public class UriAnnotationProcessor extends BaseProcessor {
             }
             boolean isActivity = isActivity(element);
             boolean isHandler = isHandler(element);
+
             if (!isActivity && !isHandler) {
                 continue;
             }
@@ -50,7 +51,6 @@ public class UriAnnotationProcessor extends BaseProcessor {
             if (hash == null) {
                 hash = hash(cls.className());
             }
-
             CodeBlock handler = buildHandler(isActivity, cls);
             CodeBlock interceptors = buildInterceptors(getInterceptors(uri));
 
@@ -70,6 +70,7 @@ public class UriAnnotationProcessor extends BaseProcessor {
                 Const.URI_ANNOTATION_HANDLER_CLASS, Const.URI_ANNOTATION_INIT_CLASS);
         return true;
     }
+
 
     private static List<? extends TypeMirror> getInterceptors(RouterUri scheme) {
         try {

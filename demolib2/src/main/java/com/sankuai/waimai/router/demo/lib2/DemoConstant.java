@@ -10,6 +10,8 @@ public class DemoConstant {
     public static final String JUMP_ACTIVITY_1 = "/jump_activity_1";
     public static final String JUMP_ACTIVITY_2 = "/jump_activity_2";
     public static final String JUMP_FRAGMENT_ACTIVITY = "/jump_fragment_activity";
+
+
     public static final String KOTLIN = "/kotlin";
     public static final String JUMP_WITH_REQUEST = "/jump_with_request";
 
@@ -49,4 +51,9 @@ public class DemoConstant {
     // method
     public static final String ADD_METHOD = "/method/add";
     public static final String GET_VERSION_CODE = "/method/get_version_code";
+
+    public static final String TEST_FRAGMENT_TO_FRAGMENT_ACTIVITY = "/jump_fragment_to_fragment_activity";
+    public static final String TEST_DEMO_FRAGMENT_1 = "/fragment/demo_fragment_1";
+    public static final String TEST_DEMO_FRAGMENT_2 = "/fragment/demo_fragment_2";
+
 }

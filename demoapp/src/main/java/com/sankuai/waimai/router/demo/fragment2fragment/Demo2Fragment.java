@@ -1,4 +1,4 @@
-package com.sankuai.waimai.router.demo.fragment;
+package com.sankuai.waimai.router.demo.fragment2fragment;
 
 
 import android.os.Bundle;
@@ -8,8 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-
+import com.sankuai.waimai.router.annotation.RouterPage;
 import com.sankuai.waimai.router.common.FragmentUriRequest;
 import com.sankuai.waimai.router.core.OnCompleteListener;
 import com.sankuai.waimai.router.core.UriRequest;
@@ -21,13 +22,14 @@ import com.sankuai.waimai.router.demo.lib2.ToastUtils;
 /**
  * Created by hailiangliao on 2017/12/25.
  */
-public class DemoFragment extends Fragment {
+@RouterPage(path = DemoConstant.TEST_DEMO_FRAGMENT_2, interceptors = DemoFragmentInterceptor.class)
+public class Demo2Fragment extends Fragment {
 
-    public static DemoFragment newInstance() {
-        return new DemoFragment();
+    public static Demo2Fragment newInstance() {
+        return new Demo2Fragment();
     }
 
-    public DemoFragment() {
+    public Demo2Fragment() {
     }
 
     @Override
@@ -39,12 +41,14 @@ public class DemoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_demo_2, container, false);
-
+        String message = getArguments().getString("message","");
+        TextView textView = v.findViewById(R.id.text_message);
+        textView.setText("get msg:" + message);
 
         v.findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FragmentUriRequest(DemoFragment.this, DemoConstant.JUMP_ACTIVITY_1)
+                new FragmentUriRequest(Demo2Fragment.this, DemoConstant.JUMP_ACTIVITY_1)
                         .activityRequestCode(100)
                         .putExtra(TestUriRequestActivity.INTENT_TEST_INT, 1)
                         .putExtra(TestUriRequestActivity.INTENT_TEST_STR, "str")
@@ -63,7 +67,9 @@ public class DemoFragment extends Fragment {
                         .start();
             }
         });
+
+
+
         return v;
     }
 }
-

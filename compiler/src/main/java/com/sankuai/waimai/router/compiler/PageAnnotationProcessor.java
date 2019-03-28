@@ -37,7 +37,9 @@ public class PageAnnotationProcessor extends BaseProcessor {
             }
             boolean isActivity = isActivity(element);
             boolean isHandler = isHandler(element);
-            if (!isActivity && !isHandler) {
+            boolean isFragment = isFragment(element);
+            boolean isFragmentV4 = isFragmentV4(element);
+            if (!isActivity && !isHandler && !isFragment && !isFragmentV4) {
                 continue;
             }
 
@@ -51,7 +53,12 @@ public class PageAnnotationProcessor extends BaseProcessor {
                 hash = hash(cls.className());
             }
 
-            CodeBlock handler = buildHandler(isActivity, cls);
+            CodeBlock handler;
+            if(isFragment || isFragmentV4){
+                handler = buildFragmentHandler(cls);
+            }else {
+                handler = buildHandler(isActivity, cls);
+            }
             CodeBlock interceptors = buildInterceptors(getInterceptors(page));
 
             // path, handler, interceptors
@@ -80,5 +87,15 @@ public class PageAnnotationProcessor extends BaseProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         return new HashSet<>(Collections.singletonList(RouterPage.class.getName()));
+    }
+
+
+    /**
+     * 创建Handler。格式： <code>new FragmentTransactionHandler("FragmentName")</code>
+     */
+    public CodeBlock buildFragmentHandler( Symbol.ClassSymbol cls) {
+        CodeBlock.Builder b = CodeBlock.builder();
+        b.add("new $T($S)", className(Const.FRAGMENT_HANDLER_CLASS), cls.className());
+        return b.build();
     }
 }
