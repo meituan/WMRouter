@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -128,6 +129,10 @@ public abstract class BaseProcessor extends AbstractProcessor {
 
     public boolean isInterceptor(Element element) {
         return isConcreteSubType(element, Const.URI_INTERCEPTOR_CLASS);
+    }
+
+    public static String randomHash() {
+        return hash(UUID.randomUUID().toString());
     }
 
     public static String hash(String str) {
