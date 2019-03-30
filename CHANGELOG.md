@@ -2,11 +2,14 @@
 
 ## [Unreleased]
 
-## 1.1.3
+## 1.2.0
 
-- 修复在开启instant_run的情况下编译出错的问题
 - 添加FragmentTransactionUriRequest和基类，支持Activity to Fragment和Fragment to Fragment 的路由跳转
 - 修改PageAnnotationProcessor，支持@RouterPage注解的Fragment的自动配置FragmentTransactionHandler
+- 修复在开启instant_run的情况下编译出错的问题
+- 修复多模块下dex archive merge失败问题
+- 修复URI分发路径不匹配问题
+
 
 ## 1.1.2
 
