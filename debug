@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 
 # 用于调试注解生成器、Gradle插件的辅助脚本
+#
 # 用法：在Android Studio中新建Remote类型Run Configuration，打断点，执行此脚本，点击Debug按钮启动Debugger即可
+#
+# 备注：如需修改Gradle插件(plugin模块)代码，按照下列步骤进行。
+# 1. 修改Gradle插件代码。
+# 2. 在plugin/gradle.properties中添加一个VERSION_NAME，版本号设置为一个线上不存在的新版本。
+# 3. 执行./gradlew :plugin:install，将更改后的新版本Gradle插件发布到MavenLocal。
+# 4. 将build.gradle中的$VERSION_NAME改为新版本。
+#
+#      build.gradle - buildscript - dependencies {
+#        classpath "com.sankuai.waimai.router:plugin:$VERSION_NAME"
+#      }
+#
+# 5. 编译demoapp模块时，会优先使用MavenLocal中的最新插件代码。
+# 6. 测试完成后，把build.gradle再改回来。
 
 export GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
 ./gradlew clean :demoapp:assembleDebug -Dorg.gradle.daemon=false
