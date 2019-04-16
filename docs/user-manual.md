@@ -618,7 +618,7 @@ List<IService> list = Router.getAllServices(IService.class);
 
 ```java
 // 使用Context参数构造
-IService service = Router.getService(IService.class, context);
+IService service = Router.getService(IService.class, "key1", context);
 List<IService> list = Router.getAllServices(IService.class, context);
 ```
 
@@ -633,7 +633,7 @@ IFactory factory = new IFactory() {
         return clazz.getConstructor().newInstance();
     }
 };
-IService service = Router.getService(IService.class, factory);
+IService service = Router.getService(IService.class, "key1", factory);
 List<IService> list = Router.getAllServices(IService.class, factory);
 ```
 
