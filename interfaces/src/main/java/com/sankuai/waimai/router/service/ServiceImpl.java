@@ -9,13 +9,20 @@ public class ServiceImpl {
 
     public static final String SPLITTER = ":";
     public static final String SINGLETON = "singleton";
+    public static final String DEFAULT_IMPL_KEY = "_service_default_impl";
 
     public static String checkConflict(String interfaceName, ServiceImpl impl,
             ServiceImpl previous) {
         if (impl != null && previous != null && !stringEquals(previous.implementation,
                 impl.implementation)) {
-            return String.format("接口%s对应key='%s'存在多个实现: %s, %s",
-                    interfaceName, impl.getKey(), previous, impl);
+            if (DEFAULT_IMPL_KEY.equals(impl.getKey())) {
+                return String.format("接口%s 的默认实现只允许存在一个\n目前存在多个默认实现: %s, %s",
+                        interfaceName, previous, impl);
+            } else {
+                return String.format("接口%s对应key='%s'存在多个实现: %s, %s",
+                        interfaceName, impl.getKey(), previous, impl);
+            }
+
         }
         return null;
     }
