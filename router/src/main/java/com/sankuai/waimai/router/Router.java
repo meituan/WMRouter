@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.sankuai.waimai.router.annotation.RouterProvider;
 import com.sankuai.waimai.router.common.PageAnnotationHandler;
@@ -52,6 +53,11 @@ public class Router {
      * 此初始化方法必须在主线程调用。
      */
     public static void init(@NonNull RootUriHandler rootUriHandler) {
+        if (!Debugger.isLogSetting()) {
+            Log.w(Debugger.LOG_TAG, "!!当前未设置Logger,建议通过 Debugger.setLogger()方法设置Logger");
+            Log.w(Debugger.LOG_TAG, "!!并在测试环境通过 Debugger.EnableLog(true)方法开启日志");
+            Log.w(Debugger.LOG_TAG, "!!通过Debugger.setEnableDebug(true)方法在测试环境及时抛出严重类型异常");
+        }
         if (Looper.myLooper() != Looper.getMainLooper()) {
             Debugger.fatal("初始化方法init应该在主线程调用");
         }
