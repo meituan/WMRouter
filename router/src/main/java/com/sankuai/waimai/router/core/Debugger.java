@@ -1,6 +1,7 @@
 package com.sankuai.waimai.router.core;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.sankuai.waimai.router.interfaces.Const;
 
@@ -45,6 +46,10 @@ public class Debugger {
      */
     public static void setLogger(Logger logger) {
         sLogger = logger;
+    }
+
+    public static boolean isLogSetting(){
+        return sLogger!=null;
     }
 
     /**
@@ -116,4 +121,5 @@ public class Debugger {
             sLogger.fatal(t);
         }
     }
+
 }
