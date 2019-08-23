@@ -41,7 +41,6 @@ public abstract class LazyInitHelper {
         if (!mHasInit) {
             synchronized (this) {
                 if (!mHasInit) {
-                    mHasInit = true;
                     long ts = 0;
                     final boolean enableLog = Debugger.isEnableLog();
                     if (enableLog) {
@@ -49,6 +48,7 @@ public abstract class LazyInitHelper {
                     }
                     try {
                         doInit();
+                        mHasInit = true;
                     } catch (Throwable t) {
                         Debugger.fatal(t);
                     }
