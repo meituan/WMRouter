@@ -28,4 +28,10 @@ public @interface RouterService {
      * 是否为单例。如果是单例，则使用ServiceLoader.getService不会重复创建实例。
      */
     boolean singleton() default false;
+
+    /**
+     * 是否设置为默认实现类。如果是默认实现类，则在获取该实现类实例时可以不指定key
+     * @return
+     */
+    boolean defaultImpl() default false;
 }

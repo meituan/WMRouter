@@ -64,6 +64,7 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
 
             String implementationName = cls.className();
             boolean singleton = service.singleton();
+            final boolean defaultImpl = service.defaultImpl();
 
             if (typeMirrors != null && !typeMirrors.isEmpty()) {
                 for (TypeMirror mirror : typeMirrors) {
@@ -82,6 +83,12 @@ public class ServiceAnnotationProcessor extends BaseProcessor {
                         entity = new Entity(interfaceName);
                         mEntityMap.put(interfaceName, entity);
                     }
+
+                    if (defaultImpl){
+                        //如果设置为默认实现，则手动添加一个内部标识默认实现的key
+                        entity.put(ServiceImpl.DEFAULT_IMPL_KEY,implementationName,singleton);
+                    }
+
                     if (keys.length > 0) {
                         for (String key : keys) {
                             if (key.contains(":")) {

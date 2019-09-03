@@ -7,10 +7,12 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.sankuai.waimai.router.annotation.RouterProvider;
+import com.sankuai.waimai.router.annotation.RouterService;
 import com.sankuai.waimai.router.common.PageAnnotationHandler;
 import com.sankuai.waimai.router.core.RootUriHandler;
 import com.sankuai.waimai.router.core.Debugger;
 import com.sankuai.waimai.router.core.UriRequest;
+import com.sankuai.waimai.router.exception.DefaultServiceException;
 import com.sankuai.waimai.router.method.Func0;
 import com.sankuai.waimai.router.method.Func1;
 import com.sankuai.waimai.router.method.Func2;
@@ -23,6 +25,7 @@ import com.sankuai.waimai.router.method.Func8;
 import com.sankuai.waimai.router.method.Func9;
 import com.sankuai.waimai.router.method.FuncN;
 import com.sankuai.waimai.router.service.IFactory;
+import com.sankuai.waimai.router.service.ServiceImpl;
 import com.sankuai.waimai.router.service.ServiceLoader;
 
 import java.util.List;
@@ -108,6 +111,73 @@ public class Router {
     public static <T> ServiceLoader<T> loadService(Class<T> clazz) {
         return ServiceLoader.load(clazz);
     }
+
+    /**
+     * 创建 指定的clazz的默认实现类的实例，如果没有任何一个实现类指定了{@link RouterService#defaultImpl()},
+     * 则会判断 指定的clazz的实现类是否只有一个，如果只有一个则会使用该实现类构造
+     * 如果发现有多个 指定的clazz的实现类，则会抛出异常
+     *
+     * @return 找不到或获取、构造失败，则返回null
+     */
+    public static <I, T extends I> I getService(Class<I> clazz) {
+        final I service = ServiceLoader.load(clazz).get(ServiceImpl.DEFAULT_IMPL_KEY);
+        if (service != null) {
+            return service;
+        }else {
+            final List<I> services = getAllServices(clazz);
+            if (services.size() == 1) {
+                return services.get(0);
+            } else if (services.size() > 1) {
+                Debugger.fatal(DefaultServiceException.foundMoreThanOneImpl(clazz));
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 创建 指定的clazz的默认实现类的实例，使用context参数构造，如果没有任何一个实现类指定了{@link RouterService#defaultImpl()},
+     * 则会判断 指定的clazz的实现类是否只有一个，如果只有一个则会使用该实现类构造
+     * 如果发现有多个 指定的clazz的实现类，则会抛出异常
+     *
+     * @return 找不到或获取、构造失败，则返回null
+     */
+    public static <I, T extends I> I getService(Class<I> clazz, Context context) {
+        final I service = ServiceLoader.load(clazz).get(ServiceImpl.DEFAULT_IMPL_KEY,context);
+        if (service != null) {
+            return service;
+        }else {
+            final List<I> services = getAllServices(clazz,context);
+            if (services.size() == 1) {
+                return services.get(0);
+            } else if (services.size() > 1) {
+                Debugger.fatal(DefaultServiceException.foundMoreThanOneImpl(clazz));
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 创建 指定的clazz的默认实现类的实例，使用指定的Factory构造，如果没有任何一个实现类指定了{@link RouterService#defaultImpl()},
+     * 则会判断 指定的clazz的实现类是否只有一个，如果只有一个则会使用该实现类构造
+     * 如果发现有多个 指定的clazz的实现类，则会抛出异常
+     *
+     * @return 找不到或获取、构造失败，则返回null
+     */
+    public static <I, T extends I> I getService(Class<I> clazz, IFactory factory) {
+        final I service = ServiceLoader.load(clazz).get(ServiceImpl.DEFAULT_IMPL_KEY, factory);
+        if (service != null) {
+            return service;
+        }else {
+            final List<I> services = getAllServices(clazz, factory);
+            if (services.size() == 1) {
+                return services.get(0);
+            } else if (services.size() > 1) {
+                Debugger.fatal(DefaultServiceException.foundMoreThanOneImpl(clazz));
+            }
+        }
+        return null;
+    }
+
 
     /**
      * 创建指定key的实现类实例，使用 {@link RouterProvider} 方法或无参数构造。对于声明了singleton的实现类，不会重复创建实例。
