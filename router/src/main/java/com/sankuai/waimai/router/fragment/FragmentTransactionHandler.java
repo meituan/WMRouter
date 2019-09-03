@@ -31,6 +31,11 @@ public final class FragmentTransactionHandler extends UriHandler {
     @NonNull
     private final String mClassName;
 
+    @NonNull
+    public String getClassName() {
+        return mClassName;
+    }
+
     public FragmentTransactionHandler(@NonNull String className) {
         mClassName = className;
     }
