@@ -45,6 +45,11 @@ public class Const {
     public static final String FRAGMENT_HANDLER_CLASS =
             PKG + "fragment.FragmentTransactionHandler";
 
+    public static final String ROUTER_CLASS =
+            PKG + "Router";
+    public static final String DEBUGGER_CLASS =
+            PKG + "core.Debugger";
+
     // Android中的类名
     public static final String ACTIVITY_CLASS = "android.app.Activity";
     // Android中的类名

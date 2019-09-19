@@ -5,12 +5,10 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.sankuai.waimai.router.annotation.RouterUri;
-import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriHandler;
 import com.sankuai.waimai.router.core.UriInterceptor;
 import com.sankuai.waimai.router.core.UriRequest;
-import com.sankuai.waimai.router.utils.LazyInitHelper;
 import com.sankuai.waimai.router.utils.RouterUtils;
 
 import java.util.HashMap;
@@ -50,13 +48,6 @@ public class UriAnnotationHandler extends UriHandler {
      */
     private final String mDefaultHost;
 
-    private final LazyInitHelper mInitHelper = new LazyInitHelper("UriAnnotationHandler") {
-        @Override
-        protected void doInit() {
-            initAnnotationConfig();
-        }
-    };
-
     /**
      * @param defaultScheme {@link RouterUri} 没有指定scheme时，则使用这里设置的defaultScheme
      * @param defaultHost   {@link RouterUri} 没有指定host时，则使用这里设置的defaultHost
@@ -64,17 +55,6 @@ public class UriAnnotationHandler extends UriHandler {
     public UriAnnotationHandler(@Nullable String defaultScheme, @Nullable String defaultHost) {
         mDefaultScheme = RouterUtils.toNonNullString(defaultScheme);
         mDefaultHost = RouterUtils.toNonNullString(defaultHost);
-    }
-
-    /**
-     * @see LazyInitHelper#lazyInit()
-     */
-    public void lazyInit() {
-        mInitHelper.lazyInit();
-    }
-
-    protected void initAnnotationConfig() {
-        RouterComponents.loadAnnotation(this, IUriAnnotationInit.class);
     }
 
     public PathHandler getPathHandler(String scheme, String host) {
@@ -136,7 +116,6 @@ public class UriAnnotationHandler extends UriHandler {
 
     @Override
     public void handle(@NonNull UriRequest request, @NonNull UriCallback callback) {
-        mInitHelper.ensureInit();
         super.handle(request, callback);
     }
 

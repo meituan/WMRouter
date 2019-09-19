@@ -8,7 +8,6 @@ import com.sankuai.waimai.router.annotation.RouterUri;
 import com.sankuai.waimai.router.components.DefaultOnCompleteListener;
 import com.sankuai.waimai.router.core.RootUriHandler;
 import com.sankuai.waimai.router.regex.RegexAnnotationHandler;
-import com.sankuai.waimai.router.utils.LazyInitHelper;
 
 /**
  * 默认的RootHandler实现
@@ -51,15 +50,6 @@ public class DefaultRootUriHandler extends RootUriHandler {
         addChildHandler(new StartUriHandler(), -100);
         // 全局OnCompleteListener，用于输出跳转失败提示信息
         setGlobalOnCompleteListener(DefaultOnCompleteListener.INSTANCE);
-    }
-
-    /**
-     * @see LazyInitHelper#lazyInit()
-     */
-    public void lazyInit() {
-        mPageAnnotationHandler.lazyInit();
-        mUriAnnotationHandler.lazyInit();
-        mRegexAnnotationHandler.lazyInit();
     }
 
     public PageAnnotationHandler getPageAnnotationHandler() {

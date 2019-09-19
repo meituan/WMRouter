@@ -177,13 +177,12 @@ public abstract class BaseProcessor extends AbstractProcessor {
     }
 
     /**
-     * 生成类似下面格式的HandlerInitClass，同时生成ServiceInitClass
+     * 生成类似下面格式的HandlerInitClass
      * <pre>
-     * package com.sankuai.waimai.router.generated;
-     * public class UriRouter_RouterUri_xxx implements IUriAnnotationInit {
-     *     public void init(UriAnnotationHandler handler) {
-     *         handler.register("", "", "/login", "com.xxx.LoginActivity", false);
-     *         // ...
+     * package com.sankuai.waimai.router.generated.service;
+     * public class UriRouter_RouterUri_xxx {
+     *     public static void init() {
+     *         // 详见 {@link #buildHandlerInitCode(ClassName, CodeBlock)}
      *     }
      * }
      * </pre>
@@ -195,30 +194,50 @@ public abstract class BaseProcessor extends AbstractProcessor {
      */
     public void buildHandlerInitClass(CodeBlock code, String genClassName, String handlerClassName, String interfaceName) {
         MethodSpec methodSpec = MethodSpec.methodBuilder(Const.INIT_METHOD)
-                .addModifiers(Modifier.PUBLIC)
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(TypeName.VOID)
-                .addParameter(className(handlerClassName), "handler")
-                .addCode(code)
+                .addCode(buildHandlerInitCode(className(handlerClassName), code))
                 .build();
         TypeSpec typeSpec = TypeSpec.classBuilder(genClassName)
-                .addSuperinterface(className(interfaceName))
                 .addModifiers(Modifier.PUBLIC)
                 .addMethod(methodSpec)
                 .build();
         try {
-            JavaFile.builder(Const.GEN_PKG, typeSpec)
+            JavaFile.builder(Const.GEN_PKG_SERVICE, typeSpec)
                     .build()
                     .writeTo(filer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
-        String fullImplName = Const.GEN_PKG + Const.DOT + genClassName;
-        String className = "ServiceInit" + Const.SPLITTER + hash(genClassName);
+    /**
+     * <pre>
+     * T handler = Router.findHandlerByClass(T.class)
+     * if (handler != null) {
+     *   handler.register("", "", "/login", "com.xxx.LoginActivity", false);
+     * }
+     * <pre>
+     */
+    protected CodeBlock buildHandlerInitCode(ClassName className, CodeBlock codeBlock) {
+        CodeBlock.Builder builder = CodeBlock.builder();
+        ClassName routerClass = className(Const.ROUTER_CLASS);
+        builder.addStatement(
+                "$T $N = $T.findHandlerByClass($T.class)",
+                className,
+                "handler",
+                routerClass,
+                className
+        );
 
-        new ServiceInitClassBuilder(className)
-                .putDirectly(interfaceName, fullImplName, fullImplName, false)
-                .build();
+
+        builder.beginControlFlow("if ($N != null)", "handler")
+                .add(codeBlock)
+                .nextControlFlow("else")
+                .add("$T.d(\"您未注册$N，已忽略其注解注册的相关内容，请知晓！\");\n", className(Const.DEBUGGER_CLASS), className.simpleName())
+                .endControlFlow();
+
+        return builder.build();
     }
 
     /**

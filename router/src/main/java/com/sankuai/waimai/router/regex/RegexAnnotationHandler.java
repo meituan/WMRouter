@@ -3,7 +3,6 @@ package com.sankuai.waimai.router.regex;
 import android.support.annotation.NonNull;
 
 import com.sankuai.waimai.router.annotation.RouterRegex;
-import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.components.UriTargetTools;
 import com.sankuai.waimai.router.core.ChainedHandler;
 import com.sankuai.waimai.router.core.Debugger;
@@ -11,7 +10,6 @@ import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriHandler;
 import com.sankuai.waimai.router.core.UriInterceptor;
 import com.sankuai.waimai.router.core.UriRequest;
-import com.sankuai.waimai.router.utils.LazyInitHelper;
 
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -25,24 +23,6 @@ import java.util.regex.PatternSyntaxException;
  */
 
 public class RegexAnnotationHandler extends ChainedHandler {
-
-    private final LazyInitHelper mInitHelper = new LazyInitHelper("RegexAnnotationHandler") {
-        @Override
-        protected void doInit() {
-            initAnnotationConfig();
-        }
-    };
-
-    /**
-     * @see LazyInitHelper#lazyInit()
-     */
-    public void lazyInit() {
-        mInitHelper.lazyInit();
-    }
-
-    protected void initAnnotationConfig() {
-        RouterComponents.loadAnnotation(this, IRegexAnnotationInit.class);
-    }
 
     /**
      * 注册一个子节点
@@ -68,7 +48,6 @@ public class RegexAnnotationHandler extends ChainedHandler {
 
     @Override
     public void handle(@NonNull UriRequest request, @NonNull UriCallback callback) {
-        mInitHelper.ensureInit();
         super.handle(request, callback);
     }
 

@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.sankuai.waimai.router.annotation.RouterPage;
-import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.core.UriResult;
-import com.sankuai.waimai.router.utils.LazyInitHelper;
 import com.sankuai.waimai.router.utils.RouterUtils;
 
 /**
@@ -29,32 +27,13 @@ public class PageAnnotationHandler extends PathHandler {
         return intent != null && SCHEME_HOST.equals(RouterUtils.schemeHost(intent.getData()));
     }
 
-    private final LazyInitHelper mInitHelper = new LazyInitHelper("PageAnnotationHandler") {
-        @Override
-        protected void doInit() {
-            initAnnotationConfig();
-        }
-    };
-
     public PageAnnotationHandler() {
         addInterceptor(NotExportedInterceptor.INSTANCE); // exported全为false
         setDefaultChildHandler(NotFoundHandler.INSTANCE); // 找不到直接终止分发
     }
 
-    /**
-     * @see LazyInitHelper#lazyInit()
-     */
-    public void lazyInit() {
-        mInitHelper.lazyInit();
-    }
-
-    protected void initAnnotationConfig() {
-        RouterComponents.loadAnnotation(this, IPageAnnotationInit.class);
-    }
-
     @Override
     public void handle(@NonNull UriRequest request, @NonNull UriCallback callback) {
-        mInitHelper.ensureInit();
         super.handle(request, callback);
     }
 

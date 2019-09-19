@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.sankuai.waimai.router.utils.LazyInitHelper;
-
 
 /**
  * 最顶层的 {@link UriHandler}
@@ -23,13 +21,6 @@ public class RootUriHandler extends ChainedHandler {
 
     public Context getContext() {
         return mContext;
-    }
-
-    /**
-     * @see LazyInitHelper#lazyInit()
-     */
-    public void lazyInit() {
-
     }
 
     /**

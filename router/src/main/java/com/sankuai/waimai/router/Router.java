@@ -9,8 +9,9 @@ import android.util.Log;
 import com.sankuai.waimai.router.annotation.RouterProvider;
 import com.sankuai.waimai.router.annotation.RouterService;
 import com.sankuai.waimai.router.common.PageAnnotationHandler;
-import com.sankuai.waimai.router.core.RootUriHandler;
 import com.sankuai.waimai.router.core.Debugger;
+import com.sankuai.waimai.router.core.RootUriHandler;
+import com.sankuai.waimai.router.core.UriHandler;
 import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.exception.DefaultServiceException;
 import com.sankuai.waimai.router.method.Func0;
@@ -78,7 +79,6 @@ public class Router {
      */
     public static void lazyInit() {
         ServiceLoader.lazyInit();
-        getRootHandler().lazyInit();
     }
 
     public static RootUriHandler getRootHandler() {
@@ -86,6 +86,10 @@ public class Router {
             throw new RuntimeException("请先调用init初始化UriRouter");
         }
         return ROOT_HANDLER;
+    }
+
+    public static <T extends UriHandler> T findHandlerByClass(@NonNull Class<T> clazz) {
+        return getRootHandler().findChildHandlerByClass(clazz);
     }
 
     public static void startUri(UriRequest request) {
