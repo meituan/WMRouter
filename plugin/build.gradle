@@ -1,13 +1,12 @@
 apply plugin: 'groovy'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile gradleApi()
-    compile localGroovy()
-    compile "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
-
-    compile project(':interfaces')
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
+    implementation 'com.kronos.plugin:BasePlugin:0.1.7'
+    implementation project(':interfaces')
 }
-
 apply from: '../gradle_mvn_push.gradle'

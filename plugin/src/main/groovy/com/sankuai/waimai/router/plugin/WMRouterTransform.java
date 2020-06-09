@@ -8,23 +8,33 @@ import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformInvocation;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.google.common.collect.ImmutableSet;
+import com.kronos.plugin.base.BaseTransform;
+import com.kronos.plugin.base.ClassUtils;
+import com.kronos.plugin.base.DeleteCallBack;
+import com.kronos.plugin.base.TransformCallBack;
 import com.sankuai.waimai.router.interfaces.Const;
+import com.sankuai.waimai.router.plugin.visitor.ClassFilterVisitor;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarEntry;
@@ -63,7 +73,7 @@ public class WMRouterTransform extends Transform {
 
     @Override
     public boolean isIncremental() {
-        return false;
+        return true;
     }
 
     @Override
@@ -72,38 +82,31 @@ public class WMRouterTransform extends Transform {
         long ms = System.currentTimeMillis();
 
         Set<String> initClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
-
-        for (TransformInput input : invocation.getInputs()) {
-            input.getJarInputs().parallelStream().forEach(jarInput -> {
-                File src = jarInput.getFile();
-                File dst = invocation.getOutputProvider().getContentLocation(
-                        jarInput.getName(), jarInput.getContentTypes(), jarInput.getScopes(),
-                        Format.JAR);
-                try {
-                    scanJarFile(src, initClasses);
-                    FileUtils.copyFile(src, dst);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+        Set<String> deleteClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        BaseTransform baseTransform = new BaseTransform(invocation, new TransformCallBack() {
+            @Override
+            public byte[] process(String className, byte[] bytes, BaseTransform baseTransform) {
+                String checkClassName = ClassUtils.path2Classname(className);
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                    initClasses.add(className);
                 }
-            });
-            input.getDirectoryInputs().parallelStream().forEach(directoryInput -> {
-                File src = directoryInput.getFile();
-                File dst = invocation.getOutputProvider().getContentLocation(
-                        directoryInput.getName(), directoryInput.getContentTypes(),
-                        directoryInput.getScopes(), Format.DIRECTORY);
-                try {
-                    scanDir(src, initClasses);
-                    FileUtils.copyDirectory(src, dst);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                return null;
+            }
+        });
+        baseTransform.setDeleteCallBack(new DeleteCallBack() {
+            @Override
+            public void delete(String className, byte[] bytes) {
+                String checkClassName = ClassUtils.path2Classname(className);
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                    deleteClasses.add(className);
                 }
-            });
-        }
+            }
+        });
+        baseTransform.startTransform();
         File dest = invocation.getOutputProvider().getContentLocation(
                 "WMRouter", TransformManager.CONTENT_CLASS,
                 ImmutableSet.of(QualifiedContent.Scope.PROJECT), Format.DIRECTORY);
-        generateServiceInitClass(dest.getAbsolutePath(), initClasses);
-
+        generateServiceInitClass(dest.getAbsolutePath(), initClasses, deleteClasses);
         WMRouterLogger.info(TRANSFORM + "cost %s ms", System.currentTimeMillis() - ms);
     }
 
@@ -163,47 +166,79 @@ public class WMRouterTransform extends Transform {
      * }
      * </pre>
      */
-    private void generateServiceInitClass(String directory, Set<String> classes) {
+    private void generateServiceInitClass(String directory, Set<String> classes, Set<String> deleteClass) {
 
         if (classes.isEmpty()) {
             WMRouterLogger.info(GENERATE_INIT + "skipped, no service found");
             return;
         }
+        File dest = new File(directory, INIT_SERVICE_PATH + SdkConstants.DOT_CLASS);
+        if (!dest.exists()) {
+            try {
+                WMRouterLogger.info(GENERATE_INIT + "start...");
+                long ms = System.currentTimeMillis();
 
-        try {
-            WMRouterLogger.info(GENERATE_INIT + "start...");
-            long ms = System.currentTimeMillis();
+                ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+                ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, writer) {
+                };
+                String className = Const.SERVICE_LOADER_INIT.replace('.', '/');
+                cv.visit(50, Opcodes.ACC_PUBLIC, className, null, "java/lang/Object", null);
 
-            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-            ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, writer) {
-            };
-            String className = Const.SERVICE_LOADER_INIT.replace('.', '/');
-            cv.visit(50, Opcodes.ACC_PUBLIC, className, null, "java/lang/Object", null);
+                MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+                        Const.INIT_METHOD, "()V", null, null);
 
-            MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
-                    Const.INIT_METHOD, "()V", null, null);
+                mv.visitCode();
 
-            mv.visitCode();
+                for (String clazz : classes) {
+                    String input = clazz.replace(".class", "");
+                    input = input.replace(".", "/");
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, input,
+                            "init",
+                            "()V",
+                            false);
+                }
+                mv.visitMaxs(0, 0);
+                mv.visitInsn(Opcodes.RETURN);
+                mv.visitEnd();
+                cv.visitEnd();
 
-            for (String clazz : classes) {
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, clazz.replace('.', '/'),
-                        "init",
-                        "()V",
-                        false);
+                dest.getParentFile().mkdirs();
+                new FileOutputStream(dest).write(writer.toByteArray());
+
+                WMRouterLogger.info(GENERATE_INIT + "cost %s ms", System.currentTimeMillis() - ms);
+
+            } catch (IOException e) {
+                WMRouterLogger.fatal(e);
             }
-            mv.visitMaxs(0, 0);
-            mv.visitInsn(Opcodes.RETURN);
-            mv.visitEnd();
-            cv.visitEnd();
-
-            File dest = new File(directory, className + SdkConstants.DOT_CLASS);
-            dest.getParentFile().mkdirs();
-            new FileOutputStream(dest).write(writer.toByteArray());
-
-            WMRouterLogger.info(GENERATE_INIT + "cost %s ms", System.currentTimeMillis() - ms);
-
-        } catch (IOException e) {
-            WMRouterLogger.fatal(e);
+        } else {
+            try {
+                modifyClass(dest, classes, deleteClass);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    private void modifyClass(File file, Set<String> items, Set<String> deleteItems) throws IOException {
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
+            byte[] modifiedClassBytes = modifyClass(sourceClassBytes, items, deleteItems);
+            if (modifiedClassBytes != null) {
+                File modified = ClassUtils.saveFile(file, modifiedClassBytes);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    byte[] modifyClass(byte[] srcClass, Set<String> items, Set<String> deleteItems) throws IOException {
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, items, deleteItems);
+        ClassReader cr = new ClassReader(srcClass);
+        cr.accept(methodFilterCV, ClassReader.SKIP_DEBUG);
+        return classWriter.toByteArray();
+    }
+
 }
