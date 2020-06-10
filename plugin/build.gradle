@@ -6,7 +6,7 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
-    implementation 'com.kronos.plugin:BasePlugin:0.1.7'
+    implementation 'com.kronos.plugin:BasePlugin:0.1.9'
     implementation project(':interfaces')
 }
 apply from: '../gradle_mvn_push.gradle'

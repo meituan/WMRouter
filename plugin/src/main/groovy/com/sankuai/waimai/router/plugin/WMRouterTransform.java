@@ -102,6 +102,7 @@ public class WMRouterTransform extends Transform {
                 }
             }
         });
+        baseTransform.openSimpleScan();
         baseTransform.startTransform();
         File dest = invocation.getOutputProvider().getContentLocation(
                 "WMRouter", TransformManager.CONTENT_CLASS,
@@ -225,7 +226,7 @@ public class WMRouterTransform extends Transform {
             byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
             byte[] modifiedClassBytes = modifyClass(sourceClassBytes, items, deleteItems);
             if (modifiedClassBytes != null) {
-                File modified = ClassUtils.saveFile(file, modifiedClassBytes);
+                ClassUtils.saveFile(file, modifiedClassBytes);
             }
         } catch (Exception e) {
             e.printStackTrace();

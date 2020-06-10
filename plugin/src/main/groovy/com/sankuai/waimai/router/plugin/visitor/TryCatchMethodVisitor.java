@@ -26,9 +26,6 @@ public class TryCatchMethodVisitor extends MethodVisitor {
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         String className = owner + ".class";
         if (!deleteItems.contains(className)) {
-            if (addItems.contains(className)) {
-                addItems.remove(className);
-            }
             super.visitMethodInsn(opcode, owner, name, desc, itf);
         }
     }
