@@ -80,7 +80,14 @@ public class WMRouterTransform extends Transform {
     public void transform(TransformInvocation invocation) {
         WMRouterLogger.info(TRANSFORM + "start...");
         long ms = System.currentTimeMillis();
-
+        //非增量编译，先清空输出目录
+        if(!invocation.isIncremental()){
+            try {
+                invocation.getOutputProvider().deleteAll();
+            } catch (IOException e) {
+                WMRouterLogger.fatal(e);
+            }
+        }
         Set<String> initClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
         Set<String> deleteClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
         BaseTransform baseTransform = new BaseTransform(invocation, new TransformCallBack() {
