@@ -180,7 +180,8 @@ public class WMRouterTransform extends Transform {
             WMRouterLogger.info(GENERATE_INIT + "skipped, no service found");
             return;
         }
-        File dest = new File(directory, INIT_SERVICE_PATH + SdkConstants.DOT_CLASS);
+        String className = Const.SERVICE_LOADER_INIT.replace('.', '/');
+        File dest = new File(directory, className + SdkConstants.DOT_CLASS);
         if (!dest.exists()) {
             try {
                 WMRouterLogger.info(GENERATE_INIT + "start...");
@@ -189,7 +190,6 @@ public class WMRouterTransform extends Transform {
                 ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
                 ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, writer) {
                 };
-                String className = Const.SERVICE_LOADER_INIT.replace('.', '/');
                 cv.visit(50, Opcodes.ACC_PUBLIC, className, null, "java/lang/Object", null);
 
                 MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
