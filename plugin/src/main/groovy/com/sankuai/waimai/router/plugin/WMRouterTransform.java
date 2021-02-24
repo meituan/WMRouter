@@ -93,7 +93,7 @@ public class WMRouterTransform extends Transform {
         BaseTransform baseTransform = new BaseTransform(invocation, new TransformCallBack() {
             @Override
             public byte[] process(String className, byte[] bytes, BaseTransform baseTransform) {
-                String checkClassName = ClassUtils.path2Classname(className);
+                String checkClassName = className.replace('\\', '.').replace('/', '.').replace(".class", "");//ClassUtils.path2Classname(className); File.separator donot match jar entryName on windows
                 if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
                     initClasses.add(className);
                 }
@@ -103,7 +103,7 @@ public class WMRouterTransform extends Transform {
         baseTransform.setDeleteCallBack(new DeleteCallBack() {
             @Override
             public void delete(String className, byte[] bytes) {
-                String checkClassName = ClassUtils.path2Classname(className);
+                String checkClassName = className.replace('\\', '.').replace('/', '.').replace(".class", "");//ClassUtils.path2Classname(className); File.separator donot match jar entryName on windows
                 if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
                     deleteClasses.add(className);
                 }
