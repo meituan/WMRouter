@@ -16,7 +16,7 @@ public class ProviderPool {
 
     private static final HashMap<Class, Method> CACHE = new HashMap<>();
 
-    private static final Method NOT_FOUND = ProviderPool.class.getDeclaredMethods()[0];
+    private static final Method NOT_FOUND = Object.class.getDeclaredMethods()[0];
 
     @SuppressWarnings("unchecked")
     public static <T> T create(Class<T> clazz) {
