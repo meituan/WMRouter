@@ -17,6 +17,9 @@ buildscript {
        // classpath "com.sankuai.waimai.router:plugin:$VERSION_NAME"
     }
 }
+plugins{
+    id("WMRouter") apply(false)
+}
 
 allprojects {
     repositories {

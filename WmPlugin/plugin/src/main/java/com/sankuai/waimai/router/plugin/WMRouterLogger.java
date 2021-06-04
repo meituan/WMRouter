@@ -1,6 +1,5 @@
 package com.sankuai.waimai.router.plugin;
 
-import com.sankuai.waimai.router.interfaces.Const;
 
 /**
  * Created by jzj on 2018/4/25.

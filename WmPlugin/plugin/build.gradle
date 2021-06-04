@@ -6,12 +6,12 @@ dependencies {
 
     implementation gradleApi()
     implementation localGroovy()
-//    implementation "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
-    implementation 'com.kronos.plugin:BasePlugin:0.2.1'
-   // implementation project(':interfaces')
+    implementation "com.android.tools.build:gradle:$apgVersion"
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.javassist:javassist:3.27.0-GA'
+    implementation project(":baseplugin")
 }
 
-//apply from: '../gradle_mvn_push.gradle'
 group = "com.sankuai.waimai.router"
 
 gradlePlugin {

@@ -12,7 +12,6 @@ import com.kronos.plugin.base.BaseTransform;
 import com.kronos.plugin.base.ClassUtils;
 import com.kronos.plugin.base.DeleteCallBack;
 import com.kronos.plugin.base.TransformCallBack;
-import com.sankuai.waimai.router.interfaces.Const;
 import com.sankuai.waimai.router.plugin.visitor.ClassFilterVisitor;
 
 import org.apache.commons.compress.utils.IOUtils;
@@ -20,6 +19,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -91,15 +92,16 @@ public class WMRouterTransform extends Transform {
         Set<String> initClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
         Set<String> deleteClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
         BaseTransform baseTransform = new BaseTransform(invocation, new TransformCallBack() {
+            @Nullable
             @Override
-            public byte[] process(String className, byte[] bytes, BaseTransform baseTransform) {
+            public byte[] process(@NotNull String className, @Nullable byte[] classBytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
                 if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
                     initClasses.add(className);
                 }
                 return null;
             }
-        });
+        },false);
         baseTransform.setDeleteCallBack(new DeleteCallBack() {
             @Override
             public void delete(String className, byte[] bytes) {

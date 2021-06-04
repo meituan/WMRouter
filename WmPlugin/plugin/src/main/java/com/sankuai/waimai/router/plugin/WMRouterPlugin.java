@@ -1,7 +1,6 @@
 package com.sankuai.waimai.router.plugin;
 
 import com.android.build.gradle.BaseExtension;
-import com.sankuai.waimai.router.interfaces.Const;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

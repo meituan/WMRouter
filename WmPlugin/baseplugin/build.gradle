@@ -1,0 +1,15 @@
+apply plugin: 'groovy'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation "com.android.tools.build:gradle:$apgVersion"
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.javassist:javassist:3.27.0-GA'
+}
+
+
+group = "com.sankuai.waimai.router"
