@@ -82,7 +82,7 @@ public class WMRouterTransform extends Transform {
         WMRouterLogger.info(TRANSFORM + "start...");
         long ms = System.currentTimeMillis();
         //非增量编译，先清空输出目录
-        if(!invocation.isIncremental()){
+        if (!invocation.isIncremental()) {
             try {
                 invocation.getOutputProvider().deleteAll();
             } catch (IOException e) {
@@ -96,12 +96,13 @@ public class WMRouterTransform extends Transform {
             @Override
             public byte[] process(@NotNull String className, @Nullable byte[] classBytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
-                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
-                    initClasses.add(className);
+                 if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                     WMRouterLogger.info(TRANSFORM + "className %s checkClassName %s", className, checkClassName);
+                     initClasses.add(className);
                 }
                 return null;
             }
-        },false);
+        }, false);
         baseTransform.setDeleteCallBack(new DeleteCallBack() {
             @Override
             public void delete(String className, byte[] bytes) {
