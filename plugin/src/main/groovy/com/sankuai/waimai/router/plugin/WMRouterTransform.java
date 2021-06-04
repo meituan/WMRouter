@@ -94,8 +94,9 @@ public class WMRouterTransform extends Transform {
             @Override
             public byte[] process(String className, byte[] bytes, BaseTransform baseTransform) {
                 String checkClassName = ClassUtils.path2Classname(className);
-                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE) || checkClassName.startsWith(INIT_SERVICE_PATH)) {
                     initClasses.add(className);
+                    WMRouterLogger.info("    find ServiceInitClass: %s", className);
                 }
                 return null;
             }
@@ -104,8 +105,9 @@ public class WMRouterTransform extends Transform {
             @Override
             public void delete(String className, byte[] bytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
-                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE) || checkClassName.startsWith(INIT_SERVICE_PATH)) {
                     deleteClasses.add(className);
+                    WMRouterLogger.info("    find ServiceInitClass: %s", className);
                 }
             }
         });
