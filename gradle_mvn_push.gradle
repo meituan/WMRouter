@@ -1,8 +1,9 @@
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
 group = GROUP
 version = VERSION_NAME
 
+/*
 
 def getPropertyFromLocalProperties(key) {
     File file = project.rootProject.file('local.properties');
@@ -65,3 +66,4 @@ bintray {
         publish = true
     }
 }
+*/
