@@ -11,7 +11,7 @@ package com.sankuai.waimai.router.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.sankuai.waimai.router.core.Debugger;

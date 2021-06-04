@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.demo.testannotation;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriHandler;

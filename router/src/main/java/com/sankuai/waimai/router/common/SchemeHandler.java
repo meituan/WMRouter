@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.common;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.core.UriRequest;
 import com.sankuai.waimai.router.utils.RouterUtils;

@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * 处理某一类或某个URI。支持添加若干个 {@link UriInterceptor} 。

@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.regex;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.common.WrapperHandler;
 import com.sankuai.waimai.router.core.UriHandler;

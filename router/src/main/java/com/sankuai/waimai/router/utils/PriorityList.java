@@ -2,7 +2,7 @@ package com.sankuai.waimai.router.utils;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.AbstractList;
 import java.util.Iterator;

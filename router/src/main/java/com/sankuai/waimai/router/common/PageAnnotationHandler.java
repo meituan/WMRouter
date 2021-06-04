@@ -1,7 +1,7 @@
 package com.sankuai.waimai.router.common;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.annotation.RouterPage;
 import com.sankuai.waimai.router.components.RouterComponents;
