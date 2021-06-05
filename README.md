@@ -75,6 +75,21 @@ WMRouter适用但不限于以下场景：
 [更新日志](CHANGELOG.md)
 
 
+## 使用了WMRouter的项目
+
+<table>
+  <!-- 注意格式：每行7个图标，即每个tr中7个td元素 -->
+  <tr>
+    <td align="center"><a href="https://waimai.meituan.com/"><img src="docs/logo/meituanwaimai.png" width="100px;" alt=""/><br /><sub><b>美团外卖</b></sub></a></td>
+    <td align="center"><a href="https://kd.meituan.com/"><img src="docs/logo/meituanwaimaibusiness.png" width="100px;" alt=""/><br /><sub><b>美团外卖商家版</b></sub></a></td>
+    <td align="center"><a href="https://www.meituan.com/"><img src="docs/logo/meituan.png" width="100px;" alt=""/><br /><sub><b>美团</b></sub></a></td>
+    <td align="center"><a href="https://www.dianping.com/"><img src="docs/logo/dianping.png" width="100px;" alt=""/><br /><sub><b>大众点评</b></sub></a></td>
+  </tr>
+</table>
+
+> 欢迎补充，并创建PullRequest。
+
+
 ## 贡献者 / Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -111,5 +126,5 @@ WMRouter适用但不限于以下场景：
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-> - 如有遗漏和需要补充的，可按照 [all-contributors](https://allcontributors.org/docs/en/cli/overview) 文档自行添加，并创建Pull Request.
+> - 如有遗漏和需要补充的，可按照 [all-contributors](https://allcontributors.org/docs/en/cli/overview) 文档自行添加，并创建Pull Request。
 > - 参与贡献者可加微信jzj2015，进入 WMRouter Contributors 微信群学习交流。
