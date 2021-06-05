@@ -96,8 +96,8 @@ public class WMRouterTransform extends Transform {
             @Override
             public byte[] process(@NotNull String className, @Nullable byte[] classBytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
-                 if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
-                     WMRouterLogger.info(TRANSFORM + "className %s checkClassName %s", className, checkClassName);
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                     WMRouterLogger.info(TRANSFORM + "className = %s, checkClassName = %s", className, checkClassName);
                      initClasses.add(className);
                 }
                 return null;

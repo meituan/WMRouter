@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 public class ClassUtils {
 
     public static String path2Classname(String entryName) {
-        return entryName.replace(File.separator, ".").replace(".class", "");
+        return entryName.replace(".class", "").replace(File.separator, ".");
     }
 
     public static boolean checkClassName(String className) {
@@ -14,11 +14,11 @@ public class ClassUtils {
                 && !className.endsWith("BuildConfig"));
     }
 
-    public static File saveFile(File mTempDir, byte[] modifiedClassBytes) {
+    public static File saveFile(File tempDir, byte[] modifiedClassBytes) {
         File modified = null;
         try {
             if (modifiedClassBytes != null) {
-                modified = mTempDir;
+                modified = tempDir;
                 if (modified.exists()) {
                     modified.delete();
                 }
