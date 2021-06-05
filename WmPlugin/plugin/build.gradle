@@ -3,16 +3,15 @@ apply plugin: 'java-gradle-plugin'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation gradleApi()
     implementation localGroovy()
-    implementation "com.android.tools.build:gradle:$apgVersion"
+    compileOnly "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.javassist:javassist:3.27.0-GA'
     implementation project(":baseplugin")
 }
 
-group = "com.sankuai.waimai.router"
+apply from: '../../gradle_mvn_push.gradle'
 
 gradlePlugin {
     plugins {

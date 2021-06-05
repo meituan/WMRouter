@@ -6,10 +6,9 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation "com.android.tools.build:gradle:$apgVersion"
+    compileOnly "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.javassist:javassist:3.27.0-GA'
 }
 
-
-group = "com.sankuai.waimai.router"
+apply from: '../../gradle_mvn_push.gradle'

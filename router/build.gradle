@@ -1,11 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
-
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -23,7 +19,7 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'androidx.annotation:annotation:1.2.0'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "org.robolectric:robolectric:3.8"
     api project(':interfaces')
 }

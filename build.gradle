@@ -10,14 +10,12 @@ buildscript {
         classpath "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        //classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.15.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-
-//        classpath "com.sankuai.waimai.router:plugin:1.1.0"
-       // classpath "com.sankuai.waimai.router:plugin:$VERSION_NAME"
     }
 }
-plugins{
+
+plugins {
     id("WMRouter") apply(false)
 }
 
@@ -26,7 +24,38 @@ allprojects {
         maven { setUrl("https://maven.aliyun.com/repository/central/") }
         google()
     }
+    tasks.withType(JavaCompile).configureEach { task ->
+        task.options.encoding = 'UTF-8'
+        task.sourceCompatibility = JavaVersion.VERSION_1_8
+        task.targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile).configureEach { task ->
+        task.kotlinOptions {
+            jvmTarget = '1.8'
+        }
+    }
+    afterEvaluate {
+        if (project.plugins.hasPlugin('com.android.application') ||
+                project.plugins.hasPlugin('com.android.library')) {
+            // 一键替换项目内所有的compilerSdkVersion  minSdk targetVersion
+            android.compileSdkVersion = 30
+            android.defaultConfig {
+                minSdkVersion 16
+                targetSdkVersion 30
+            }
+            android.compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
+            print("wmrouter projectName:" + name + "  version:" + android.compileSdkVersion)
+            /* android {
+                 compileSdkVersion 30
+             }*/
+        }
+    }
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
