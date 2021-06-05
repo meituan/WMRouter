@@ -1,4 +1,3 @@
-
 ![](docs/images/banner.png)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/meituan/WMRouter/master/LICENSE)
@@ -66,12 +65,50 @@ WMRouter适用但不限于以下场景：
 [设计与使用文档](docs/user-manual.md)
 
 
+## 发展背景
+
+关于WMRouter的发展背景和过程，可参考美团技术博客 [WMRouter：美团外卖Android开源路由框架](https://tech.meituan.com/meituan_waimai_android_open_source_routing_framework.html)。
+
+
 ## 更新日志
 
 [更新日志](CHANGELOG.md)
 
 
-## 其他
+## 贡献者 / Contributors ✨
 
-关于WMRouter的发展背景和过程，可参考美团技术博客 [WMRouter：美团外卖Android开源路由框架](https://tech.meituan.com/meituan_waimai_android_open_source_routing_framework.html)。
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+感谢所有参与贡献的人员：
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://www.paincker.com/"><img src="https://avatars.githubusercontent.com/u/2093721?v=4?s=100" width="100px;" alt=""/><br /><sub><b>江子健</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/commits?author=jzj1993" title="Code">💻</a> <a href="https://github.com/meituan/WMRouter/commits?author=jzj1993" title="Documentation">📖</a> <a href="#ideas-jzj1993" title="Ideas, Planning, & Feedback">🤔</a> <a href="#blog-jzj1993" title="Blogposts">📝</a> <a href="#maintenance-jzj1993" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://s.joker.li/"><img src="https://avatars.githubusercontent.com/u/2122432?v=4?s=100" width="100px;" alt=""/><br /><sub><b>李少杰</b></sub></a><br /><a href="#ideas-mimers" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/meituan/WMRouter/commits?author=mimers" title="Code">💻</a> <a href="https://github.com/meituan/WMRouter/pulls?q=is%3Apr+reviewed-by%3Amimers" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-mimers" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/zhengjinguang"><img src="https://avatars.githubusercontent.com/u/9986394?v=4?s=100" width="100px;" alt=""/><br /><sub><b>郑金光</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3Azhengjinguang" title="Bug reports">🐛</a> <a href="https://github.com/meituan/WMRouter/pulls?q=is%3Apr+reviewed-by%3Azhengjinguang" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-zhengjinguang" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://juejin.im/user/5ccf8b8c6fb9a031f525d89f/posts"><img src="https://avatars.githubusercontent.com/u/5960467?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ultra-Dejavu</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/commits?author=Leifzhang" title="Code">💻</a></td>
+    <td align="center"><a href="https://jeremyliao.github.io/"><img src="https://avatars.githubusercontent.com/u/23290617?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeremy Liao</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/commits?author=JeremyLiao" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/kiminozo"><img src="https://avatars.githubusercontent.com/u/562132?v=4?s=100" width="100px;" alt=""/><br /><sub><b>kiminozo</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/commits?author=kiminozo" title="Code">💻</a> <a href="https://github.com/meituan/WMRouter/issues?q=author%3Akiminozo" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/zjiecode"><img src="https://avatars.githubusercontent.com/u/38341983?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zjiecode</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3Azjiecode" title="Bug reports">🐛</a> <a href="#maintenance-zjiecode" title="Maintenance">🚧</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/hibate"><img src="https://avatars.githubusercontent.com/u/33896942?v=4?s=100" width="100px;" alt=""/><br /><sub><b>hibate</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3Ahibate" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Knight-ZXW"><img src="https://avatars.githubusercontent.com/u/11730925?v=4?s=100" width="100px;" alt=""/><br /><sub><b>卓修武</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3AKnight-ZXW" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/zhaoya188"><img src="https://avatars.githubusercontent.com/u/9677761?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vali</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/commits?author=zhaoya188" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://fuckcode.xyz/"><img src="https://avatars.githubusercontent.com/u/8597839?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Caij</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3ACaij" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/Yellow5A5"><img src="https://avatars.githubusercontent.com/u/12532305?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Acropolis</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3AYellow5A5" title="Bug reports">🐛</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+> - 如有遗漏和需要补充的，可按照 [all-contributors](https://allcontributors.org/docs/en/cli/overview) 文档自行添加，并创建Pull Request.
+> - 参与贡献者可加微信jzj2015，进入 WMRouter Contributors 微信群学习交流。

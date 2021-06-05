@@ -1,0 +1,134 @@
+{
+  "projectName": "WMRouter",
+  "projectOwner": "meituan",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "jzj1993",
+      "name": "江子健",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2093721?v=4",
+      "profile": "http://www.paincker.com/",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas",
+        "blog",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "mimers",
+      "name": "李少杰",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2122432?v=4",
+      "profile": "https://s.joker.li/",
+      "contributions": [
+        "ideas",
+        "code",
+        "review",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "zhengjinguang",
+      "name": "郑金光",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9986394?v=4",
+      "profile": "https://github.com/zhengjinguang",
+      "contributions": [
+        "bug",
+        "review",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "Leifzhang",
+      "name": "Ultra-Dejavu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5960467?v=4",
+      "profile": "https://juejin.im/user/5ccf8b8c6fb9a031f525d89f/posts",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "JeremyLiao",
+      "name": "Jeremy Liao",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23290617?v=4",
+      "profile": "https://jeremyliao.github.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "kiminozo",
+      "name": "kiminozo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/562132?v=4",
+      "profile": "https://github.com/kiminozo",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "zjiecode",
+      "name": "zjiecode",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38341983?v=4",
+      "profile": "https://github.com/zjiecode",
+      "contributions": [
+        "bug",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "hibate",
+      "name": "hibate",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33896942?v=4",
+      "profile": "https://github.com/hibate",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "Knight-ZXW",
+      "name": "卓修武",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11730925?v=4",
+      "profile": "https://github.com/Knight-ZXW",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "zhaoya188",
+      "name": "Vali",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9677761?v=4",
+      "profile": "https://github.com/zhaoya188",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Caij",
+      "name": "Caij",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8597839?v=4",
+      "profile": "https://fuckcode.xyz/",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "Yellow5A5",
+      "name": "Acropolis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12532305?v=4",
+      "profile": "https://github.com/Yellow5A5",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
