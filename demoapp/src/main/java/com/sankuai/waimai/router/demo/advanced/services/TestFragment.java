@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.demo.advanced.services;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.sankuai.waimai.router.annotation.RouterService;
 import com.sankuai.waimai.router.demo.lib2.DemoConstant;

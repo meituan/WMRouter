@@ -1,8 +1,8 @@
 package com.sankuai.waimai.router.demo.app;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.sankuai.waimai.router.common.DefaultUriRequest;
 import com.sankuai.waimai.router.core.OnCompleteListener;

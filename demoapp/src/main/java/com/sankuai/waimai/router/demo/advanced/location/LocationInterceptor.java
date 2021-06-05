@@ -3,7 +3,7 @@ package com.sankuai.waimai.router.demo.advanced.location;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.core.UriCallback;
 import com.sankuai.waimai.router.core.UriInterceptor;

@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.annotation.RouterProvider;
 import com.sankuai.waimai.router.core.Debugger;

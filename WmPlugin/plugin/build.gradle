@@ -1,0 +1,25 @@
+apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+    implementation localGroovy()
+    compileOnly "com.android.tools.build:gradle:$ANDROID_PLUGIN_VERSION"
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.javassist:javassist:3.27.0-GA'
+    implementation project(":baseplugin")
+}
+
+apply from: '../../gradle_mvn_push.gradle'
+
+gradlePlugin {
+    plugins {
+        version {
+            // 在 app 模块需要通过 id 引用这个插件
+            id = 'WMRouter'
+            // 实现这个插件的类的路径
+            implementationClass = 'com.sankuai.waimai.router.plugin.WMRouterPlugin'
+        }
+    }
+}

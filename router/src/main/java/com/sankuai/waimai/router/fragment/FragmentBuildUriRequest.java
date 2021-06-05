@@ -12,7 +12,7 @@ package com.sankuai.waimai.router.fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.app.Fragment;
 import android.text.TextUtils;
 

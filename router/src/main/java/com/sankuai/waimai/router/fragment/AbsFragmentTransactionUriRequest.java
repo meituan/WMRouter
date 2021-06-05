@@ -11,10 +11,8 @@ package com.sankuai.waimai.router.fragment;
 
 
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-
-import com.sankuai.waimai.router.common.PageAnnotationHandler;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 
 
 /**
