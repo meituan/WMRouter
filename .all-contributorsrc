@@ -128,6 +128,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "laberat",
+      "name": "Laberat Yi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3307213?v=4",
+      "profile": "https://github.com/laberat",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7
