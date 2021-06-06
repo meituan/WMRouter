@@ -36,6 +36,25 @@
       ]
     },
     {
+      "login": "yuanboGeng",
+      "name": "yuanboGeng",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13827644?v=4",
+      "profile": "https://github.com/yuanboGeng",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "laberat",
+      "name": "Laberat Yi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3307213?v=4",
+      "profile": "https://github.com/laberat",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
       "login": "zhengjinguang",
       "name": "郑金光",
       "avatar_url": "https://avatars.githubusercontent.com/u/9986394?v=4",
@@ -128,15 +147,6 @@
       "profile": "https://github.com/Yellow5A5",
       "contributions": [
         "bug"
-      ]
-    },
-    {
-      "login": "laberat",
-      "name": "Laberat Yi",
-      "avatar_url": "https://avatars.githubusercontent.com/u/3307213?v=4",
-      "profile": "https://github.com/laberat",
-      "contributions": [
-        "ideas"
       ]
     }
   ],
