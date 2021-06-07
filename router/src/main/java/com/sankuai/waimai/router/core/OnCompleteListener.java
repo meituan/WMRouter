@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * URI分发完成的监听器

@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.service;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * 从Class构造实例

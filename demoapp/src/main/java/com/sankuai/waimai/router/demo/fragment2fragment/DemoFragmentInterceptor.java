@@ -9,7 +9,7 @@ package com.sankuai.waimai.router.demo.fragment2fragment;
  * @date 2019/3/5
  */
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.core.Debugger;
 import com.sankuai.waimai.router.core.UriCallback;
