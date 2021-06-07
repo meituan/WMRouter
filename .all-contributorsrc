@@ -148,6 +148,24 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "dingshaoran",
+      "name": "dingshaoran",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8750415?v=4",
+      "profile": "https://github.com/dingshaoran",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "hcanyz",
+      "name": "栉风",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8407922?v=4",
+      "profile": "https://juejin.im/user/5dfb1d65e51d455846231ee1",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
