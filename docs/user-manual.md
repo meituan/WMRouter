@@ -895,3 +895,23 @@ assets是否正确生成。Gradle插件会将注解生成器生成的资源文�
 ### 9、提交Issue
 
 如果还是没能解决问题，需要帮助或发现BUG，请在Github[提交Issue](https://github.com/meituan/WMRouter/issues)。
+
+### 10、找不到依赖
+
+因为JCenter下线，从1.2.1开始，Group 从 com.sankuai.waimai.router 变更为 io.github.meituan-dianping
+
+### 11、1.2.1及其以上版本类重复错误
+
+可能是组件工程同时依赖了com.sankuai.waimai.router 和 io.github.meituan-dianping 新老2个库，造成合并后类冲突了。你可以在壳工程里面使用下面的方式，统一替换一下
+
+```
+allprojects {
+    configurations.all { Configuration c ->
+      resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                 if (details.requested.group == 'com.sankuai.waimai.router') {
+                     details.useTarget group: 'io.github.meituan-dianping'
+                 }
+         }
+    }
+}
+```
