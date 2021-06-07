@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+- 修复非增量编译时，没有清空输出目录的问题(#88)
+- 修改group为：io.github.meituan-dianping
+- 迁移发布到mavenCenter
+- 升级gradle版本到4.10，兼容Android Studio 4.2版本
+
 ## 1.2.0
 
 - 添加FragmentTransactionUriRequest和基类，支持Activity to Fragment和Fragment to Fragment 的路由跳转
