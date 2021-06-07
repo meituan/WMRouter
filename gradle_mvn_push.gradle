@@ -1,4 +1,5 @@
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 version = VERSION_NAME
 group = GROUP
@@ -20,6 +21,8 @@ def getPropertyFromLocalProperties(key) {
 uploadArchives {
     repositories {
         mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
             def user = getPropertyFromLocalProperties("NEXUS_USERNAME")
             def password = getPropertyFromLocalProperties("NEXUS_PASSWORD")
 
@@ -84,4 +87,8 @@ afterEvaluate { project ->
             archives javadocJar, sourcesJar
         }
     }
+}
+
+signing {
+    sign configurations.archives
 }
