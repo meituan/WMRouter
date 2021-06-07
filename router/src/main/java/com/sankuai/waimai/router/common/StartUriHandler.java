@@ -2,7 +2,7 @@ package com.sankuai.waimai.router.common;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.components.ActivityLauncher;
 import com.sankuai.waimai.router.components.RouterComponents;

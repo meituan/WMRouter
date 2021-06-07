@@ -1,7 +1,7 @@
 package com.sankuai.waimai.router.common;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 

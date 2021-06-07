@@ -1,8 +1,8 @@
 package com.sankuai.waimai.router.demo.lib2;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by jzj on 2018/3/26.

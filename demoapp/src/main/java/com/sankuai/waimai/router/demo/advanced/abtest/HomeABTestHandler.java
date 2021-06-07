@@ -1,7 +1,7 @@
 package com.sankuai.waimai.router.demo.advanced.abtest;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.activity.AbsActivityHandler;
 import com.sankuai.waimai.router.annotation.RouterUri;

@@ -1,6 +1,6 @@
 package com.sankuai.waimai.router.demo.advanced.account;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 import com.sankuai.waimai.router.core.UriCallback;

@@ -11,7 +11,7 @@ package com.sankuai.waimai.router.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.components.ActivityLauncher;
 import com.sankuai.waimai.router.core.UriRequest;

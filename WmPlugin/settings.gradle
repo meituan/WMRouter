@@ -1,0 +1,3 @@
+rootProject.name = "WmPlugin"
+include ':plugin'
+include ':baseplugin'
