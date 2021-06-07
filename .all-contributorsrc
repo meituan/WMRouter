@@ -148,6 +148,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "dingshaoran",
+      "name": "dingshaoran",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8750415?v=4",
+      "profile": "https://github.com/dingshaoran",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

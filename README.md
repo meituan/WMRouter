@@ -94,7 +94,7 @@ WMRouter适用但不限于以下场景：
 ## 贡献者 / Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 感谢所有参与贡献的人员：
@@ -120,6 +120,9 @@ WMRouter适用但不限于以下场景：
     <td align="center"><a href="https://github.com/zhaoya188"><img src="https://avatars.githubusercontent.com/u/9677761?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vali</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/commits?author=zhaoya188" title="Documentation">📖</a></td>
     <td align="center"><a href="https://fuckcode.xyz/"><img src="https://avatars.githubusercontent.com/u/8597839?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Caij</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3ACaij" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/Yellow5A5"><img src="https://avatars.githubusercontent.com/u/12532305?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Acropolis</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3AYellow5A5" title="Bug reports">🐛</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/dingshaoran"><img src="https://avatars.githubusercontent.com/u/8750415?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dingshaoran</b></sub></a><br /><a href="https://github.com/meituan/WMRouter/issues?q=author%3Adingshaoran" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
