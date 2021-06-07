@@ -96,9 +96,9 @@ public class WMRouterTransform extends Transform {
             @Override
             public byte[] process(@NotNull String className, @Nullable byte[] classBytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
-                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
-                     WMRouterLogger.info(TRANSFORM + "className = %s, checkClassName = %s", className, checkClassName);
-                     initClasses.add(className);
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE) || checkClassName.startsWith(INIT_SERVICE_PATH)) {
+                    WMRouterLogger.info(TRANSFORM + "init className = %s, checkClassName = %s", className, checkClassName);
+                    initClasses.add(className);
                 }
                 return null;
             }
@@ -107,7 +107,8 @@ public class WMRouterTransform extends Transform {
             @Override
             public void delete(String className, byte[] bytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
-                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE)) {
+                if (checkClassName.startsWith(Const.GEN_PKG_SERVICE) || checkClassName.startsWith(INIT_SERVICE_PATH)) {
+                    WMRouterLogger.info(TRANSFORM + "delete className = %s, checkClassName = %s", className, checkClassName);
                     deleteClasses.add(className);
                 }
             }
