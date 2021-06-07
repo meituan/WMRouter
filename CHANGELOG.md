@@ -1,6 +1,12 @@
 # 更新日志
 
-## [Unreleased]
+## [1.2.1]
+
+- 修复非增量编译时，没有清空输出目录的问题(#88)
+- 修改group为：io.github.meituan-dianping
+- 迁移发布到mavenCenter
+- 升级gradle版本，兼容Android Studio 4.2+ 版本
+- 调整工程结构，把WmPlugin抽成一个单独的工程
 
 ## 1.2.0
 

@@ -6,6 +6,7 @@
 
 WMRouter是一款Android路由框架，基于组件化的设计思路，有功能灵活、使用简单的特点。
 
+请注意，因为JCenter下线，从1.2.1开始，Group 从 com.sankuai.waimai.router 变更为 io.github.meituan-dianping
 
 ## 功能简介
 
