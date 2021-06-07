@@ -14,4 +14,6 @@
 # 5. 验证新版本，把build.gradle改回来
 # 6. git打tag，更新文档(README、CHANGELOG)，github编辑Release信息
 
-./gradlew clean :interfaces:assemble :router:assemble :compiler:assemble :plugin:assemble :interfaces:uploadArchives :router:uploadArchives :compiler:uploadArchives :plugin:uploadArchives --stacktrace
+./gradlew clean :interfaces:assemble :router:assemble :compiler:assemble  :interfaces:uploadArchives :router:uploadArchives :compiler:uploadArchives  --stacktrace
+cd WmPlugin
+./gradlew clean :plugin:assemble :plugin:uploadArchives  :baseplugin:assemble :baseplugin:uploadArchives  --stacktrace

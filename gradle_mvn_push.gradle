@@ -6,6 +6,10 @@ group = GROUP
 
 def getPropertyFromLocalProperties(key) {
     File file = project.rootProject.file('local.properties');
+    //兼容WmPlugin的发布
+    if(!file.exists()){
+        file = project.rootProject.file('../local.properties');
+    }
     if (file.exists()) {
         Properties properties = new Properties()
         properties.load(file.newDataInputStream())
