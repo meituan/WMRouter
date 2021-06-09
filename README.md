@@ -1,12 +1,12 @@
 ![](docs/images/banner.png)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://raw.githubusercontent.com/meituan/WMRouter/master/LICENSE)
-[![Release Version](https://img.shields.io/badge/release-1.2.0-red.svg)](https://github.com/meituan/WMRouter/releases)
+[![Release Version](https://img.shields.io/badge/release-1.2.1-red.svg)](https://github.com/meituan/WMRouter/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/meituan/WMRouter/pulls)
 
 WMRouter是一款Android路由框架，基于组件化的设计思路，有功能灵活、使用简单的特点。
 
-请注意，因为JCenter下线，从1.2.1开始，Group 从 com.sankuai.waimai.router 变更为 io.github.meituan-dianping
+请注意，因为JCenter下线，从1.2.1开始，Group 从 com.sankuai.waimai.router 变更为 io.github.meituan-dianping。
 
 ## 功能简介
 
