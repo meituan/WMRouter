@@ -2,6 +2,7 @@ package com.sankuai.waimai.router.common;
 
 import android.content.Intent;
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.components.ActivityLauncher;
@@ -55,6 +56,8 @@ public class StartUriHandler extends UriHandler {
     protected void handleResult(@NonNull UriCallback callback, int resultCode) {
         if (resultCode == UriResult.CODE_SUCCESS) {
             callback.onComplete(resultCode);
+        } else if (resultCode == UriResult.CODE_FOR_RESULT) {
+            // 特殊化处理这个code
         } else {
             callback.onNext();
         }

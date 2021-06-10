@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
 
                         @Override
                         public void onError(@NonNull UriRequest request, int resultCode) {
-
+                            ToastUtils.showToast(request.getContext(), "跳转失败");
                         }
                     })
                     .start();

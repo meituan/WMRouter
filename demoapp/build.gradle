@@ -40,5 +40,6 @@ dependencies {
 
     api project(path: ':demolib1')
     api project(path: ':demokotlin')
+    implementation project(":router-result-adapter")
     annotationProcessor project(path: ':compiler')
 }

@@ -39,7 +39,7 @@ public class FragmentUriRequest extends DefaultUriRequest {
         putField(ActivityLauncher.FIELD_START_ACTIVITY_ACTION, new FragmentStartActivityAction(fragment));
     }
 
-    private class FragmentStartActivityAction implements StartActivityAction {
+    private static class FragmentStartActivityAction implements StartActivityAction {
         private Fragment fragment;
 
         public FragmentStartActivityAction(@NonNull Fragment fragment) {

@@ -1,2 +1,3 @@
 include ':interfaces', ':router', ':compiler',  ':demoapp', ':demolib1', ':demolib2', ':demokotlin'
 includeBuild("./WmPlugin")
+include ':router-result-adapter'
