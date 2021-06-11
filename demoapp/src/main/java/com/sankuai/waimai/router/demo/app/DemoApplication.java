@@ -62,7 +62,7 @@ public class DemoApplication extends Application {
 
         // 创建RootHandler
         DefaultRootUriHandler rootHandler = new DefaultRootUriHandler(context);
-        RouterComponents.setActivityLauncher(new ForResultActivityLauncher());
+        RouterComponents.setActivityLauncher(ForResultActivityLauncher.INSTANCE);
 
         // 设置全局跳转完成监听器，可用于跳转失败时统一弹Toast提示，做埋点统计等。
         rootHandler.setGlobalOnCompleteListener(DefaultOnCompleteListener.INSTANCE);

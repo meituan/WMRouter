@@ -57,7 +57,7 @@ public class StartUriHandler extends UriHandler {
         if (resultCode == UriResult.CODE_SUCCESS) {
             callback.onComplete(resultCode);
         } else if (resultCode == UriResult.CODE_FOR_RESULT) {
-            // 特殊化处理这个code
+            // 特殊化处理这个code 特意不终止这套责任链  让回调可以被for result处理
         } else {
             callback.onNext();
         }

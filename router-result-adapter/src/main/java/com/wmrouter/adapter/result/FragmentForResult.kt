@@ -7,6 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlin.properties.Delegates
 
+/**
+ * @Author LiABao
+ * 通过给当前页面注册一个空fragment接受回调
+ * @Since 2021/6/11
+ */
 class FragmentForResult : Fragment() {
 
     var onSuccess: () -> Unit = {}
@@ -50,32 +55,6 @@ class FragmentForResult : Fragment() {
     }
 }
 
-inline fun <reified T : Activity> AppCompatActivity.startForResult(
-    code: Int = REQUEST_CODE, bundle: Bundle? = null, noinline onSuccess: () -> Unit = {},
-    noinline onFail: () -> Unit = {}
-) {
-    var fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as FragmentForResult?
-    if (fragment == null) {
-        fragment = FragmentForResult()
-    }
-    fragment.onSuccess = onSuccess
-    fragment.onFail = onFail
-    fragment.code = code
-    fragment.clazz = T::class.java
-    val mBundle = Bundle()
-    bundle?.apply {
-        mBundle.putAll(this)
-    }
-    mBundle.putInt("requestCode", code)
-    fragment.arguments = bundle
-    supportFragmentManager.beginTransaction().apply {
-        if (fragment.isAdded) {
-            remove(fragment)
-        }
-        add(fragment, FRAGMENT_TAG)
-    }.commitNowAllowingStateLoss()
-}
-
 
 fun AppCompatActivity.startForResult(
     code: Int = REQUEST_CODE, intent: Intent,
@@ -95,5 +74,4 @@ fun AppCompatActivity.startForResult(
     }.commitNowAllowingStateLoss()
 }
 
-const val FRAGMENT_TAG = "FragmentForResult"
 const val REQUEST_CODE = 1024

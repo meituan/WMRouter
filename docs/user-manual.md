@@ -915,3 +915,30 @@ allprojects {
     }
 }
 ```
+
+
+### 12 startActivityForResult 回调
+
+这次通过注册一个空的无视图fragment来接受页面回调跳转，在不破坏当前框架的情况下，增加`ForResultActivityLauncher`，对默认的进行替换。
+
+接受回调的方式和之前的onComplete方法相同。
+
+```
+        // application下设置
+        RouterComponents.setActivityLauncher(ForResultActivityLauncher.INSTANCE);
+
+        new DefaultUriRequest(this, uri)
+                          // 标记这是一个startActivityForResult
+                          .activityRequestCode(100)
+                          .onComplete(new OnCompleteListener() {
+                              @Override
+                              public void onSuccess(@NonNull UriRequest request) {
+                                  ToastUtils.showToast(request.getContext(), "跳转成功");
+                              }
+        
+                              @Override
+                              public void onError(@NonNull UriRequest request, int resultCode) {
+                                  ToastUtils.showToast(request.getContext(), "跳转失败");
+                              }
+                          }).start();
+```
