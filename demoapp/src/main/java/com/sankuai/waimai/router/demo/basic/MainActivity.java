@@ -1,8 +1,10 @@
 package com.sankuai.waimai.router.demo.basic;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +19,9 @@ import com.sankuai.waimai.router.demo.lib2.BaseActivity;
 import com.sankuai.waimai.router.demo.lib2.DemoConstant;
 import com.sankuai.waimai.router.demo.lib2.ToastUtils;
 
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Consumer;
+
 /**
  * 基本用法Demo
  * <p>
@@ -25,42 +30,6 @@ import com.sankuai.waimai.router.demo.lib2.ToastUtils;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String[] URIS = {
-            // 基本页面跳转，支持不配置Scheme、Host，支持多个path
-            DemoConstant.JUMP_ACTIVITY_1,
-            DemoConstant.JUMP_ACTIVITY_2,
-
-            // Kotlin
-            DemoConstant.KOTLIN,
-
-            // request跳转测试
-            DemoConstant.JUMP_WITH_REQUEST,
-
-            // 自定义Scheme、Host测试；外部跳转测试
-            DemoConstant.DEMO_SCHEME + "://" + DemoConstant.DEMO_HOST
-                    + DemoConstant.EXPORTED_PATH,
-            DemoConstant.DEMO_SCHEME + "://" + DemoConstant.DEMO_HOST
-                    + DemoConstant.NOT_EXPORTED_PATH,
-
-            // Library工程测试
-            DemoConstant.TEST_LIB1,
-            DemoConstant.TEST_LIB2,
-
-            // 拨打电话
-            DemoConstant.TEL,
-
-            // 降级策略
-            DemoConstant.TEST_NOT_FOUND,
-
-            // Fragment test
-            DemoConstant.JUMP_FRAGMENT_ACTIVITY,
-
-            // Fragment to Fragment test
-            DemoConstant.TEST_FRAGMENT_TO_FRAGMENT_ACTIVITY,
-
-            // 高级Demo页面
-            DemoConstant.ADVANCED_DEMO,
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +37,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         LinearLayout container = findViewById(R.id.layout_container);
-        for (final String uri : URIS) {
+        for (final String uri : Constant.INSTANCE.getURIS()) {
             Button button = new Button(this);
             button.setAllCaps(false);
             button.setText(uri);
@@ -87,23 +56,24 @@ public class MainActivity extends BaseActivity {
 
     private void jump(String uri) {
         if (DemoConstant.JUMP_WITH_REQUEST.equals(uri)) {
-            new DefaultUriRequest(this, uri)
-                    .activityRequestCode(100)
-                    .putExtra(TestUriRequestActivity.INTENT_TEST_INT, 1)
-                    .putExtra(TestUriRequestActivity.INTENT_TEST_STR, "str")
-                    .overridePendingTransition(R.anim.enter_activity, R.anim.exit_activity)
-                    .onComplete(new OnCompleteListener() {
-                        @Override
-                        public void onSuccess(@NonNull UriRequest request) {
-                            ToastUtils.showToast(request.getContext(), "跳转成功");
-                        }
+            RxJavaHelper.start(this, uri).subscribe(new Consumer<UriRequest>() {
+                @Override
+                public void accept(UriRequest uriRequest) throws Throwable {
+                    ToastUtils.showToast(uriRequest.getContext(), "跳转成功");
 
-                        @Override
-                        public void onError(@NonNull UriRequest request, int resultCode) {
-                            ToastUtils.showToast(request.getContext(), "跳转失败");
-                        }
-                    })
-                    .start();
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Throwable {
+                    ToastUtils.showToast(MainActivity.this, "跳转失败");
+
+                }
+            }, new Action() {
+                @Override
+                public void run() throws Throwable {
+
+                }
+            });
         } else {
             Router.startUri(this, uri);
         }

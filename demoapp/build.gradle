@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
 apply plugin: 'WMRouter'
 
 //WMRouter {
@@ -42,4 +42,6 @@ dependencies {
     api project(path: ':demokotlin')
     implementation project(":router-result-adapter")
     annotationProcessor project(path: ':compiler')
+    implementation project(":adapter-rxjava3")
+    implementation "io.reactivex.rxjava3:rxjava:3.0.13"
 }

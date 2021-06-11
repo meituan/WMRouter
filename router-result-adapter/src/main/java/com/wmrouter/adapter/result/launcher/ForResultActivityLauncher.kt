@@ -77,7 +77,7 @@ open class ForResultActivityLauncher : DefaultActivityLauncher() {
 
     companion object {
         @JvmStatic
-        val INSTSNCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        val INSTANCE by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             ForResultActivityLauncher()
         }
     }

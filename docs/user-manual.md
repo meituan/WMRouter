@@ -925,7 +925,7 @@ allprojects {
 
 ```
         // application下设置
-        RouterComponents.setActivityLauncher(ForResultActivityLauncher.INSTANCE);
+        RouterComponents.setActivityLauncher(ForResultActivityLauncher.Companion.getINSTANCE());
 
         new DefaultUriRequest(this, uri)
                           // 标记这是一个startActivityForResult
