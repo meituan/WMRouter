@@ -942,3 +942,7 @@ allprojects {
                               }
                           }).start();
 ```
+
+### 13 rxjava 支持
+
+可以参考RxRouterExtension,提供多个rxjava构造，建议配合12使用，更香更好用。
