@@ -1,6 +1,7 @@
 package com.sankuai.waimai.router.activity;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 
 import com.sankuai.waimai.router.components.ActivityLauncher;
@@ -14,7 +15,7 @@ import com.sankuai.waimai.router.core.UriResult;
 
 /**
  * 跳转Activity的 {@link UriHandler}
- *
+ * <p>
  * Created by jzj on 2017/4/11.
  */
 public abstract class AbsActivityHandler extends UriHandler {
@@ -42,7 +43,9 @@ public abstract class AbsActivityHandler extends UriHandler {
         // 回调方法
         onActivityStartComplete(request, resultCode);
         // 完成
-        callback.onComplete(resultCode);
+        if (resultCode != UriResult.CODE_FOR_RESULT) {
+            callback.onComplete(resultCode);
+        }
     }
 
     /**

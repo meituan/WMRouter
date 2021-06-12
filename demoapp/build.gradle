@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
 apply plugin: 'WMRouter'
 
 //WMRouter {
@@ -40,5 +40,11 @@ dependencies {
 
     api project(path: ':demolib1')
     api project(path: ':demokotlin')
+    implementation project(":router-result-adapter")
     annotationProcessor project(path: ':compiler')
+    implementation project(":adapter-rxjava3")
+    implementation "io.reactivex.rxjava3:rxjava:3.0.13"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    def lifecycle_version = "2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 }

@@ -2,8 +2,10 @@ package com.sankuai.waimai.router.core;
 
 import android.content.Context;
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.text.TextUtils;
 
 import com.sankuai.waimai.router.Router;
@@ -16,7 +18,7 @@ import java.util.Map;
  * 一次URI跳转请求，包含了Request和Response的功能。
  * 可以通过Fields存放任意扩展参数，例如设置监听 {@link #onComplete(OnCompleteListener)} ；
  * 在 {@link UriHandler} 、 {@link UriInterceptor} 间通信；存放Response {@link #getResultCode()} 等。
- *
+ * <p>
  * Created by jzj on 2017/4/11.
  */
 public class UriRequest {

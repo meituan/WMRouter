@@ -156,7 +156,7 @@ public class DefaultActivityLauncher implements ActivityLauncher {
      *
      * @param internal 是否启动App内页面
      */
-    protected int startActivityByDefault(UriRequest request, @NonNull Context context,
+    protected int startActivityByDefault(@NonNull UriRequest request, @NonNull Context context,
                                          @NonNull Intent intent, Integer requestCode, boolean internal) {
         try {
             Bundle options = request.getField(Bundle.class, FIELD_START_ACTIVITY_OPTIONS);

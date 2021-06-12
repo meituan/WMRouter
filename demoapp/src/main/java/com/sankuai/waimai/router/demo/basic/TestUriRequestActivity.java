@@ -2,7 +2,9 @@ package com.sankuai.waimai.router.demo.basic;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.widget.TextView;
 
 import com.sankuai.waimai.router.annotation.RouterUri;
@@ -35,5 +37,15 @@ public class TestUriRequestActivity extends BaseActivity {
             }
         }
         text.setText(s.toString());
+        if (System.currentTimeMillis() % 2 == 0) {
+            setResult(RESULT_OK);
+        } else {
+            setResult(RESULT_FIRST_USER);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

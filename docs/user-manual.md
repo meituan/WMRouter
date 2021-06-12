@@ -915,3 +915,44 @@ allprojects {
     }
 }
 ```
+
+
+### 12 startActivityForResult 回调
+
+这次通过注册一个空的无视图fragment来接受页面回调跳转，在不破坏当前框架的情况下，增加`ForResultActivityLauncher`，对默认的进行替换。
+
+接受回调的方式和之前的onComplete方法相同。
+
+```
+        // application下设置
+        RouterComponents.setActivityLauncher(ForResultActivityLauncher.Companion.getINSTANCE());
+
+        new DefaultUriRequest(this, uri)
+                          // 标记这是一个startActivityForResult
+                          .activityRequestCode(100)
+                          .onComplete(new OnCompleteListener() {
+                              @Override
+                              public void onSuccess(@NonNull UriRequest request) {
+                                  ToastUtils.showToast(request.getContext(), "跳转成功");
+                              }
+        
+                              @Override
+                              public void onError(@NonNull UriRequest request, int resultCode) {
+                                  ToastUtils.showToast(request.getContext(), "跳转失败");
+                              }
+                          }).start();
+```
+
+### 13 rxjava 支持
+
+原理可以参考`RxRouterExtension`,提供多个rxjava构造，建议配合12使用，更香更好用。
+
+使用方式参考`RxJavaHelper`,通过拓展函数转化成一个Rxjava操作符。
+
+
+
+### 14 协程 支持
+
+可以参考`SuspendRequestExtension`,提供`UriRequest`的异步转化成挂起函数的封装。
+
+使用方式参考`TestViewModel`，配合`lifecycle-viewmodel-ktx`使用更香哦。

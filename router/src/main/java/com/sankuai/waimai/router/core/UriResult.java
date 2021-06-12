@@ -3,7 +3,7 @@ package com.sankuai.waimai.router.core;
 /**
  * 跳转完成后的ResultCode。也可以自定义ResultCode，
  * 为了避免冲突，建议自定义ResultCode使用负数值。
- *
+ * <p>
  * Created by jzj on 2018/3/26.
  */
 
@@ -33,4 +33,8 @@ public interface UriResult {
      * 发生其他错误
      */
     int CODE_ERROR = 500;
+    /**
+     * startActivityForResult
+     */
+    int CODE_FOR_RESULT = 1000;
 }
