@@ -945,4 +945,14 @@ allprojects {
 
 ### 13 rxjava 支持
 
-可以参考RxRouterExtension,提供多个rxjava构造，建议配合12使用，更香更好用。
+原理可以参考`RxRouterExtension`,提供多个rxjava构造，建议配合12使用，更香更好用。
+
+使用方式参考`RxJavaHelper`,通过拓展函数转化成一个Rxjava操作符。
+
+
+
+### 14 协程 支持
+
+可以参考`SuspendRequestExtension`,提供`UriRequest`的异步转化成挂起函数的封装。
+
+使用方式参考`TestViewModel`，配合`lifecycle-viewmodel-ktx`使用更香哦。

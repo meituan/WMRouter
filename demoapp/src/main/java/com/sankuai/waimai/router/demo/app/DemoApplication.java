@@ -13,6 +13,7 @@ import com.sankuai.waimai.router.components.DefaultLogger;
 import com.sankuai.waimai.router.components.DefaultOnCompleteListener;
 import com.sankuai.waimai.router.components.RouterComponents;
 import com.sankuai.waimai.router.core.Debugger;
+import com.sankuai.waimai.router.demo.lib2.ToastUtils;
 import com.wmrouter.adapter.result.launcher.ForResultActivityLauncher;
 
 /**
@@ -33,6 +34,7 @@ public class DemoApplication extends Application {
     public void onCreate() {
         sApplication = this;
         super.onCreate();
+        ToastUtils.application = this;
         initRouter(this);
     }
 

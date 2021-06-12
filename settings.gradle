@@ -2,3 +2,4 @@ include ':interfaces', ':router', ':compiler',  ':demoapp', ':demolib1', ':demol
 includeBuild("./WmPlugin")
 include ':router-result-adapter'
 include ':adapter-rxjava3'
+include ':adapter-kotlin-coroutines'

@@ -37,11 +37,15 @@ public class TestUriRequestActivity extends BaseActivity {
             }
         }
         text.setText(s.toString());
+        if (System.currentTimeMillis() % 2 == 0) {
+            setResult(RESULT_OK);
+        } else {
+            setResult(RESULT_FIRST_USER);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        setResult(RESULT_OK);
     }
 }
