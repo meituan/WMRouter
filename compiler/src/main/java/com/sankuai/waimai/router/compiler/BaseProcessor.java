@@ -120,7 +120,12 @@ public abstract class BaseProcessor extends AbstractProcessor {
     }
 
     public boolean isFragmentV4(Element element) {
-        return isConcreteSubType(element, Const.FRAGMENT_V4_CLASS);
+        try {
+            // 由于我不想破坏江神优美的代码，所以考虑用异常处理来进行兜底操作
+            return isConcreteSubType(element, Const.FRAGMENT_V4_CLASS);
+        } catch (Exception e) {
+            return isConcreteSubType(element, Const.FRAGMENT_ANDROID_X_CLASS);
+        }
     }
 
     public boolean isHandler(Element element) {

@@ -49,6 +49,8 @@ public class Const {
     public static final String ACTIVITY_CLASS = "android.app.Activity";
     // Android中的类名
     public static final String FRAGMENT_CLASS = "android.app.Fragment";
+
+    public static final String FRAGMENT_ANDROID_X_CLASS = "androidx.fragment.app.Fragment";
     public static final String FRAGMENT_V4_CLASS = "android.support.v4.app.Fragment";
 
 }
